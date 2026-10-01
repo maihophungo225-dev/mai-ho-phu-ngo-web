@@ -1,0 +1,6 @@
+{
+  "name": "MAI HỒ PHÚ NGỘ - Portfolio Kỹ thuật Địa chất PVU",
+  "description": "Website cá nhân học thuật và kỹ thuật của Mai Hồ Phú Ngộ - Sinh viên Kỹ thuật Địa chất Đại học Dầu khí Việt Nam (PVU). Báo cáo bài tập, nghiên cứu khoa học và trợ lý AI Địa chất.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

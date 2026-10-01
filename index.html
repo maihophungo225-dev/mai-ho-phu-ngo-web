@@ -1,0 +1,1878 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MAI HỒ PHÚ NGỘ | Academic & Personal Portfolio | Kỹ thuật Địa chất PVU</title>
+  <meta name="description" content="Website học thuật và hồ sơ năng lực của Mai Hồ Phú Ngộ - Sinh viên ngành Kỹ thuật Địa chất (2023 - 2027) Đại học Dầu khí Việt Nam (PVU)." />
+  <meta property="og:title" content="MAI HỒ PHÚ NGỘ - Portfolio Kỹ thuật Địa chất PVU" />
+  <meta property="og:description" content="Báo cáo bài tập, dự án nghiên cứu khoa học địa chất dầu khí và trợ lý AI GeoAssistant." />
+  <meta property="og:type" content="website" />
+
+  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600;1,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            petro: {
+              50: '#f0f7fa',
+              100: '#dbeef4',
+              200: '#badfe9',
+              500: '#1b6d85',
+              600: '#135467',
+              700: '#0e4151',
+              800: '#0a303c',
+              900: '#051d25',
+              950: '#021015',
+            },
+            amberland: {
+              500: '#d97706',
+              600: '#b45309',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- FontAwesome 6 CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <style>
+    /* Global Typography Standard */
+    html {
+      font-size: 16px;
+    }
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #334155; /* Slate-700 / Gray-600 comfortable tone */
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    .dark body {
+      color: #cbd5e1; /* Slate-300 */
+    }
+
+    h1, h2, h3 {
+      letter-spacing: -0.025em;
+    }
+
+    /* Custom styling for subtle geological tech aesthetics */
+    .geo-grid {
+      background-size: 32px 32px;
+      background-image: 
+        linear-gradient(to right, rgba(14, 65, 81, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(14, 65, 81, 0.05) 1px, transparent 1px);
+    }
+    .dark .geo-grid {
+      background-image: 
+        linear-gradient(to right, rgba(186, 223, 233, 0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(186, 223, 233, 0.04) 1px, transparent 1px);
+    }
+  </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-700 dark:text-slate-300 font-sans text-base leading-[1.7] antialiased min-h-screen transition-colors duration-300">
+
+  <!-- 1. STICKY NAVIGATION BAR -->
+  <header class="sticky top-0 z-40 w-full backdrop-blur-md bg-white/85 dark:bg-slate-950/85 border-b border-slate-200/80 dark:border-slate-800/80 transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Brand Logo / Name -->
+      <a href="#" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-petro-600 to-amberland-500 flex items-center justify-center text-white font-bold text-lg shadow-sm">
+          <i class="fa-solid fa-layer-group"></i>
+        </div>
+        <div class="flex flex-col">
+          <span class="font-bold text-base sm:text-lg tracking-[0.06em] text-slate-900 dark:text-white group-hover:text-petro-600 dark:group-hover:text-petro-200 transition-colors">
+            MAI HỒ PHÚ NGỘ
+          </span>
+          <span class="text-xs text-slate-500 dark:text-slate-400 font-mono">
+            Kỹ thuật Địa chất · PVU
+          </span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav Menu -->
+      <nav class="hidden md:flex items-center gap-7 text-sm font-medium text-slate-600 dark:text-slate-300">
+        <a href="#about" class="hover:text-petro-600 dark:hover:text-white transition-colors">Về tôi</a>
+        <a href="#skills" class="hover:text-petro-600 dark:hover:text-white transition-colors">Kỹ năng</a>
+        <a href="#assignments" class="hover:text-petro-600 dark:hover:text-white transition-colors">Bài tập</a>
+        <a href="#research" class="hover:text-petro-600 dark:hover:text-white transition-colors">Đồ án & NCKH</a>
+        <a href="#contact" class="hover:text-petro-600 dark:hover:text-white transition-colors">Liên hệ</a>
+      </nav>
+
+      <!-- Right Action Items (Dark/Light + GeoAI trigger + Mobile Menu toggle) -->
+      <div class="flex items-center gap-3">
+        <!-- Dark Mode Toggle Button -->
+        <button id="themeToggleBtn" aria-label="Chuyển chế độ sáng/tối" class="w-9 h-9 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-amber-400 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center transition-colors">
+          <i id="themeIcon" class="fa-solid fa-moon text-sm"></i>
+        </button>
+
+        <!-- GeoAI Assistant Nav Button -->
+        <button onclick="toggleChatModal(true)" class="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-lg bg-petro-700 hover:bg-petro-800 text-white transition-all shadow-sm">
+          <i class="fa-solid fa-robot"></i>
+          <span>Trợ lý GeoAI</span>
+        </button>
+
+        <!-- Mobile Menu Toggle Button -->
+        <button id="mobileMenuBtn" aria-label="Mở menu" class="md:hidden w-9 h-9 rounded-lg border border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-700 dark:text-slate-300">
+          <i id="mobileMenuIcon" class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Nav Dropdown -->
+    <div id="mobileMenu" class="hidden md:hidden border-b border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-950/95 px-4 pt-3 pb-4 space-y-2 text-sm font-medium">
+      <a href="#about" onclick="closeMobileMenu()" class="block py-2 text-slate-700 dark:text-slate-200 hover:text-petro-600">Về tôi (About)</a>
+      <a href="#skills" onclick="closeMobileMenu()" class="block py-2 text-slate-700 dark:text-slate-200 hover:text-petro-600">Kỹ năng cốt lõi (Skills)</a>
+      <a href="#assignments" onclick="closeMobileMenu()" class="block py-2 text-slate-700 dark:text-slate-200 hover:text-petro-600">Báo cáo bài tập (Assignments)</a>
+      <a href="#research" onclick="closeMobileMenu()" class="block py-2 text-slate-700 dark:text-slate-200 hover:text-petro-600">Đồ án & NCKH (Research)</a>
+      <a href="#contact" onclick="closeMobileMenu()" class="block py-2 text-slate-700 dark:text-slate-200 hover:text-petro-600">Liên hệ (Contact)</a>
+      <button onclick="closeMobileMenu(); toggleChatModal(true);" class="w-full mt-2 py-2 px-3 text-center text-xs font-semibold rounded-lg bg-petro-700 text-white flex items-center justify-center gap-2">
+        <i class="fa-solid fa-robot"></i> Mở Trợ lý AI Địa chất
+      </button>
+    </div>
+  </header>
+
+  <!-- 2. HERO SECTION -->
+  <section class="relative py-14 sm:py-20 border-b border-slate-200/80 dark:border-slate-800/80 overflow-hidden">
+    <!-- Petroleum Rig Backdrop Overlay: Real Offshore oil drilling rig platform -->
+    <div class="absolute inset-0 pointer-events-none bg-cover bg-center bg-no-repeat opacity-40 dark:opacity-45" style="background-image: url('/src/assets/images/oil_rig_background.jpg');"></div>
+    <div class="absolute inset-0 pointer-events-none bg-gradient-to-r from-slate-50/90 via-slate-50/65 to-slate-50/40 dark:from-slate-950/90 dark:via-slate-950/70 dark:to-slate-950/45"></div>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+        
+        <!-- Left Text Content (Split-layout, left-aligned) -->
+        <div class="lg:col-span-7 text-left space-y-0">
+          
+          <!-- Kicker (Tiêu đề phụ) -->
+          <div class="text-xs sm:text-[13px] font-bold uppercase tracking-[0.08em] font-mono flex items-center gap-1.5 mb-3">
+            <span class="text-slate-500 dark:text-slate-400">👋 XIN CHÀO, TÔI LÀ MAI HỒ PHÚ NGỘ</span>
+          </div>
+
+          <!-- Main Headline with accessible amber accent and balanced line-height/spacing -->
+          <h1 class="text-3xl sm:text-5xl lg:text-[52px] font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.18] sm:leading-[1.15] mb-5">
+            Đam mê <span class="text-amber-700 dark:text-amber-400">Kỹ thuật Địa chất</span> &amp; Ứng dụng AI trong <span class="text-amber-700 dark:text-amber-400">Khoa học Trái Đất</span>
+          </h1>
+
+          <!-- Short Bio (Standardized 16-17px body text with relaxed line-height) -->
+          <p class="text-base sm:text-[17px] text-slate-600 dark:text-slate-300 max-w-2xl leading-[1.7]">
+            Tập trung nghiên cứu chuyên sâu về phân tích tướng trầm tích, minh giải tài liệu địa chấn và đánh giá vỉa chứa. Tích cực ứng dụng mô hình tính toán và Machine Learning để tối ưu hóa các bài toán trong Khoa học Trái Đất.
+          </p>
+        </div>
+
+        <!-- Right Avatar (Clean borderless image styling with soft rounded corners) -->
+        <div class="lg:col-span-5 flex justify-center lg:justify-end">
+          <div class="relative w-full max-w-xs sm:max-w-sm">
+            <div class="relative rounded-2xl overflow-hidden shadow-xl border border-slate-200/80 dark:border-slate-800 bg-slate-100 dark:bg-slate-900 aspect-[4/5] group">
+              <img 
+                id="avatarImg"
+                src="/src/assets/images/regenerated_image_1790787994596.jpg" 
+                alt="Chân dung Mai Hồ Phú Ngộ" 
+                class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. ABOUT ME & CORE SKILLS -->
+  <section id="about" class="py-16 sm:py-20 border-b border-slate-200/80 dark:border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      
+      <!-- Section Header Kicker & Standard 32-40px Bold Title -->
+      <div class="space-y-2">
+        <div class="text-xs sm:text-[13px] font-bold uppercase tracking-[0.08em] text-petro-600 dark:text-amber-400">
+          01 / Giới thiệu tổng quan
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+          Hồ sơ cá nhân &amp; Lĩnh vực học thuật
+        </h2>
+        <p class="text-base leading-[1.7] text-slate-600 dark:text-slate-400 max-w-3xl">
+          Sinh viên chuyên ngành Kỹ thuật Địa chất với nền tảng phân tích số liệu địa chấn, địa vật lý giếng khoan và định hướng nghiên cứu ứng dụng trí tuệ nhân tạo trong Khoa học Trái Đất.
+        </p>
+      </div>
+
+      <!-- About Details Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <!-- Left: Structured Academic Specifications Table (Thông tin cá nhân) -->
+        <div class="lg:col-span-5 space-y-4">
+          <div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 space-y-4 shadow-sm">
+            <h3 class="font-semibold text-lg sm:text-xl text-slate-900 dark:text-white flex items-center gap-2">
+              <i class="fa-solid fa-address-card text-petro-600 dark:text-petro-200"></i>
+              <span>Thông tin cá nhân</span>
+            </h3>
+
+            <dl class="divide-y divide-slate-100 dark:divide-slate-800 text-sm">
+              <div class="py-2.5 flex justify-between items-center">
+                <dt class="text-slate-500 dark:text-slate-400 text-xs uppercase tracking-[0.05em] font-semibold">Họ và tên</dt>
+                <dd class="text-base font-semibold text-slate-900 dark:text-white">Mai Hồ Phú Ngộ</dd>
+              </div>
+              <div class="py-2.5 flex justify-between items-center">
+                <dt class="text-slate-500 dark:text-slate-400 text-xs uppercase tracking-[0.05em] font-semibold">Mã sinh viên</dt>
+                <dd class="font-mono text-base font-medium text-petro-700 dark:text-amber-400">12GEO110004</dd>
+              </div>
+              <div class="py-2.5 flex justify-between items-center">
+                <dt class="text-slate-500 dark:text-slate-400 text-xs uppercase tracking-[0.05em] font-semibold">Ngành đào tạo</dt>
+                <dd class="text-base font-medium text-slate-900 dark:text-white">Kỹ thuật Địa chất</dd>
+              </div>
+              <div class="py-2.5 flex justify-between items-center">
+                <dt class="text-slate-500 dark:text-slate-400 text-xs uppercase tracking-[0.05em] font-semibold">Khóa học</dt>
+                <dd class="font-mono text-sm sm:text-base text-slate-700 dark:text-slate-300">2023 – 2027 (Khóa 12)</dd>
+              </div>
+              <div class="py-2.5 flex justify-between items-center">
+                <dt class="text-slate-500 dark:text-slate-400 text-xs uppercase tracking-[0.05em] font-semibold">Trường Đại học</dt>
+                <dd class="text-base font-medium text-slate-900 dark:text-white text-right">Đại học Dầu khí Việt Nam (PVU)</dd>
+              </div>
+              <div class="py-2.5 flex justify-between items-center">
+                <dt class="text-slate-500 dark:text-slate-400 text-xs uppercase tracking-[0.05em] font-semibold">Quê quán</dt>
+                <dd class="text-base text-slate-700 dark:text-slate-300">Vĩnh Long, Việt Nam</dd>
+              </div>
+              <div class="py-2.5 flex justify-between items-center">
+                <dt class="text-slate-500 dark:text-slate-400 text-xs uppercase tracking-[0.05em] font-semibold">Email học thuật</dt>
+                <dd class="font-mono text-xs sm:text-sm text-petro-600 dark:text-amber-400 font-medium">ngomhp12@pvu.edu.vn</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+
+        <!-- Right: Research & Technical Interests (Lĩnh vực quan tâm) -->
+        <div class="lg:col-span-7 space-y-6">
+          <div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 space-y-5 shadow-sm">
+            <div class="flex items-center justify-between pb-1 border-b border-slate-100 dark:border-slate-800">
+              <h3 class="font-semibold text-lg sm:text-xl text-slate-900 dark:text-white flex items-center gap-2">
+                <i class="fa-solid fa-compass-drafting text-petro-600 dark:text-amber-400"></i>
+                <span>Lĩnh vực quan tâm</span>
+              </h3>
+            </div>
+
+            <!-- 4 Grid Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <!-- Ô 1: Địa chất dầu khí -->
+              <div class="rounded-xl border border-slate-200/90 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-800/50 p-5 flex flex-col items-center justify-center text-center hover:border-amber-500/60 dark:hover:border-amber-400/60 hover:shadow-sm transition-all group min-h-[130px]">
+                <div class="w-10 h-10 rounded-lg bg-amber-100 dark:bg-amber-950/70 text-amber-700 dark:text-amber-400 flex items-center justify-center text-lg mb-2.5 group-hover:scale-110 transition-transform">
+                  <i class="fa-solid fa-oil-well"></i>
+                </div>
+                <h4 class="font-semibold text-base sm:text-[17px] text-slate-900 dark:text-white text-center">
+                  Địa chất dầu khí
+                </h4>
+              </div>
+
+              <!-- Ô 2: Năng lượng tái tạo -->
+              <div class="rounded-xl border border-slate-200/90 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-800/50 p-5 flex flex-col items-center justify-center text-center hover:border-emerald-500/60 dark:hover:border-emerald-400/60 hover:shadow-sm transition-all group min-h-[130px]">
+                <div class="w-10 h-10 rounded-lg bg-emerald-100 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-400 flex items-center justify-center text-lg mb-2.5 group-hover:scale-110 transition-transform">
+                  <i class="fa-solid fa-leaf"></i>
+                </div>
+                <h4 class="font-semibold text-base sm:text-[17px] text-slate-900 dark:text-white text-center">
+                  Năng lượng tái tạo
+                </h4>
+              </div>
+
+              <!-- Ô 3: Địa vật lý giếng khoan -->
+              <div class="rounded-xl border border-slate-200/90 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-800/50 p-5 flex flex-col items-center justify-center text-center hover:border-blue-500/60 dark:hover:border-blue-400/60 hover:shadow-sm transition-all group min-h-[130px]">
+                <div class="w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-950/70 text-blue-700 dark:text-blue-400 flex items-center justify-center text-lg mb-2.5 group-hover:scale-110 transition-transform">
+                  <i class="fa-solid fa-chart-line"></i>
+                </div>
+                <h4 class="font-semibold text-base sm:text-[17px] text-slate-900 dark:text-white text-center">
+                  Địa vật lý giếng khoan
+                </h4>
+              </div>
+
+              <!-- Ô 4: Xử lý và minh giải tài liệu địa chấn nông phân giải cao -->
+              <div class="rounded-xl border border-slate-200/90 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-800/50 p-5 flex flex-col items-center justify-center text-center hover:border-petro-500/60 dark:hover:border-amber-400/60 hover:shadow-sm transition-all group min-h-[130px]">
+                <div class="w-10 h-10 rounded-lg bg-petro-100 dark:bg-petro-950/70 text-petro-700 dark:text-amber-400 flex items-center justify-center text-lg mb-2.5 group-hover:scale-110 transition-transform">
+                  <i class="fa-solid fa-wave-square"></i>
+                </div>
+                <h4 class="font-semibold text-base sm:text-[17px] text-slate-900 dark:text-white text-center leading-snug">
+                  Xử lý và minh giải tài liệu địa chấn nông phân giải cao
+                </h4>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- SKILLS SUB-SECTION (2 Columns: Kỹ năng & Phần mềm) -->
+      <div id="skills" class="pt-8 sm:pt-12 border-t border-slate-200/70 dark:border-slate-800/70 space-y-6">
+        <div class="space-y-2">
+          <div class="text-xs sm:text-[13px] font-bold uppercase tracking-[0.08em] text-petro-600 dark:text-amber-400">
+            02 / Kỹ năng và phần mềm
+          </div>
+          <h3 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+            Năng lực Chuyên môn &amp; Công cụ Kỹ thuật
+          </h3>
+        </div>
+
+        <!-- 2 Large Columns: Kỹ năng & Phần mềm -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-stretch">
+          
+          <!-- Column 1: Kỹ năng -->
+          <div class="rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 sm:p-7 space-y-6 shadow-sm hover:border-slate-300 dark:hover:border-slate-700 transition-colors flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 rounded-xl bg-petro-50 dark:bg-petro-950/60 text-petro-600 dark:text-amber-400 flex items-center justify-center text-lg">
+                    <i class="fa-solid fa-brain"></i>
+                  </div>
+                  <div>
+                    <h3 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+                      Kỹ năng
+                    </h3>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Skills Cards Grid (No Bullet Points) -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-5">
+                <!-- Chip 1: Ứng dụng công nghệ AI -->
+                <div class="rounded-xl border border-slate-200/90 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/40 p-4 sm:p-4.5 flex items-center gap-3.5 hover:border-petro-500/60 dark:hover:border-amber-400/60 hover:bg-white dark:hover:bg-slate-800/90 hover:shadow-md transition-all duration-200 group">
+                  <div class="w-10 h-10 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-700 text-slate-700 dark:text-slate-300 flex items-center justify-center text-base shrink-0 group-hover:text-petro-600 dark:group-hover:text-amber-400 group-hover:border-petro-300 dark:group-hover:border-amber-400/40 transition-colors shadow-2xs">
+                    <i class="fa-solid fa-microchip"></i>
+                  </div>
+                  <div class="min-w-0">
+                    <div class="font-semibold text-sm sm:text-[15px] text-slate-900 dark:text-white group-hover:text-petro-600 dark:group-hover:text-amber-300 transition-colors leading-snug">
+                      Ứng dụng công nghệ AI
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Chip 2: Minh giải tài liệu địa chấn 2D/3D -->
+                <div class="rounded-xl border border-slate-200/90 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/40 p-4 sm:p-4.5 flex items-center gap-3.5 hover:border-petro-500/60 dark:hover:border-amber-400/60 hover:bg-white dark:hover:bg-slate-800/90 hover:shadow-md transition-all duration-200 group">
+                  <div class="w-10 h-10 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-700 text-slate-700 dark:text-slate-300 flex items-center justify-center text-base shrink-0 group-hover:text-petro-600 dark:group-hover:text-amber-400 group-hover:border-petro-300 dark:group-hover:border-amber-400/40 transition-colors shadow-2xs">
+                    <i class="fa-solid fa-layer-group"></i>
+                  </div>
+                  <div class="min-w-0">
+                    <div class="font-semibold text-sm sm:text-[15px] text-slate-900 dark:text-white group-hover:text-petro-600 dark:group-hover:text-amber-300 transition-colors leading-snug">
+                      Minh giải tài liệu địa chấn 2D/3D
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Chip 3: Xử lý và Minh giải Địa chấn Nông phân giải cao -->
+                <div class="rounded-xl border border-slate-200/90 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/40 p-4 sm:p-4.5 flex items-center gap-3.5 hover:border-petro-500/60 dark:hover:border-amber-400/60 hover:bg-white dark:hover:bg-slate-800/90 hover:shadow-md transition-all duration-200 group">
+                  <div class="w-10 h-10 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-700 text-slate-700 dark:text-slate-300 flex items-center justify-center text-base shrink-0 group-hover:text-petro-600 dark:group-hover:text-amber-400 group-hover:border-petro-300 dark:group-hover:border-amber-400/40 transition-colors shadow-2xs">
+                    <i class="fa-solid fa-wave-square"></i>
+                  </div>
+                  <div class="min-w-0">
+                    <div class="font-semibold text-sm sm:text-[15px] text-slate-900 dark:text-white group-hover:text-petro-600 dark:group-hover:text-amber-300 transition-colors leading-snug">
+                      Xử lý và Minh giải Địa chấn Nông phân giải cao
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Chip 4: Nghiên cứu Khoa học & Báo cáo -->
+                <div class="rounded-xl border border-slate-200/90 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/40 p-4 sm:p-4.5 flex items-center gap-3.5 hover:border-petro-500/60 dark:hover:border-amber-400/60 hover:bg-white dark:hover:bg-slate-800/90 hover:shadow-md transition-all duration-200 group">
+                  <div class="w-10 h-10 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-700 text-slate-700 dark:text-slate-300 flex items-center justify-center text-base shrink-0 group-hover:text-petro-600 dark:group-hover:text-amber-400 group-hover:border-petro-300 dark:group-hover:border-amber-400/40 transition-colors shadow-2xs">
+                    <i class="fa-solid fa-file-signature"></i>
+                  </div>
+                  <div class="min-w-0">
+                    <div class="font-semibold text-sm sm:text-[15px] text-slate-900 dark:text-white group-hover:text-petro-600 dark:group-hover:text-amber-300 transition-colors leading-snug">
+                      Nghiên cứu Khoa học & Báo cáo
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Column 2: Phần mềm -->
+          <div class="rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 sm:p-7 space-y-6 shadow-sm hover:border-slate-300 dark:hover:border-slate-700 transition-colors flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-lg">
+                    <i class="fa-solid fa-laptop-code"></i>
+                  </div>
+                  <div>
+                    <h3 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+                      Phần mềm
+                    </h3>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Software Cards Grid (No Bullet Points) -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-5">
+                <!-- Chip 1: Petrel -->
+                <div class="rounded-xl border border-slate-200/90 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/40 p-4 sm:p-4.5 flex items-center gap-3.5 hover:border-emerald-500/60 dark:hover:border-emerald-400/60 hover:bg-white dark:hover:bg-slate-800/90 hover:shadow-md transition-all duration-200 group">
+                  <div class="w-10 h-10 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-700 text-slate-700 dark:text-slate-300 flex items-center justify-center text-base shrink-0 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 group-hover:border-emerald-300 dark:group-hover:border-emerald-400/40 transition-colors shadow-2xs">
+                    <i class="fa-solid fa-cube"></i>
+                  </div>
+                  <div class="min-w-0">
+                    <div class="font-semibold text-sm sm:text-[15px] text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-300 transition-colors leading-snug">
+                      Petrel
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Chip 2: Interactive Petrophysics (IP) -->
+                <div class="rounded-xl border border-slate-200/90 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/40 p-4 sm:p-4.5 flex items-center gap-3.5 hover:border-emerald-500/60 dark:hover:border-emerald-400/60 hover:bg-white dark:hover:bg-slate-800/90 hover:shadow-md transition-all duration-200 group">
+                  <div class="w-10 h-10 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-700 text-slate-700 dark:text-slate-300 flex items-center justify-center text-base shrink-0 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 group-hover:border-emerald-300 dark:group-hover:border-emerald-400/40 transition-colors shadow-2xs">
+                    <i class="fa-solid fa-chart-line"></i>
+                  </div>
+                  <div class="min-w-0">
+                    <div class="font-semibold text-sm sm:text-[15px] text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-300 transition-colors leading-snug">
+                      Interactive Petrophysics (IP)
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Chip 3: Kingdom -->
+                <div class="rounded-xl border border-slate-200/90 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/40 p-4 sm:p-4.5 flex items-center gap-3.5 hover:border-emerald-500/60 dark:hover:border-emerald-400/60 hover:bg-white dark:hover:bg-slate-800/90 hover:shadow-md transition-all duration-200 group">
+                  <div class="w-10 h-10 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-700 text-slate-700 dark:text-slate-300 flex items-center justify-center text-base shrink-0 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 group-hover:border-emerald-300 dark:group-hover:border-emerald-400/40 transition-colors shadow-2xs">
+                    <i class="fa-solid fa-diagram-project"></i>
+                  </div>
+                  <div class="min-w-0">
+                    <div class="font-semibold text-sm sm:text-[15px] text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-300 transition-colors leading-snug">
+                      Kingdom
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Chip 4: GeoSuite AllWorks -->
+                <div class="rounded-xl border border-slate-200/90 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/40 p-4 sm:p-4.5 flex items-center gap-3.5 hover:border-emerald-500/60 dark:hover:border-emerald-400/60 hover:bg-white dark:hover:bg-slate-800/90 hover:shadow-md transition-all duration-200 group">
+                  <div class="w-10 h-10 rounded-lg bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-700 text-slate-700 dark:text-slate-300 flex items-center justify-center text-base shrink-0 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 group-hover:border-emerald-300 dark:group-hover:border-emerald-400/40 transition-colors shadow-2xs">
+                    <i class="fa-solid fa-compass-drafting"></i>
+                  </div>
+                  <div class="min-w-0">
+                    <div class="font-semibold text-sm sm:text-[15px] text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-300 transition-colors leading-snug">
+                      GeoSuite AllWorks
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 4. ASSIGNMENTS SECTION (QUẢN LÝ BÀI TẬP & ĐỒ ÁN ĐỘNG) -->
+  <section id="assignments" class="py-16 sm:py-20 border-b border-slate-200/80 dark:border-slate-800/80 geo-grid">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      
+      <!-- Section Header -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div class="space-y-2">
+          <div class="text-xs sm:text-[13px] font-bold uppercase tracking-[0.08em] text-petro-600 dark:text-amber-400">
+            03 / Bài tập chuyên ngành
+          </div>
+          <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+            Báo cáo &amp; Bài tập Thực hành
+          </h2>
+          <p class="text-base leading-[1.7] text-slate-600 dark:text-slate-400 max-w-2xl">
+            Quản lý và tổng hợp các bài tập lớn, bài tập cá nhân và báo cáo nhóm chuyên ngành Kỹ thuật Địa chất kèm liên kết xem trực tiếp file PDF, Word, PowerPoint, Code.
+          </p>
+        </div>
+
+        <!-- Filter Segmented Controls & Quick Action -->
+        <div class="flex flex-wrap items-center gap-3 self-start md:self-auto">
+          <div class="inline-flex p-1 rounded-lg bg-slate-200/80 dark:bg-slate-900 border border-slate-300 dark:border-slate-800">
+            <button onclick="filterAssignments('all')" id="filter-all" class="px-3.5 py-1.5 text-xs font-semibold rounded-md transition-all bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm">
+              Tất cả (<span id="count-all">0</span>)
+            </button>
+            <button onclick="filterAssignments('individual')" id="filter-individual" class="px-3.5 py-1.5 text-xs font-medium rounded-md transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
+              Cá nhân (<span id="count-individual">0</span>)
+            </button>
+            <button onclick="filterAssignments('teamwork')" id="filter-teamwork" class="px-3.5 py-1.5 text-xs font-medium rounded-md transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
+              Nhóm (<span id="count-teamwork">0</span>)
+            </button>
+          </div>
+
+          <button onclick="openNewAssignmentModal()" class="px-3.5 py-2 rounded-lg bg-petro-700 hover:bg-petro-800 text-white text-xs font-semibold flex items-center gap-2 shadow-sm transition-colors cursor-pointer">
+            <i class="fa-solid fa-plus"></i>
+            <span>Thêm bài tập</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Assignments Dynamic Grid -->
+      <div id="assignmentsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <!-- 01 Ô MẪU / NÚT THÊM BÀI TẬP MỚI (Add New Assignment Card - Always First) -->
+        <div onclick="openNewAssignmentModal()" id="btnAddNewCard" role="button" tabindex="0" class="group relative flex flex-col items-center justify-center text-center p-8 rounded-2xl border-2 border-dashed border-petro-400/80 dark:border-amber-500/60 hover:border-petro-600 dark:hover:border-amber-400 bg-petro-50/40 dark:bg-slate-900/60 hover:bg-petro-50/90 dark:hover:bg-slate-800/80 transition-all duration-200 min-h-[310px] cursor-pointer shadow-sm hover:shadow-md">
+          <div class="w-16 h-16 rounded-2xl bg-white dark:bg-slate-800 border border-petro-200 dark:border-amber-500/40 text-petro-600 dark:text-amber-400 flex items-center justify-center text-2xl shadow-sm group-hover:scale-110 group-hover:bg-petro-600 group-hover:text-white dark:group-hover:bg-amber-500 dark:group-hover:text-slate-950 transition-all duration-200 mb-4">
+            <i class="fa-solid fa-plus"></i>
+          </div>
+          <h3 class="font-bold text-base text-slate-900 dark:text-white group-hover:text-petro-600 dark:group-hover:text-amber-400 transition-colors">
+            Thêm bài tập mới
+          </h3>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-2 max-w-[230px] leading-relaxed">
+            Nhấn để nộp hoặc tải lên bài tập, báo cáo chuyên đề và đồ án thực hành
+          </p>
+          <div class="mt-5 inline-flex items-center gap-1.5 text-xs font-mono font-medium text-petro-700 dark:text-amber-400 bg-white dark:bg-slate-800 px-3 py-1.5 rounded-full border border-petro-200 dark:border-slate-700 shadow-2xs">
+            <i class="fa-solid fa-cloud-arrow-up text-[11px]"></i> Tải lên PDF, Word, PPT, Code...
+          </div>
+        </div>
+
+        <!-- Dynamic Container for newly added assignment cards -->
+        <div id="dynamicAssignmentsContainer" class="contents"></div>
+
+      </div>
+
+      <!-- Empty State Notice (shown only when no assignments added yet) -->
+      <div id="assignmentsEmptyNotice" class="hidden text-center py-6 px-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/40 max-w-lg mx-auto">
+        <i class="fa-solid fa-folder-open text-2xl text-slate-400 mb-2"></i>
+        <p class="text-xs text-slate-600 dark:text-slate-400">
+          Chưa có bài tập nào được lưu. Hãy nhấp vào <strong>"Thêm bài tập mới"</strong> để đăng bài đầu tiên!
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 5. RESEARCH PROJECTS & THESES SECTION (ĐỒ ÁN VÀ CÁC NGHIÊN CỨU KHOA HỌC) -->
+  <section id="research" class="py-16 sm:py-20 border-b border-slate-200/80 dark:border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      
+      <!-- Section Header -->
+      <div class="space-y-2">
+        <div class="text-xs sm:text-[13px] font-bold uppercase tracking-[0.08em] text-petro-600 dark:text-amber-400">
+          04 / Đồ án và nghiên cứu khoa học
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+          Đồ án Chuyên ngành &amp; Công trình NCKH
+        </h2>
+        <p class="text-base leading-[1.7] text-slate-600 dark:text-slate-400 max-w-3xl">
+          Các công trình nghiên cứu khoa học sinh viên được thực hiện dưới sự hướng dẫn của các giảng viên Khoa Dầu khí, Trường Đại học Dầu khí Việt Nam.
+        </p>
+      </div>
+
+      <!-- 2 Distinct Groups -->
+      <div class="space-y-12">
+
+        <!-- NHÓM A: ĐỒ ÁN -->
+        <div class="space-y-5">
+          <!-- Group Title A -->
+          <div class="flex items-center gap-2.5 pb-2.5 border-b border-slate-200/80 dark:border-slate-800">
+            <span class="text-xl">📌</span>
+            <h3 class="text-xl sm:text-2xl font-bold uppercase tracking-wider text-slate-900 dark:text-white">
+              ĐỒ ÁN
+            </h3>
+          </div>
+
+          <!-- Cards Grid for Nhóm A -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
+            
+            <!-- Ô 1 -->
+            <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 sm:p-7 shadow-sm hover:shadow-md hover:border-petro-500/50 dark:hover:border-amber-500/40 transition-all duration-200 text-left flex flex-col justify-between group min-h-[200px]">
+              <div class="space-y-3.5">
+                <div class="flex items-center justify-between gap-2">
+                  <span class="inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.05em] font-semibold text-petro-700 dark:text-amber-400 bg-petro-50/90 dark:bg-petro-950/60 px-2.5 py-1 rounded-md border border-petro-200/60 dark:border-amber-800/40">
+                    <i class="fa-solid fa-graduation-cap text-[11px]"></i> Đồ án chuyên ngành
+                  </span>
+                  <span class="text-xs uppercase tracking-wider font-semibold text-slate-400">PVU Geology</span>
+                </div>
+                <h4 class="text-lg sm:text-[19px] font-semibold text-slate-900 dark:text-white leading-[1.65] group-hover:text-petro-600 dark:group-hover:text-amber-300 transition-colors">
+                  Đồ án 1: Đánh giá thông số chứa của tầng Mioxen giữa mỏ X, bể Nam Côn Sơn theo tài liệu địa vật lý giếng khoan
+                </h4>
+              </div>
+              <div class="pt-4 mt-5 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-end text-xs font-mono">
+                <button onclick="openResearchDetailModal(1)" class="font-medium text-petro-600 dark:text-amber-400 hover:underline flex items-center gap-1 cursor-pointer">
+                  <span>Xem chi tiết</span>
+                  <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Ô 2 -->
+            <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 sm:p-7 shadow-sm hover:shadow-md hover:border-petro-500/50 dark:hover:border-amber-500/40 transition-all duration-200 text-left flex flex-col justify-between group min-h-[200px]">
+              <div class="space-y-3.5">
+                <div class="flex items-center justify-between gap-2">
+                  <span class="inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.05em] font-semibold text-petro-700 dark:text-amber-400 bg-petro-50/90 dark:bg-petro-950/60 px-2.5 py-1 rounded-md border border-petro-200/60 dark:border-amber-800/40">
+                    <i class="fa-solid fa-graduation-cap text-[11px]"></i> Đồ án chuyên ngành
+                  </span>
+                  <span class="text-xs uppercase tracking-wider font-semibold text-slate-400">PVU Geology</span>
+                </div>
+                <h4 class="text-lg sm:text-[19px] font-semibold text-slate-900 dark:text-white leading-[1.65] group-hover:text-petro-600 dark:group-hover:text-amber-300 transition-colors">
+                  Đồ án 2: Xử lý và minh giải tài liệu địa chấn nông phục vụ hệ thống giàn khoan
+                </h4>
+              </div>
+              <div class="pt-4 mt-5 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-end text-xs font-mono">
+                <button onclick="openResearchDetailModal(2)" class="font-medium text-petro-600 dark:text-amber-400 hover:underline flex items-center gap-1 cursor-pointer">
+                  <span>Xem chi tiết</span>
+                  <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- NHÓM B: NGHIÊN CỨU KHOA HỌC -->
+        <div class="space-y-5">
+          <!-- Group Title B -->
+          <div class="flex items-center gap-2.5 pb-2.5 border-b border-slate-200/80 dark:border-slate-800">
+            <span class="text-xl">🔬</span>
+            <h3 class="text-xl sm:text-2xl font-bold uppercase tracking-wider text-slate-900 dark:text-white">
+              NGHIÊN CỨU KHOA HỌC
+            </h3>
+          </div>
+
+          <!-- Cards Grid for Nhóm B -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
+            
+            <!-- Ô 1 -->
+            <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 sm:p-7 shadow-sm hover:shadow-md hover:border-teal-500/50 dark:hover:border-teal-400/40 transition-all duration-200 text-left flex flex-col justify-between group min-h-[200px]">
+              <div class="space-y-3.5">
+                <div class="flex items-center justify-between gap-2">
+                  <span class="inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.05em] font-semibold text-teal-700 dark:text-teal-300 bg-teal-50/90 dark:bg-teal-950/60 px-2.5 py-1 rounded-md border border-teal-200/60 dark:border-teal-800/40">
+                    <i class="fa-solid fa-flask text-[11px]"></i> Cấp trường
+                  </span>
+                  <span class="text-xs uppercase tracking-wider font-semibold text-slate-400">NCKH Sinh viên</span>
+                </div>
+                <h4 class="text-lg sm:text-[19px] font-semibold text-slate-900 dark:text-white leading-[1.65] group-hover:text-teal-600 dark:group-hover:text-teal-300 transition-colors">
+                  NCKH cấp trường: Đánh giá nguy cơ trượt đất nhằm đề xuất giải pháp giảm thiểu thiệt hại do trượt đất tại khu vực cầu Cạn Sa Pa, Lào Cai
+                </h4>
+              </div>
+              <div class="pt-4 mt-5 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-end text-xs font-mono">
+                <button onclick="openResearchDetailModal(3)" class="font-medium text-teal-600 dark:text-teal-300 hover:underline flex items-center gap-1 cursor-pointer">
+                  <span>Xem chi tiết</span>
+                  <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Ô 2 -->
+            <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 sm:p-7 shadow-sm hover:shadow-md hover:border-teal-500/50 dark:hover:border-teal-400/40 transition-all duration-200 text-left flex flex-col justify-between group min-h-[200px]">
+              <div class="space-y-3.5">
+                <div class="flex items-center justify-between gap-2">
+                  <span class="inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.05em] font-semibold text-teal-700 dark:text-teal-300 bg-teal-50/90 dark:bg-teal-950/60 px-2.5 py-1 rounded-md border border-teal-200/60 dark:border-teal-800/40">
+                    <i class="fa-solid fa-handshake text-[11px]"></i> Doanh nghiệp
+                  </span>
+                  <span class="text-xs uppercase tracking-wider font-semibold text-slate-400">Vietsovpetro Partner</span>
+                </div>
+                <h4 class="text-lg sm:text-[19px] font-semibold text-slate-900 dark:text-white leading-[1.65] group-hover:text-teal-600 dark:group-hover:text-teal-300 transition-colors">
+                  NCKH hợp tác với Vietsovpetro: Tiềm năng địa chất và định hướng phát triển bền vững năng lượng địa nhiệt ở Việt Nam trong bối cảnh biến đổi khí hậu
+                </h4>
+              </div>
+              <div class="pt-4 mt-5 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-end text-xs font-mono">
+                <button onclick="openResearchDetailModal(4)" class="font-medium text-teal-600 dark:text-teal-300 hover:underline flex items-center gap-1 cursor-pointer">
+                  <span>Xem chi tiết</span>
+                  <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 6. CONTACT & FOOTER -->
+  <section id="contact" class="py-16 sm:py-20 border-b border-slate-200/80 dark:border-slate-800/80 geo-grid">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+      
+      <!-- Section Header -->
+      <div class="space-y-2">
+        <div class="text-xs sm:text-[13px] font-bold uppercase tracking-[0.08em] text-petro-600 dark:text-amber-400">
+          05 / Kết nối &amp; Trao đổi
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+          Thông tin Liên hệ &amp; Hợp tác Học thuật
+        </h2>
+        <p class="text-base leading-[1.7] text-slate-600 dark:text-slate-400 max-w-2xl">
+          Quý thầy cô, các chuyên gia doanh nghiệp dầu khí và các bạn sinh viên có thể gửi tin nhắn trao đổi về học tập, nghiên cứu hoặc cơ hội thực tập.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <!-- Left: Contact Details & Academic Profiles -->
+        <div class="lg:col-span-5 space-y-6">
+          <div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 space-y-5">
+            <h3 class="font-semibold text-lg sm:text-xl text-slate-900 dark:text-white">Địa chỉ liên lạc trực tiếp</h3>
+
+            <div class="space-y-4">
+              <div class="flex items-start gap-3">
+                <div class="w-9 h-9 rounded-lg bg-petro-50 dark:bg-petro-950/60 text-petro-600 dark:text-amber-400 flex items-center justify-center shrink-0 mt-0.5">
+                  <i class="fa-solid fa-envelope"></i>
+                </div>
+                <div>
+                  <div class="text-[12px] uppercase font-semibold tracking-[0.06em] text-slate-500 dark:text-slate-400 mb-0.5">Email học thuật / Cá nhân</div>
+                  <a href="mailto:ngomhp12@pvu.edu.vn" class="text-base font-medium text-slate-900 dark:text-slate-100 hover:text-petro-600 dark:hover:text-amber-400 transition-colors">
+                    ngomhp12@pvu.edu.vn
+                  </a>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <div class="w-9 h-9 rounded-lg bg-petro-50 dark:bg-petro-950/60 text-petro-600 dark:text-amber-400 flex items-center justify-center shrink-0 mt-0.5">
+                  <i class="fa-solid fa-building-columns"></i>
+                </div>
+                <div>
+                  <div class="text-[12px] uppercase font-semibold tracking-[0.06em] text-slate-500 dark:text-slate-400 mb-0.5">Cơ sở đào tạo</div>
+                  <div class="text-base font-medium text-slate-900 dark:text-slate-100">
+                    Trường Đại học Dầu khí Việt Nam (PVU)
+                  </div>
+                  <div class="text-sm font-normal text-slate-600 dark:text-slate-400 mt-0.5">
+                    762, Cách Mạng Tháng 8, P. Bà Rịa, TP. Hồ Chí Minh
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <div class="w-9 h-9 rounded-lg bg-petro-50 dark:bg-petro-950/60 text-petro-600 dark:text-amber-400 flex items-center justify-center shrink-0 mt-0.5">
+                  <i class="fa-solid fa-map-pin"></i>
+                </div>
+                <div>
+                  <div class="text-[12px] uppercase font-semibold tracking-[0.06em] text-slate-500 dark:text-slate-400 mb-0.5">Quê quán</div>
+                  <div class="text-base font-medium text-slate-900 dark:text-slate-100">
+                    Tỉnh Vĩnh Long, Việt Nam
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="pt-4 border-t border-slate-100 dark:border-slate-800">
+              <div class="text-[12px] uppercase font-semibold tracking-[0.06em] text-slate-500 dark:text-slate-400 mb-3">Mạng xã hội &amp; Hồ sơ học thuật:</div>
+              <div class="flex items-center gap-3">
+                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-lg border border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-petro-600 hover:border-petro-600 transition-colors">
+                  <i class="fa-brands fa-linkedin"></i>
+                </a>
+                <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-lg border border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-petro-600 hover:border-petro-600 transition-colors">
+                  <i class="fa-brands fa-github"></i>
+                </a>
+                <a href="https://scholar.google.com" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-lg border border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-petro-600 hover:border-petro-600 transition-colors">
+                  <i class="fa-solid fa-graduation-cap"></i>
+                </a>
+                <a href="mailto:ngomhp12@pvu.edu.vn" class="w-9 h-9 rounded-lg border border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-petro-600 hover:border-petro-600 transition-colors">
+                  <i class="fa-solid fa-envelope"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Fast Contact Form -->
+        <div class="lg:col-span-7">
+          <div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 sm:p-7 space-y-5">
+            <h3 class="font-semibold text-lg sm:text-xl text-slate-900 dark:text-white">Gửi tin nhắn trực tiếp</h3>
+            
+            <form id="contactForm" action="https://formspree.io/f/maenkkzb" method="POST" onsubmit="handleContactSubmit(event)" class="space-y-4">
+              <!-- Honeypot anti-spam field for Formspree -->
+              <input type="text" name="_gotcha" class="hidden" style="display:none !important;" tabindex="-1" autocomplete="off" />
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="space-y-1.5">
+                  <label for="senderName" class="text-[12px] uppercase font-semibold tracking-[0.05em] text-slate-500 dark:text-slate-400 block">Họ và tên *</label>
+                  <input type="text" id="senderName" name="name" required placeholder="Ví dụ: Nguyễn Văn A" class="w-full px-4 py-3 sm:py-3.5 text-base rounded-xl border border-slate-300 dark:border-slate-700 bg-white/70 dark:bg-slate-950/70 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-petro-500/20 focus:border-petro-600 transition-all" />
+                </div>
+                <div class="space-y-1.5">
+                  <label for="senderEmail" class="text-[12px] uppercase font-semibold tracking-[0.05em] text-slate-500 dark:text-slate-400 block">Địa chỉ Email *</label>
+                  <input type="email" id="senderEmail" name="email" required placeholder="name@domain.com" class="w-full px-4 py-3 sm:py-3.5 text-base rounded-xl border border-slate-300 dark:border-slate-700 bg-white/70 dark:bg-slate-950/70 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-petro-500/20 focus:border-petro-600 transition-all" />
+                </div>
+              </div>
+
+              <div class="space-y-1.5">
+                <label for="senderSubject" class="text-[12px] uppercase font-semibold tracking-[0.05em] text-slate-500 dark:text-slate-400 block">Tiêu đề liên hệ *</label>
+                <input type="text" id="senderSubject" name="subject" required placeholder="Trao đổi bài tập / Nghiên cứu khoa học..." class="w-full px-4 py-3 sm:py-3.5 text-base rounded-xl border border-slate-300 dark:border-slate-700 bg-white/70 dark:bg-slate-950/70 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-petro-500/20 focus:border-petro-600 transition-all" />
+              </div>
+
+              <div class="space-y-1.5">
+                <label for="senderMessage" class="text-[12px] uppercase font-semibold tracking-[0.05em] text-slate-500 dark:text-slate-400 block">Nội dung tin nhắn *</label>
+                <textarea id="senderMessage" name="message" rows="4" required placeholder="Nhập nội dung bạn muốn gửi tới Phú Ngộ..." class="w-full px-4 py-3 sm:py-3.5 text-base rounded-xl border border-slate-300 dark:border-slate-700 bg-white/70 dark:bg-slate-950/70 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-petro-500/20 focus:border-petro-600 transition-all resize-none"></textarea>
+              </div>
+
+              <div class="pt-2 flex items-center justify-between">
+                <span id="formFeedback" class="text-xs text-emerald-600 dark:text-emerald-400 font-medium hidden">
+                  <i class="fa-solid fa-circle-check"></i> Đã gửi tin nhắn thành công!
+                </span>
+                <button type="submit" id="submitBtn" class="ml-auto px-6 py-3 rounded-xl bg-petro-700 hover:bg-petro-800 text-white font-semibold text-sm sm:text-base flex items-center gap-2.5 transition-all shadow-sm hover:shadow-md cursor-pointer">
+                  <i class="fa-solid fa-paper-plane"></i>
+                  <span>Gửi tin nhắn</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 7. FOOTER -->
+  <footer class="bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 py-8 text-xs text-slate-500 dark:text-slate-400">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="space-y-1 text-center sm:text-left">
+        <p class="font-medium text-slate-700 dark:text-slate-300">
+          Bản quyền © 2026 - Mai Hồ Phú Ngộ (MSSV: 12GEO110004)
+        </p>
+        <p class="text-slate-400 dark:text-slate-500">
+          Khoa Dầu khí · Trường Đại học Dầu khí Việt Nam (PetroVietnam University - PVU)
+        </p>
+      </div>
+      <div class="flex items-center gap-4 text-xs font-mono">
+        <span>Thiết kế hỗ trợ bởi AI Studio</span>
+        <span aria-hidden="true">·</span>
+        <a href="#about" class="hover:text-petro-600 dark:hover:text-white transition-colors">Lên đầu trang <i class="fa-solid fa-arrow-up ml-0.5"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== FLOATING GEMINI GEO-AI ASSISTANT ==================== -->
+  <!-- Floating Button -->
+  <div class="fixed bottom-6 right-6 z-50">
+    <button onclick="toggleChatModal()" id="chatFloatingBtn" aria-label="Mở Trợ lý AI Địa chất" class="relative group w-14 h-14 rounded-2xl bg-gradient-to-tr from-petro-700 via-teal-700 to-amber-600 text-white shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center">
+      <i class="fa-solid fa-robot text-xl"></i>
+      <span class="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-white dark:border-slate-900 animate-pulse"></span>
+      <span class="absolute right-16 px-3 py-1.5 rounded-lg bg-slate-900 text-white text-xs font-mono whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-md">
+        Trợ lý GeoAI (Gemini)
+      </span>
+    </button>
+  </div>
+
+  <!-- Chat Dialog Modal -->
+  <div id="chatModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 transition-all">
+    <div class="w-full max-w-lg bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xl flex flex-col h-[580px] overflow-hidden">
+      
+      <!-- Chat Header -->
+      <div class="px-4 py-3.5 bg-slate-50 dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-petro-600 text-white flex items-center justify-center text-sm shadow-sm">
+            <i class="fa-solid fa-brain"></i>
+          </div>
+          <div>
+            <h4 class="font-bold text-sm text-slate-900 dark:text-white flex items-center gap-1.5">
+              <span>GeoAI Assistant</span>
+              <span class="text-[10px] font-mono text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 px-1.5 py-0.5 rounded">Gemini</span>
+            </h4>
+            <p class="text-[11px] text-slate-500 dark:text-slate-400">Trợ lý Địa chất & Thông tin học thuật Mai Hồ Phú Ngộ</p>
+          </div>
+        </div>
+        
+        <div class="flex items-center gap-2">
+          <!-- High Thinking Mode Switch -->
+          <button id="thinkingToggleBtn" onclick="toggleThinkingMode()" title="Bật/Tắt chế độ High Thinking (Suy luận sâu)" class="px-2 py-1 rounded text-[11px] font-mono border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 flex items-center gap-1.5 hover:border-petro-600">
+            <i class="fa-solid fa-lightbulb text-amber-500"></i>
+            <span id="thinkingLabel">Thinking: Bật</span>
+          </button>
+          <button onclick="toggleChatModal(false)" class="w-7 h-7 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 flex items-center justify-center">
+            <i class="fa-solid fa-xmark text-sm"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Chat Thread Area (Scrollable) -->
+      <div id="chatThread" class="flex-1 p-4 overflow-y-auto space-y-3.5 text-xs">
+        
+        <!-- Welcome Message -->
+        <div class="flex items-start gap-2.5">
+          <div class="w-7 h-7 rounded-full bg-petro-700 text-white flex items-center justify-center shrink-0 mt-0.5 text-xs">
+            <i class="fa-solid fa-robot"></i>
+          </div>
+          <div class="rounded-xl rounded-tl-none bg-slate-100 dark:bg-slate-800 p-3 max-w-[85%] text-slate-800 dark:text-slate-200 space-y-1.5">
+            <p>Xin chào! Tôi là <strong>GeoAI Assistant</strong> đại diện cho Mai Hồ Phú Ngộ (SV Kỹ thuật Địa chất PVU, Khóa 2023-2027). Bạn có thể hỏi tôi về:</p>
+            <ul class="list-disc pl-4 space-y-1 text-slate-600 dark:text-slate-400">
+              <li>Hồ sơ học tập & kỹ năng của Phú Ngộ</li>
+              <li>Chi tiết các bài tập môn Địa chất & Carota giếng khoan</li>
+              <li>Đề tài nghiên cứu khoa học (Machine Learning vỉa chứa, đá mẹ)</li>
+              <li>Kiến thức chuyên môn Địa chất Dầu khí</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Quick Suggestion Prompts -->
+      <div class="px-4 py-2 bg-slate-50/50 dark:bg-slate-950/50 border-t border-slate-100 dark:border-slate-800 flex items-center gap-1.5 overflow-x-auto text-[11px] whitespace-nowrap scrollbar-none">
+        <button onclick="sendQuickPrompt('Giới thiệu tóm tắt về Mai Hồ Phú Ngộ và chuyên ngành học tại PVU?')" class="px-2.5 py-1 rounded-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:border-petro-500">
+          Giới thiệu Phú Ngộ
+        </button>
+        <button onclick="sendQuickPrompt('Phú Ngộ đã ứng dụng Machine Learning vào phân tích vỉa dầu khí như thế nào?')" class="px-2.5 py-1 rounded-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:border-petro-500">
+          Machine Learning vỉa chứa
+        </button>
+        <button onclick="sendQuickPrompt('Giải thích phương pháp xác định ranh giới đá mẹ sét than bồn trũng Nam Côn Sơn?')" class="px-2.5 py-1 rounded-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:border-petro-500">
+          Đá mẹ sinh dầu
+        </button>
+      </div>
+
+      <!-- Chat Input Form -->
+      <form id="chatForm" onsubmit="handleChatSubmit(event)" class="p-3 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 flex items-center gap-2">
+        <input 
+          type="text" 
+          id="chatInput" 
+          placeholder="Nhập câu hỏi cho Trợ lý GeoAI..." 
+          class="flex-1 px-3.5 py-2 text-xs rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-petro-600"
+          autocomplete="off"
+        />
+        <button type="submit" id="chatSendBtn" class="w-9 h-9 rounded-xl bg-petro-700 hover:bg-petro-800 text-white flex items-center justify-center shrink-0 transition-colors">
+          <i class="fa-solid fa-arrow-up text-xs"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== NEW ASSIGNMENT CREATION MODAL ==================== -->
+  <div id="assignmentModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+    <div class="w-full max-w-xl bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden flex flex-col my-8">
+      
+      <!-- Modal Header -->
+      <div class="px-6 py-4.5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-slate-50/80 dark:bg-slate-950/80">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-lg bg-petro-100 dark:bg-amber-950/60 text-petro-700 dark:text-amber-400 flex items-center justify-center text-base">
+            <i class="fa-solid fa-folder-plus"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-slate-900 dark:text-white text-base sm:text-lg">Thêm bài tập / Đồ án mới</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400">Đăng tải thông tin học phần và đính kèm báo cáo</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeNewAssignmentModal()" class="w-8 h-8 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 flex items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <!-- Modal Form -->
+      <form id="newAssignmentForm" onsubmit="handleCreateAssignment(event)" class="p-6 space-y-4.5 text-sm">
+        
+        <!-- 1. Tên bài tập / Đồ án -->
+        <div class="space-y-1.5">
+          <label for="asgTitle" class="block text-xs font-semibold text-slate-800 dark:text-slate-200 uppercase tracking-wider font-mono">
+            Tên bài tập / Đồ án <span class="text-rose-500">*</span>
+          </label>
+          <input 
+            type="text" 
+            id="asgTitle" 
+            required 
+            placeholder="Ví dụ: Đánh giá tướng trầm tích & tiềm năng sinh chứa bồn trũng Cửu Long" 
+            class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-petro-500 transition-all placeholder:text-slate-400" 
+          />
+        </div>
+
+        <!-- 2. Loại bài tập & 3. Mã học phần -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          
+          <!-- Mã học phần / Chủ đề -->
+          <div class="space-y-1.5">
+            <label for="asgCourse" class="block text-xs font-semibold text-slate-800 dark:text-slate-200 uppercase tracking-wider font-mono">
+              Mã học phần / Chủ đề <span class="text-rose-500">*</span>
+            </label>
+            <input 
+              type="text" 
+              id="asgCourse" 
+              required 
+              placeholder="Ví dụ: GEO201 · Địa chất Dầu khí" 
+              class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-petro-500 transition-all placeholder:text-slate-400" 
+            />
+          </div>
+
+          <!-- Loại bài tập: Cá nhân / Nhóm -->
+          <div class="space-y-1.5">
+            <label class="block text-xs font-semibold text-slate-800 dark:text-slate-200 uppercase tracking-wider font-mono">
+              Loại bài tập <span class="text-rose-500">*</span>
+            </label>
+            <div class="grid grid-cols-2 gap-2">
+              <label class="cursor-pointer">
+                <input type="radio" name="asgType" value="individual" checked class="peer sr-only" />
+                <div class="px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 peer-checked:border-emerald-500 peer-checked:bg-emerald-50 dark:peer-checked:bg-emerald-950/40 peer-checked:text-emerald-700 dark:peer-checked:text-emerald-300 text-center text-xs font-medium text-slate-600 dark:text-slate-300 flex items-center justify-center gap-1.5 transition-all">
+                  <i class="fa-solid fa-user text-[11px]"></i> Cá nhân
+                </div>
+              </label>
+              <label class="cursor-pointer">
+                <input type="radio" name="asgType" value="teamwork" class="peer sr-only" />
+                <div class="px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 peer-checked:border-petro-500 peer-checked:bg-petro-50 dark:peer-checked:bg-petro-950/40 peer-checked:text-petro-700 dark:peer-checked:text-amber-400 text-center text-xs font-medium text-slate-600 dark:text-slate-300 flex items-center justify-center gap-1.5 transition-all">
+                  <i class="fa-solid fa-users text-[11px]"></i> Nhóm
+                </div>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phương pháp / Tóm tắt nghiên cứu -->
+        <div class="space-y-1.5">
+          <label for="asgDesc" class="block text-xs font-semibold text-slate-800 dark:text-slate-200 uppercase tracking-wider font-mono">
+            Mô tả tóm tắt / Phương pháp nghiên cứu
+          </label>
+          <textarea 
+            id="asgDesc" 
+            rows="2" 
+            placeholder="Ví dụ: Sử dụng tài liệu giếng khoan đối sánh mặt cắt địa chất, vẽ sơ đồ phân bố tướng và đánh giá chỉ số TOC..." 
+            class="w-full px-3.5 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-xs focus:outline-none focus:ring-2 focus:ring-petro-500 transition-all placeholder:text-slate-400"
+          ></textarea>
+        </div>
+
+        <!-- 4. Khu vực tải lên tệp (File Upload: Drag & Drop hoặc Chọn file) -->
+        <div class="space-y-1.5">
+          <label class="block text-xs font-semibold text-slate-800 dark:text-slate-200 uppercase tracking-wider font-mono">
+            Khu vực tải lên tệp (File Upload) <span class="text-rose-500">*</span>
+          </label>
+          
+          <div 
+            id="dropZone" 
+            onclick="document.getElementById('asgFile').click()" 
+            class="border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-petro-500 dark:hover:border-amber-400 rounded-xl p-5 text-center cursor-pointer transition-colors bg-slate-50/60 dark:bg-slate-950/40 group"
+          >
+            <input 
+              type="file" 
+              id="asgFile" 
+              onchange="handleFileSelected(event)" 
+              accept=".pdf,.doc,.docx,.ppt,.pptx,.py,.ipynb,.zip,.rar" 
+              class="hidden" 
+            />
+            
+            <!-- Default Prompt -->
+            <div id="dropZonePrompt" class="space-y-2">
+              <div class="w-10 h-10 mx-auto rounded-full bg-slate-200/80 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 group-hover:scale-110 transition-transform">
+                <i class="fa-solid fa-cloud-arrow-up text-base"></i>
+              </div>
+              <div class="text-xs text-slate-600 dark:text-slate-300 font-medium">
+                Kéo & thả file vào đây hoặc <span class="text-petro-600 dark:text-amber-400 underline font-semibold">chọn file từ máy tính</span>
+              </div>
+              <p class="text-[11px] text-slate-400 font-mono">
+                Định dạng hỗ trợ: PDF, Word (.docx), PowerPoint (.pptx), Python (.py, .ipynb), ZIP (tối đa 25MB)
+              </p>
+            </div>
+
+            <!-- File Selected Preview Badge -->
+            <div id="filePreviewBadge" class="hidden items-center justify-between p-2.5 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-left">
+              <div class="flex items-center gap-3 min-w-0">
+                <div id="fileTypeIcon" class="w-9 h-9 rounded-lg bg-rose-50 dark:bg-rose-950/50 text-rose-600 flex items-center justify-center text-lg shrink-0">
+                  <i class="fa-solid fa-file-pdf"></i>
+                </div>
+                <div class="min-w-0">
+                  <div id="fileNameDisplay" class="font-medium text-xs text-slate-900 dark:text-white truncate">baocao.pdf</div>
+                  <div id="fileSizeDisplay" class="text-[10px] text-slate-400 font-mono">2.4 MB</div>
+                </div>
+              </div>
+              <button 
+                type="button" 
+                onclick="clearSelectedFile(event)" 
+                class="text-slate-400 hover:text-rose-500 p-1.5 rounded transition-colors" 
+                title="Chọn lại file khác"
+              >
+                <i class="fa-solid fa-xmark text-sm"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="pt-3 border-t border-slate-200 dark:border-slate-800 flex items-center justify-end gap-3">
+          <button 
+            type="button" 
+            onclick="closeNewAssignmentModal()" 
+            class="px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+          >
+            Hủy bỏ
+          </button>
+          <button 
+            type="submit" 
+            id="btnSubmitAssignment" 
+            class="px-5 py-2 rounded-lg bg-petro-700 hover:bg-petro-800 text-white text-xs font-semibold flex items-center gap-2 shadow-sm transition-colors cursor-pointer"
+          >
+            <i class="fa-solid fa-cloud-arrow-up"></i>
+            <span>Lưu & Đăng bài tập</span>
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== DOCUMENT & REPORT PREVIEW MODAL ==================== -->
+  <div id="docModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="w-full max-w-2xl bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
+      
+      <div class="px-5 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-slate-50 dark:bg-slate-950">
+        <div>
+          <span id="docModalCode" class="text-xs font-mono text-petro-600 dark:text-petro-200 font-semibold">GEO201</span>
+          <h3 id="docModalTitle" class="font-bold text-slate-900 dark:text-white text-base">Xem trước tài liệu</h3>
+        </div>
+        <button onclick="closeDocPreview()" class="w-8 h-8 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 flex items-center justify-center">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="p-6 overflow-y-auto space-y-4 text-xs text-slate-600 dark:text-slate-300">
+        <div class="p-3.5 rounded-lg bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900/60 text-amber-800 dark:text-amber-300">
+          <i class="fa-solid fa-circle-info mr-1.5"></i>
+          <strong>Ghi chú tích hợp:</strong> Đây là giao diện đọc và xem trước báo cáo học thuật. Bạn có thể dễ dàng thay đổi link tải file thực tế (Google Drive, Dropbox, Server nội bộ) trong mã nguồn thuộc tính <code>href</code>.
+        </div>
+
+        <div class="space-y-2">
+          <h4 class="font-semibold text-slate-900 dark:text-white text-sm">Tóm tắt nội dung báo cáo (Abstract)</h4>
+          <p id="docModalSummary" class="leading-relaxed">
+            Báo cáo trình bày đầy đủ cơ sở lý thuyết địa chất, quy trình xử lý số liệu giếng khoan và minh giải địa chấn, phân tích tướng trầm tích, đánh giá tiềm năng bẫy dầu khí và kết luận kỹ thuật.
+          </p>
+        </div>
+
+        <div class="rounded-lg border border-slate-200 dark:border-slate-800 p-4 bg-slate-50 dark:bg-slate-950/50 space-y-2">
+          <div class="font-mono text-[11px] text-slate-400 uppercase">Mục lục báo cáo chuyên đề</div>
+          <ul class="space-y-1 font-mono text-[11px] text-slate-700 dark:text-slate-300">
+            <li>1. Tổng quan vị trí địa lý & bối cảnh địa chất khu vực</li>
+            <li>2. Cơ sở dữ liệu và phương pháp luận nghiên cứu (Methodology)</li>
+            <li>3. Kết quả minh giải địa tầng & phân tích thuộc tính vỉa</li>
+            <li>4. Thảo luận các yếu tố rủi ro địa chất (Geological Risks)</li>
+            <li>5. Kết luận và kiến nghị cho các giếng thăm dò tiếp theo</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="px-6 py-3.5 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 flex items-center justify-between">
+        <span class="text-xs text-slate-400 font-mono">Định dạng: PDF / Word / Slides</span>
+        <div class="flex items-center gap-2">
+          <button onclick="closeDocPreview()" class="px-3.5 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800">
+            Đóng
+          </button>
+          <!-- HƯỚNG DẪN: Thay đường dẫn thực tế để người dùng tải file -->
+          <a id="docModalDownloadBtn" href="#" download="BaoCao_MaiHoPhuNgo.pdf" class="px-4 py-1.5 rounded-lg bg-petro-700 hover:bg-petro-800 text-white text-xs font-medium flex items-center gap-1.5">
+            <i class="fa-solid fa-download"></i> Tải bản đầy đủ
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== CV MODAL ==================== -->
+  <div id="cvModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="w-full max-w-xl bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
+      <div class="px-5 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-slate-50 dark:bg-slate-950">
+        <div>
+          <span class="text-xs font-mono text-petro-600 dark:text-petro-200 font-semibold">CURRICULUM VITAE</span>
+          <h3 class="font-bold text-slate-900 dark:text-white text-base">Hồ sơ năng lực · Mai Hồ Phú Ngộ</h3>
+        </div>
+        <button onclick="closeCvModal()" class="w-8 h-8 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 flex items-center justify-center">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      
+      <div class="p-6 space-y-4 text-xs text-slate-600 dark:text-slate-300 overflow-y-auto">
+        <div class="flex items-center gap-4 p-3 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950">
+          <div class="w-12 h-12 rounded-lg bg-petro-700 text-white flex items-center justify-center text-xl shrink-0">
+            <i class="fa-solid fa-file-pdf"></i>
+          </div>
+          <div>
+            <div class="font-bold text-slate-900 dark:text-white text-sm">CV_MaiHoPhuNgo_Geological_Engineering.pdf</div>
+            <div class="text-[11px] text-slate-400 font-mono">Phiên bản Tiếng Việt & Tiếng Anh · Cập nhật 2026 · Định dạng chuẩn SPE/PVU</div>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <h4 class="font-semibold text-slate-900 dark:text-white">Điểm nhấn trong CV:</h4>
+          <ul class="list-disc pl-4 space-y-1">
+            <li>Sinh viên Kỹ thuật Địa chất K12 - Đại học Dầu khí Việt Nam (PVU)</li>
+            <li>GPA chuyên ngành: 3.6+ / 4.0</li>
+            <li>Giải Nhì Nghiên cứu khoa học cấp Khoa PVU (Ứng dụng ML dự báo đặc tính vỉa)</li>
+            <li>Kinh nghiệm thực tập thực địa địa chất Nam Bộ và mô hình hóa Petrel/Techlog</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="px-6 py-3.5 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 flex items-center justify-between">
+        <span class="text-xs text-slate-400 font-mono">Sẵn sàng thực tập & nghiên cứu</span>
+        <div class="flex items-center gap-2">
+          <button onclick="closeCvModal()" class="px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800">
+            Đóng
+          </button>
+          <!-- HƯỚNG DẪN: Thay href="#" bằng file CV PDF thực tế của bạn -->
+          <a href="#" download="CV_MaiHoPhuNgo_Geology.pdf" class="px-4 py-1.5 rounded-lg bg-petro-700 hover:bg-petro-800 text-white text-xs font-medium flex items-center gap-1.5">
+            <i class="fa-solid fa-download"></i> Tải CV (PDF)
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== VANILLA JAVASCRIPT ==================== -->
+  <script>
+    // 1. THEME (DARK / LIGHT MODE) LOGIC
+    const htmlElem = document.documentElement;
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
+    const themeIcon = document.getElementById('themeIcon');
+
+    function applyTheme(isDark) {
+      if (isDark) {
+        htmlElem.classList.add('dark');
+        themeIcon.className = 'fa-solid fa-sun text-amber-400 text-sm';
+        localStorage.setItem('theme', 'dark');
+      } else {
+        htmlElem.classList.remove('dark');
+        themeIcon.className = 'fa-solid fa-moon text-slate-600 text-sm';
+        localStorage.setItem('theme', 'light');
+      }
+    }
+
+    // Initialize theme based on preference or system
+    const savedTheme = localStorage.getItem('theme');
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    applyTheme(savedTheme === 'dark' || (!savedTheme && systemPrefersDark));
+
+    themeToggleBtn.addEventListener('click', () => {
+      const isCurrentlyDark = htmlElem.classList.contains('dark');
+      applyTheme(!isCurrentlyDark);
+    });
+
+    // 2. MOBILE MENU TOGGLE
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileMenuIcon = document.getElementById('mobileMenuIcon');
+
+    mobileMenuBtn.addEventListener('click', () => {
+      const isClosed = mobileMenu.classList.contains('hidden');
+      if (isClosed) {
+        mobileMenu.classList.remove('hidden');
+        mobileMenuIcon.className = 'fa-solid fa-xmark';
+      } else {
+        closeMobileMenu();
+      }
+    });
+
+    function closeMobileMenu() {
+      mobileMenu.classList.add('hidden');
+      mobileMenuIcon.className = 'fa-solid fa-bars';
+    }
+
+    // ==========================================
+    // 3. DYNAMIC ASSIGNMENT MANAGEMENT SYSTEM
+    // ==========================================
+    const assignmentModal = document.getElementById('assignmentModal');
+    const dynamicAssignmentsContainer = document.getElementById('dynamicAssignmentsContainer');
+    const assignmentsEmptyNotice = document.getElementById('assignmentsEmptyNotice');
+    const asgFileInput = document.getElementById('asgFile');
+    const dropZone = document.getElementById('dropZone');
+    const dropZonePrompt = document.getElementById('dropZonePrompt');
+    const filePreviewBadge = document.getElementById('filePreviewBadge');
+    const fileNameDisplay = document.getElementById('fileNameDisplay');
+    const fileSizeDisplay = document.getElementById('fileSizeDisplay');
+    const fileTypeIcon = document.getElementById('fileTypeIcon');
+
+    let currentSelectedFile = null;
+    let currentFilterType = 'all';
+
+    // Open/Close Modal
+    function openNewAssignmentModal() {
+      assignmentModal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => {
+        const titleInput = document.getElementById('asgTitle');
+        if (titleInput) titleInput.focus();
+      }, 60);
+    }
+
+    function closeNewAssignmentModal() {
+      assignmentModal.classList.add('hidden');
+      document.body.style.overflow = '';
+      document.getElementById('newAssignmentForm').reset();
+      clearSelectedFile();
+    }
+
+    // Close on backdrop click
+    if (assignmentModal) {
+      assignmentModal.addEventListener('click', (e) => {
+        if (e.target === assignmentModal) {
+          closeNewAssignmentModal();
+        }
+      });
+    }
+
+    // Drag & Drop Handlers for File Upload
+    if (dropZone) {
+      ['dragenter', 'dragover'].forEach(eventName => {
+        dropZone.addEventListener(eventName, (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          dropZone.classList.add('border-petro-600', 'bg-petro-50/70', 'dark:bg-slate-800/80');
+        });
+      });
+
+      ['dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          dropZone.classList.remove('border-petro-600', 'bg-petro-50/70', 'dark:bg-slate-800/80');
+        });
+      });
+
+      dropZone.addEventListener('drop', (e) => {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        if (files && files.length > 0) {
+          handleFileObject(files[0]);
+        }
+      });
+    }
+
+    function handleFileSelected(e) {
+      if (e.target.files && e.target.files.length > 0) {
+        handleFileObject(e.target.files[0]);
+      }
+    }
+
+    function formatFileSize(bytes) {
+      if (!bytes || isNaN(bytes)) return '1.2 MB';
+      if (bytes < 1024) return bytes + ' B';
+      else if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+      else return (bytes / 1048576).toFixed(1) + ' MB';
+    }
+
+    function getFileInfo(fileName) {
+      const ext = (fileName || '').split('.').pop().toLowerCase();
+      if (ext === 'pdf') {
+        return { label: 'Đọc báo cáo (PDF)', iconClass: 'fa-solid fa-file-pdf', colorClass: 'bg-rose-50 text-rose-600 dark:bg-rose-950/50', btnBg: 'bg-petro-700 hover:bg-petro-800' };
+      } else if (['doc', 'docx'].includes(ext)) {
+        return { label: 'Tài liệu Word', iconClass: 'fa-solid fa-file-word', colorClass: 'bg-blue-50 text-blue-600 dark:bg-blue-950/50', btnBg: 'bg-blue-700 hover:bg-blue-800' };
+      } else if (['ppt', 'pptx'].includes(ext)) {
+        return { label: 'Bài thuyết trình (PPT)', iconClass: 'fa-solid fa-file-powerpoint', colorClass: 'bg-amber-50 text-amber-600 dark:bg-amber-950/50', btnBg: 'bg-amber-700 hover:bg-amber-800' };
+      } else if (['py', 'ipynb', 'js', 'html', 'm'].includes(ext)) {
+        return { label: 'Mã nguồn (Code)', iconClass: 'fa-brands fa-python', colorClass: 'bg-emerald-50 text-emerald-600 dark:bg-emerald-950/50', btnBg: 'bg-emerald-700 hover:bg-emerald-800' };
+      } else if (['zip', 'rar', '7z'].includes(ext)) {
+        return { label: 'Tải gói dữ liệu (ZIP)', iconClass: 'fa-solid fa-file-zipper', colorClass: 'bg-teal-50 text-teal-600 dark:bg-teal-950/50', btnBg: 'bg-slate-800 hover:bg-slate-900' };
+      } else {
+        return { label: 'Tải file đính kèm', iconClass: 'fa-solid fa-file', colorClass: 'bg-slate-100 text-slate-600 dark:bg-slate-800', btnBg: 'bg-slate-700 hover:bg-slate-800' };
+      }
+    }
+
+    function handleFileObject(file) {
+      currentSelectedFile = file;
+      fileNameDisplay.textContent = file.name;
+      fileSizeDisplay.textContent = formatFileSize(file.size);
+      
+      const info = getFileInfo(file.name);
+      fileTypeIcon.className = `w-9 h-9 rounded-lg flex items-center justify-center text-lg shrink-0 ${info.colorClass}`;
+      fileTypeIcon.innerHTML = `<i class="${info.iconClass}"></i>`;
+
+      dropZonePrompt.classList.add('hidden');
+      filePreviewBadge.classList.remove('hidden');
+      filePreviewBadge.classList.add('flex');
+    }
+
+    function clearSelectedFile(e) {
+      if (e) {
+        e.stopPropagation();
+        e.preventDefault();
+      }
+      currentSelectedFile = null;
+      if (asgFileInput) asgFileInput.value = '';
+      if (dropZonePrompt) dropZonePrompt.classList.remove('hidden');
+      if (filePreviewBadge) {
+        filePreviewBadge.classList.add('hidden');
+        filePreviewBadge.classList.remove('flex');
+      }
+    }
+
+    // Local Storage Data Management
+    const STORAGE_KEY = 'pvu_user_assignments_v3';
+
+    function getStoredAssignments() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) return JSON.parse(raw);
+      } catch (e) {
+        console.error('Error reading localStorage', e);
+      }
+      return [];
+    }
+
+    function saveAssignments(assignments) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(assignments));
+      } catch (e) {
+        console.error('Error writing to localStorage', e);
+      }
+    }
+
+    // Real-time timestamp generation helper (DD/MM/YYYY - HH:mm)
+    function generateRealtimeTimestamp() {
+      const now = new Date();
+      const pad = (n) => String(n).padStart(2, '0');
+      const day = pad(now.getDate());
+      const month = pad(now.getMonth() + 1);
+      const year = now.getFullYear();
+      const hours = pad(now.getHours());
+      const minutes = pad(now.getMinutes());
+      return `Đã nộp: ${day}/${month}/${year} - ${hours}:${minutes}`;
+    }
+
+    // Handle Create New Assignment Form Submission
+    async function handleCreateAssignment(e) {
+      e.preventDefault();
+      
+      const title = document.getElementById('asgTitle').value.trim();
+      const course = document.getElementById('asgCourse').value.trim();
+      const type = document.querySelector('input[name="asgType"]:checked')?.value || 'individual';
+      const desc = document.getElementById('asgDesc').value.trim();
+
+      if (!title || !course) {
+        alert('Vui lòng điền đầy đủ tên bài tập và mã học phần.');
+        return;
+      }
+
+      if (!currentSelectedFile) {
+        alert('Vui lòng đính kèm ít nhất 01 tệp báo cáo hoặc mã nguồn.');
+        return;
+      }
+
+      // Read file as Data URL (if <= 5MB) or Object URL
+      let fileDataUrl = '';
+      try {
+        if (currentSelectedFile.size <= 5 * 1024 * 1024) {
+          fileDataUrl = await readFileAsDataURL(currentSelectedFile);
+        } else {
+          fileDataUrl = URL.createObjectURL(currentSelectedFile);
+        }
+      } catch (err) {
+        fileDataUrl = URL.createObjectURL(currentSelectedFile);
+      }
+
+      const timestamp = generateRealtimeTimestamp();
+
+      const newAssignment = {
+        id: 'asg_' + Date.now(),
+        title,
+        course,
+        type,
+        desc,
+        fileName: currentSelectedFile.name,
+        fileSize: formatFileSize(currentSelectedFile.size),
+        fileDataUrl,
+        timestamp,
+        createdAt: Date.now()
+      };
+
+      const assignments = getStoredAssignments();
+      assignments.unshift(newAssignment);
+      saveAssignments(assignments);
+
+      closeNewAssignmentModal();
+      renderAssignments(currentFilterType);
+    }
+
+    function readFileAsDataURL(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    // Delete an Assignment
+    function deleteAssignment(id) {
+      if (!confirm('Bạn có chắc chắn muốn xóa bài tập này khỏi danh sách?')) return;
+      let assignments = getStoredAssignments();
+      assignments = assignments.filter(a => a.id !== id);
+      saveAssignments(assignments);
+      renderAssignments(currentFilterType);
+    }
+
+    // Render Assignments to Grid
+    function renderAssignments(filter = 'all') {
+      currentFilterType = filter;
+      const assignments = getStoredAssignments();
+
+      // Update counters in filter bar
+      const countAll = assignments.length;
+      const countInd = assignments.filter(a => a.type === 'individual').length;
+      const countTeam = assignments.filter(a => a.type === 'teamwork').length;
+
+      const elCountAll = document.getElementById('count-all');
+      const elCountInd = document.getElementById('count-individual');
+      const elCountTeam = document.getElementById('count-teamwork');
+
+      if (elCountAll) elCountAll.textContent = countAll;
+      if (elCountInd) elCountInd.textContent = countInd;
+      if (elCountTeam) elCountTeam.textContent = countTeam;
+
+      // Filter matching assignments
+      const filtered = assignments.filter(a => {
+        if (filter === 'all') return true;
+        return a.type === filter;
+      });
+
+      if (!dynamicAssignmentsContainer) return;
+      dynamicAssignmentsContainer.innerHTML = '';
+
+      if (filtered.length === 0) {
+        if (assignmentsEmptyNotice) assignmentsEmptyNotice.classList.remove('hidden');
+      } else {
+        if (assignmentsEmptyNotice) assignmentsEmptyNotice.classList.add('hidden');
+      }
+
+      filtered.forEach(item => {
+        const info = getFileInfo(item.fileName);
+        const isIndividual = item.type === 'individual';
+        const typeBadge = isIndividual 
+          ? `<span class="inline-flex items-center gap-1 text-[11px] font-mono px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 font-semibold border border-emerald-200/50 dark:border-emerald-800/40"><i class="fa-solid fa-user text-[9px]"></i> Cá nhân</span>`
+          : `<span class="inline-flex items-center gap-1 text-[11px] font-mono px-2 py-0.5 rounded-md bg-petro-50 dark:bg-petro-950/60 text-petro-700 dark:text-amber-400 font-semibold border border-petro-200/50 dark:border-amber-800/40"><i class="fa-solid fa-users text-[9px]"></i> Nhóm</span>`;
+
+        const isPdf = item.fileName.toLowerCase().endsWith('.pdf');
+        const viewAction = isPdf
+          ? `<a href="${item.fileDataUrl || '#'}" target="_blank" rel="noopener noreferrer" class="flex-1 py-2 px-3 rounded-lg ${info.btnBg} text-white text-xs font-semibold flex items-center justify-center gap-2 transition-all hover:shadow-sm">
+               <i class="${info.iconClass}"></i> <span>${info.label}</span>
+             </a>`
+          : `<a href="${item.fileDataUrl || '#'}" download="${escapeHtml(item.fileName)}" class="flex-1 py-2 px-3 rounded-lg ${info.btnBg} text-white text-xs font-semibold flex items-center justify-center gap-2 transition-all hover:shadow-sm">
+               <i class="${info.iconClass}"></i> <span>${info.label}</span>
+             </a>`;
+
+        const card = document.createElement('article');
+        card.className = `assignment-card ${item.type} rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 sm:p-6 flex flex-col justify-between hover:border-petro-500/50 dark:hover:border-amber-500/40 hover:shadow-md transition-all duration-200 group`;
+        card.innerHTML = `
+          <div class="space-y-3.5">
+            <!-- Header: Course Code, Type Badge & Realtime Timestamp -->
+            <div class="space-y-1.5 pb-3 border-b border-slate-100 dark:border-slate-800">
+              <div class="flex items-center justify-between gap-2">
+                <span class="font-mono text-xs font-semibold text-petro-700 dark:text-amber-400 truncate">
+                  ${escapeHtml(item.course)}
+                </span>
+                ${typeBadge}
+              </div>
+              <!-- Realtime timestamp -->
+              <div class="flex items-center gap-1.5 text-[11px] font-mono text-slate-500 dark:text-slate-400">
+                <i class="fa-regular fa-clock text-[10px] text-slate-400"></i>
+                <span class="font-medium">${escapeHtml(item.timestamp)}</span>
+              </div>
+            </div>
+
+            <!-- Title -->
+            <h3 class="font-bold text-base text-slate-900 dark:text-white leading-snug group-hover:text-petro-600 dark:group-hover:text-amber-400 transition-colors">
+              ${escapeHtml(item.title)}
+            </h3>
+
+            <!-- Description / Method if provided -->
+            ${item.desc ? `
+              <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed line-clamp-3">
+                ${escapeHtml(item.desc)}
+              </p>
+            ` : ''}
+
+            <!-- File Info Pill -->
+            <div class="flex items-center gap-2 text-[11px] font-mono p-2 rounded-lg bg-slate-50 dark:bg-slate-950/60 border border-slate-100 dark:border-slate-800 text-slate-600 dark:text-slate-400">
+              <i class="${info.iconClass} ${info.colorClass.split(' ')[1]}"></i>
+              <span class="truncate flex-1 font-medium text-slate-800 dark:text-slate-200">${escapeHtml(item.fileName)}</span>
+              <span class="text-[10px] text-slate-400 shrink-0">(${escapeHtml(item.fileSize)})</span>
+            </div>
+          </div>
+
+          <!-- Bottom Actions -->
+          <div class="pt-4 mt-4 border-t border-slate-100 dark:border-slate-800 flex items-center gap-2">
+            ${viewAction}
+            <button 
+              type="button" 
+              onclick="deleteAssignment('${item.id}')" 
+              title="Xóa bài tập này" 
+              class="w-8 h-8 rounded-lg border border-slate-200 dark:border-slate-800 hover:border-rose-300 dark:hover:border-rose-900 text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 flex items-center justify-center transition-colors shrink-0"
+            >
+              <i class="fa-solid fa-trash-can text-xs"></i>
+            </button>
+          </div>
+        `;
+        dynamicAssignmentsContainer.appendChild(card);
+      });
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // Filter Buttons logic
+    function filterAssignments(type) {
+      const allBtn = document.getElementById('filter-all');
+      const indBtn = document.getElementById('filter-individual');
+      const teamBtn = document.getElementById('filter-teamwork');
+
+      const activeClass = 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm font-semibold';
+      const inactiveClass = 'text-slate-600 dark:text-slate-400 font-medium';
+
+      [allBtn, indBtn, teamBtn].forEach(b => {
+        if (b) b.className = b.className.replace(activeClass, '').trim() + ' ' + inactiveClass;
+      });
+
+      if (type === 'all' && allBtn) {
+        allBtn.className = allBtn.className.replace(inactiveClass, '').trim() + ' ' + activeClass;
+      } else if (type === 'individual' && indBtn) {
+        indBtn.className = indBtn.className.replace(inactiveClass, '').trim() + ' ' + activeClass;
+      } else if (type === 'teamwork' && teamBtn) {
+        teamBtn.className = teamBtn.className.replace(inactiveClass, '').trim() + ' ' + activeClass;
+      }
+
+      renderAssignments(type);
+    }
+
+    // Initial render of dynamic assignments on page load
+    renderAssignments('all');
+
+    // 4. DOCUMENT & CV PREVIEW MODALS
+    const docModal = document.getElementById('docModal');
+    const cvModal = document.getElementById('cvModal');
+
+    function openDocPreview(code, title, summary) {
+      document.getElementById('docModalCode').textContent = code;
+      document.getElementById('docModalTitle').textContent = title;
+      document.getElementById('docModalSummary').textContent = summary + ' - Nghiên cứu hoàn thành bởi Mai Hồ Phú Ngộ (Đại học Dầu khí Việt Nam). File đính kèm bao gồm toàn bộ thuyết minh, biểu đồ và phụ lục dữ liệu thực tế.';
+      docModal.classList.remove('hidden');
+    }
+
+    function closeDocPreview() {
+      docModal.classList.add('hidden');
+    }
+
+    function openCvModal() {
+      cvModal.classList.remove('hidden');
+    }
+
+    function closeCvModal() {
+      cvModal.classList.add('hidden');
+    }
+
+    // Close modals on clicking backdrop
+    [docModal, cvModal].forEach(modal => {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.classList.add('hidden');
+      });
+    });
+
+    // 5. CONTACT FORM HANDLER
+    async function handleContactSubmit(e) {
+      e.preventDefault();
+      const form = e.target;
+      const feedback = document.getElementById('formFeedback');
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang gửi...';
+
+      const actionUrl = form.getAttribute('action');
+
+      // If user has replaced "URL_CUA_BAN" with their real Formspree endpoint
+      if (actionUrl && actionUrl.startsWith('http')) {
+        try {
+          const response = await fetch(actionUrl, {
+            method: 'POST',
+            body: new FormData(form),
+            headers: { 'Accept': 'application/json' }
+          });
+          if (response.ok) {
+            feedback.innerHTML = '<i class="fa-solid fa-circle-check"></i> Đã gửi tin nhắn thành công về email!';
+            feedback.className = 'text-xs text-emerald-600 dark:text-emerald-400 font-medium';
+            form.reset();
+          } else {
+            const data = await response.json().catch(() => ({}));
+            const errMsg = data.errors ? data.errors.map(err => err.message).join(', ') : 'Gửi tin nhắn không thành công!';
+            feedback.innerHTML = `<i class="fa-solid fa-circle-exclamation text-amber-500"></i> ${errMsg}`;
+            feedback.className = 'text-xs text-amber-600 dark:text-amber-400 font-medium';
+          }
+        } catch (err) {
+          feedback.innerHTML = '<i class="fa-solid fa-circle-exclamation text-rose-500"></i> Lỗi kết nối mạng, vui lòng thử lại sau!';
+          feedback.className = 'text-xs text-rose-600 dark:text-rose-400 font-medium';
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Gửi tin nhắn';
+          setTimeout(() => feedback.classList.add('hidden'), 6000);
+        }
+      } else {
+        // Fallback simulation when action="URL_CUA_BAN"
+        setTimeout(() => {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Gửi tin nhắn';
+          feedback.innerHTML = '<i class="fa-solid fa-circle-check"></i> Form đã chuẩn bị sẵn! (Chỉ cần thay "URL_CUA_BAN" bằng link Formspree để nhận thư thật)';
+          feedback.className = 'text-xs text-emerald-600 dark:text-emerald-400 font-medium';
+          form.reset();
+          setTimeout(() => feedback.classList.add('hidden'), 5000);
+        }, 600);
+      }
+    }
+
+    // 6. RESEARCH & THESES DETAIL PREVIEW
+    function openResearchDetailModal(id) {
+      const titles = {
+        1: "Đồ án 1: Đánh giá thông số chứa của tầng Mioxen giữa mỏ X, bể Nam Côn Sơn theo tài liệu địa vật lý giếng khoan",
+        2: "Đồ án 2: Xử lý và minh giải tài liệu địa chấn nông phục vụ hệ thống giàn khoan",
+        3: "NCKH cấp trường: Đánh giá nguy cơ trượt đất nhằm đề xuất giải pháp giảm thiểu thiệt hại do trượt đất tại khu vực cầu Cạn Sa Pa, Lào Cai",
+        4: "NCKH hợp tác với Vietsovpetro: Tiềm năng địa chất và định hướng phát triển bền vững năng lượng địa nhiệt ở Việt Nam trong bối cảnh biến đổi khí hậu"
+      };
+      const codes = {
+        1: "ĐỒ ÁN 1",
+        2: "ĐỒ ÁN 2",
+        3: "NCKH TRƯỜNG",
+        4: "NCKH DOANH NGHIỆP"
+      };
+      openDocPreview(codes[id] || `ĐỀ TÀI-${id}`, titles[id] || "Đề tài / Đồ án", "Báo cáo chi tiết công trình nghiên cứu và đồ án khoa học kỹ thuật");
+    }
+
+    // 7. GEMINI GEO-AI ASSISTANT LOGIC
+    let isThinkingEnabled = true;
+    const chatModal = document.getElementById('chatModal');
+    const chatThread = document.getElementById('chatThread');
+    const chatInput = document.getElementById('chatInput');
+    const thinkingLabel = document.getElementById('thinkingLabel');
+
+    // Conversation history state
+    const chatHistory = [];
+
+    function toggleChatModal(show) {
+      if (typeof show === 'boolean') {
+        if (show) chatModal.classList.remove('hidden');
+        else chatModal.classList.add('hidden');
+      } else {
+        chatModal.classList.toggle('hidden');
+      }
+      if (!chatModal.classList.contains('hidden')) {
+        chatInput.focus();
+      }
+    }
+
+    function toggleThinkingMode() {
+      isThinkingEnabled = !isThinkingEnabled;
+      thinkingLabel.textContent = `Thinking: ${isThinkingEnabled ? 'Bật' : 'Tắt'}`;
+    }
+
+    function sendQuickPrompt(promptText) {
+      chatInput.value = promptText;
+      handleChatSubmit(new Event('submit'));
+    }
+
+    async function handleChatSubmit(e) {
+      e.preventDefault();
+      const userText = chatInput.value.trim();
+      if (!userText) return;
+
+      chatInput.value = '';
+      appendMessage('user', userText);
+
+      // Add to conversation history
+      chatHistory.push({ role: 'user', content: userText });
+
+      // Create AI loading message placeholder
+      const loadingId = 'loading-' + Date.now();
+      appendLoadingIndicator(loadingId);
+
+      try {
+        // Call backend /api/chat with full multi-turn history and thinking mode
+        const res = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            messages: chatHistory,
+            enableThinking: isThinkingEnabled
+          })
+        });
+
+        const data = await res.json();
+        removeLoadingIndicator(loadingId);
+
+        if (res.ok && data.reply) {
+          appendMessage('model', data.reply, isThinkingEnabled);
+          chatHistory.push({ role: 'model', content: data.reply });
+        } else {
+          // Fallback to domain-intelligent local knowledge response if offline or server API unavailable
+          const fallbackReply = generateGeologicalKnowledgeFallback(userText);
+          appendMessage('model', fallbackReply, isThinkingEnabled);
+          chatHistory.push({ role: 'model', content: fallbackReply });
+        }
+      } catch (err) {
+        console.warn('API route unreachable, using smart client-side knowledge engine:', err);
+        removeLoadingIndicator(loadingId);
+        const fallbackReply = generateGeologicalKnowledgeFallback(userText);
+        appendMessage('model', fallbackReply, isThinkingEnabled);
+        chatHistory.push({ role: 'model', content: fallbackReply });
+      }
+    }
+
+    function appendMessage(role, text, withThinking) {
+      const isUser = role === 'user';
+      const msgDiv = document.createElement('div');
+      msgDiv.className = `flex items-start gap-2.5 ${isUser ? 'flex-row-reverse' : ''}`;
+
+      const avatar = isUser 
+        ? `<div class="w-7 h-7 rounded-full bg-slate-800 text-white flex items-center justify-center shrink-0 mt-0.5 text-xs"><i class="fa-solid fa-user"></i></div>`
+        : `<div class="w-7 h-7 rounded-full bg-petro-700 text-white flex items-center justify-center shrink-0 mt-0.5 text-xs"><i class="fa-solid fa-robot"></i></div>`;
+
+      const thinkingBadge = (!isUser && withThinking) 
+        ? `<div class="mb-1.5 flex items-center gap-1.5 text-[10px] font-mono text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/40 px-2 py-0.5 rounded border border-amber-200/50 dark:border-amber-800/40">
+             <i class="fa-solid fa-brain text-[9px]"></i> Suy luận sâu (Gemini 3.8 Flash High Thinking)
+           </div>` 
+        : '';
+
+      msgDiv.innerHTML = `
+        ${avatar}
+        <div class="rounded-xl ${isUser ? 'rounded-tr-none bg-petro-700 text-white' : 'rounded-tl-none bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200'} p-3 max-w-[85%] text-xs leading-relaxed space-y-1">
+          ${thinkingBadge}
+          <div>${formatMessageContent(text)}</div>
+        </div>
+      `;
+
+      chatThread.appendChild(msgDiv);
+      chatThread.scrollTop = chatThread.scrollHeight;
+    }
+
+    function appendLoadingIndicator(id) {
+      const loaderDiv = document.createElement('div');
+      loaderDiv.id = id;
+      loaderDiv.className = 'flex items-start gap-2.5';
+      loaderDiv.innerHTML = `
+        <div class="w-7 h-7 rounded-full bg-petro-700 text-white flex items-center justify-center shrink-0 mt-0.5 text-xs">
+          <i class="fa-solid fa-robot"></i>
+        </div>
+        <div class="rounded-xl rounded-tl-none bg-slate-100 dark:bg-slate-800 p-3 text-xs text-slate-500 dark:text-slate-400 flex items-center gap-2">
+          <i class="fa-solid fa-circle-notch fa-spin text-petro-600"></i>
+          <span>GeoAI đang suy luận & tìm tài liệu địa chất...</span>
+        </div>
+      `;
+      chatThread.appendChild(loaderDiv);
+      chatThread.scrollTop = chatThread.scrollHeight;
+    }
+
+    function removeLoadingIndicator(id) {
+      const el = document.getElementById(id);
+      if (el) el.remove();
+    }
+
+    function formatMessageContent(raw) {
+      // Basic safe markdown line breaks & bold formatting
+      return raw
+        .replace(/\n\n/g, '<br/><br/>')
+        .replace(/\n/g, '<br/>')
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    }
+
+    // Local Domain Knowledge Engine for Geological Engineering & Portfolio Inquiries (Fallback)
+    function generateGeologicalKnowledgeFallback(query) {
+      const q = query.toLowerCase();
+      if (q.includes('phú ngộ') || q.includes('giới thiệu') || q.includes('là ai')) {
+        return "Mai Hồ Phú Ngộ là sinh viên ngành Kỹ thuật Địa chất (MSSV: 12GEO110004) khóa 2023 - 2027 tại Trường Đại học Dầu khí Việt Nam (PVU), quê quán tại Vĩnh Long. Phú Ngộ theo đuổi định hướng minh giải địa chất dầu khí, phân tích địa chấn 2D/3D, carota giếng khoan và ứng dụng Machine Learning dự báo vỉa.";
+      }
+      if (q.includes('đồ án') || q.includes('nghiên cứu') || q.includes('nckh') || q.includes('sa pa') || q.includes('địa nhiệt')) {
+        return "Mai Hồ Phú Ngộ đã thực hiện các đồ án và đề tài nghiên cứu nổi bật tại PVU:\n1. Đồ án 1: Đánh giá thông số chứa của tầng Mioxen giữa mỏ X, bể Nam Côn Sơn theo tài liệu địa vật lý giếng khoan.\n2. Đồ án 2: Xử lý và minh giải tài liệu địa chấn nông phục vụ hệ thống giàn khoan.\n3. NCKH cấp trường: Đánh giá nguy cơ trượt đất nhằm đề xuất giải pháp giảm thiểu thiệt hại do trượt đất tại khu vực cầu Cạn Sa Pa, Lào Cai.\n4. NCKH hợp tác với Vietsovpetro: Tiềm năng địa chất và định hướng phát triển bền vững năng lượng địa nhiệt ở Việt Nam trong bối cảnh biến đổi khí hậu.";
+      }
+      if (q.includes('bài tập') || q.includes('assignment') || q.includes('môn học')) {
+        return "Phú Ngộ đã hoàn thành xuất sắc các bài tập lớn chuyên ngành tại PVU như:\n- GEO201: Đánh giá tướng trầm tích bồn trũng Cửu Long (PDF/Word)\n- GEO305: Minh giải địa chấn 2D mỏ Bạch Hổ (PPT/PDF)\n- GEO312: Phân tích Carota giếng 15-1 bằng Python Notebook\n- GEO402: Xây dựng bản đồ cấu trúc nóc vỉa bằng QGIS.";
+      }
+      return "Cảm ơn câu hỏi học thuật của bạn! Về lĩnh vực Địa chất Dầu khí và khoa học Trái Đất, Mai Hồ Phú Ngộ luôn sẵn sàng trao đổi sâu hơn về phương pháp minh giải cấu trúc, xử lý log giếng khoan và mô hình hóa vỉa chứa. Bạn có thể liên hệ trực tiếp qua email: ngomhp12@pvu.edu.vn!";
+    }
+  </script>
+</body>
+</html>
