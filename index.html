@@ -1379,25 +1379,127 @@
       }
     }
 
-    // Local Storage Data Management
-    const STORAGE_KEY = 'pvu_user_assignments_v3';
+    // ========================================================
+    // IndexedDB & Unlimited Storage Engine for Assignments
+    // (Bỏ hoàn toàn giới hạn 5MB của localStorage, cho phép đăng vô số bài tập lớn)
+    // ========================================================
+    const IDB_NAME = 'PVU_Portfolio_Assignments_DB';
+    const IDB_VERSION = 1;
+    const IDB_STORE = 'assignments';
+    const STORAGE_KEY_META = 'pvu_user_assignments_meta_v4';
+    const LEGACY_STORAGE_KEY = 'pvu_user_assignments_v3';
 
-    function getStoredAssignments() {
-      try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if (raw) return JSON.parse(raw);
-      } catch (e) {
-        console.error('Error reading localStorage', e);
-      }
-      return [];
+    let globalAssignments = [];
+
+    function openAssignmentsDB() {
+      return new Promise((resolve) => {
+        if (!window.indexedDB) {
+          resolve(null);
+          return;
+        }
+        try {
+          const request = indexedDB.open(IDB_NAME, IDB_VERSION);
+          request.onupgradeneeded = (e) => {
+            const db = e.target.result;
+            if (!db.objectStoreNames.contains(IDB_STORE)) {
+              db.createObjectStore(IDB_STORE, { keyPath: 'id' });
+            }
+          };
+          request.onsuccess = (e) => resolve(e.target.result);
+          request.onerror = (e) => {
+            console.warn('IndexedDB open error:', e);
+            resolve(null);
+          };
+        } catch (e) {
+          console.warn('IndexedDB exception:', e);
+          resolve(null);
+        }
+      });
     }
 
-    function saveAssignments(assignments) {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(assignments));
-      } catch (e) {
-        console.error('Error writing to localStorage', e);
+    async function idbSaveAssignment(assignment) {
+      const db = await openAssignmentsDB();
+      if (!db) return;
+      return new Promise((resolve, reject) => {
+        try {
+          const tx = db.transaction(IDB_STORE, 'readwrite');
+          const store = tx.objectStore(IDB_STORE);
+          const req = store.put(assignment);
+          req.onsuccess = () => resolve();
+          req.onerror = () => reject(req.error);
+        } catch (e) {
+          reject(e);
+        }
+      });
+    }
+
+    async function idbDeleteAssignment(id) {
+      const db = await openAssignmentsDB();
+      if (!db) return;
+      return new Promise((resolve, reject) => {
+        try {
+          const tx = db.transaction(IDB_STORE, 'readwrite');
+          const store = tx.objectStore(IDB_STORE);
+          const req = store.delete(id);
+          req.onsuccess = () => resolve();
+          req.onerror = () => reject(req.error);
+        } catch (e) {
+          reject(e);
+        }
+      });
+    }
+
+    async function idbGetAllAssignments() {
+      const db = await openAssignmentsDB();
+      if (!db) return null;
+      return new Promise((resolve) => {
+        try {
+          const tx = db.transaction(IDB_STORE, 'readonly');
+          const store = tx.objectStore(IDB_STORE);
+          const req = store.getAll();
+          req.onsuccess = () => resolve(req.result || []);
+          req.onerror = () => resolve(null);
+        } catch (e) {
+          resolve(null);
+        }
+      });
+    }
+
+    async function initAssignmentsStorage() {
+      // 1. Try loading from IndexedDB first (Stores full files without 5MB limit)
+      let items = await idbGetAllAssignments();
+
+      // 2. If IndexedDB had nothing, migrate from legacy localStorage (Bài 1 của bạn)
+      if (!items || items.length === 0) {
+        try {
+          const legacyRaw = localStorage.getItem(LEGACY_STORAGE_KEY);
+          if (legacyRaw) {
+            const legacyItems = JSON.parse(legacyRaw);
+            if (Array.isArray(legacyItems) && legacyItems.length > 0) {
+              items = legacyItems;
+              // Migrate items to IndexedDB
+              for (const itm of legacyItems) {
+                await idbSaveAssignment(itm);
+              }
+            }
+          }
+        } catch (err) {
+          console.warn('Error reading legacy storage:', err);
+        }
       }
+
+      // 3. Fallback to metadata storage if still empty
+      if (!items || items.length === 0) {
+        try {
+          const metaRaw = localStorage.getItem(STORAGE_KEY_META);
+          if (metaRaw) {
+            items = JSON.parse(metaRaw);
+          }
+        } catch (e) {}
+      }
+
+      globalAssignments = Array.isArray(items) ? items : [];
+      renderAssignments(currentFilterType);
     }
 
     // Real-time timestamp generation helper (DD/MM/YYYY - HH:mm)
@@ -1420,6 +1522,7 @@
       const course = document.getElementById('asgCourse').value.trim();
       const type = document.querySelector('input[name="asgType"]:checked')?.value || 'individual';
       const desc = document.getElementById('asgDesc').value.trim();
+      const submitBtn = e.target.querySelector('button[type="submit"]');
 
       if (!title || !course) {
         alert('Vui lòng điền đầy đủ tên bài tập và mã học phần.');
@@ -1431,63 +1534,113 @@
         return;
       }
 
-      // Read file as Data URL (if <= 5MB) or Object URL
-      let fileDataUrl = '';
-      try {
-        if (currentSelectedFile.size <= 5 * 1024 * 1024) {
-          fileDataUrl = await readFileAsDataURL(currentSelectedFile);
-        } else {
-          fileDataUrl = URL.createObjectURL(currentSelectedFile);
-        }
-      } catch (err) {
-        fileDataUrl = URL.createObjectURL(currentSelectedFile);
+      const originalBtnHtml = submitBtn ? submitBtn.innerHTML : '';
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang lưu bài nộp...';
       }
 
-      const timestamp = generateRealtimeTimestamp();
+      try {
+        const fileBlob = currentSelectedFile;
+        const timestamp = generateRealtimeTimestamp();
+        const sessionUrl = URL.createObjectURL(fileBlob);
 
-      const newAssignment = {
-        id: 'asg_' + Date.now(),
-        title,
-        course,
-        type,
-        desc,
-        fileName: currentSelectedFile.name,
-        fileSize: formatFileSize(currentSelectedFile.size),
-        fileDataUrl,
-        timestamp,
-        createdAt: Date.now()
-      };
+        const newAssignment = {
+          id: 'asg_' + Date.now(),
+          title,
+          course,
+          type,
+          desc,
+          fileName: currentSelectedFile.name,
+          fileSize: formatFileSize(currentSelectedFile.size),
+          fileBlob, // Stored natively in IndexedDB without 5MB quota limit!
+          fileDataUrl: sessionUrl,
+          timestamp,
+          createdAt: Date.now()
+        };
 
-      const assignments = getStoredAssignments();
-      assignments.unshift(newAssignment);
-      saveAssignments(assignments);
+        // Save to IndexedDB (unlimited storage)
+        await idbSaveAssignment(newAssignment);
 
-      closeNewAssignmentModal();
-      renderAssignments(currentFilterType);
-    }
+        // Add to active memory
+        globalAssignments.unshift(newAssignment);
 
-    function readFileAsDataURL(file) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
-      });
+        // Save lightweight metadata only in localStorage (safely under 5KB)
+        try {
+          const metaList = globalAssignments.map(({ fileBlob, fileDataUrl, ...meta }) => meta);
+          localStorage.setItem(STORAGE_KEY_META, JSON.stringify(metaList));
+        } catch (e) {
+          console.warn('Quota safe note on meta list save:', e);
+        }
+
+        closeNewAssignmentModal();
+        renderAssignments(currentFilterType);
+      } catch (err) {
+        console.error('Lỗi khi lưu bài tập:', err);
+        alert('Có lỗi khi lưu bài tập: ' + (err.message || 'Vui lòng thử lại.'));
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalBtnHtml;
+        }
+      }
     }
 
     // Delete an Assignment
-    function deleteAssignment(id) {
+    async function deleteAssignment(id) {
       if (!confirm('Bạn có chắc chắn muốn xóa bài tập này khỏi danh sách?')) return;
-      let assignments = getStoredAssignments();
-      assignments = assignments.filter(a => a.id !== id);
-      saveAssignments(assignments);
+      globalAssignments = globalAssignments.filter(a => a.id !== id);
+      await idbDeleteAssignment(id);
+      try {
+        const metaList = globalAssignments.map(({ fileBlob, fileDataUrl, ...meta }) => meta);
+        localStorage.setItem(STORAGE_KEY_META, JSON.stringify(metaList));
+      } catch (e) {}
       renderAssignments(currentFilterType);
+    }
+
+    // View or Download File from IndexedDB Blob
+    function openOrDownloadAssignmentFile(id) {
+      const item = globalAssignments.find(a => a.id === id);
+      if (!item) return;
+
+      let fileUrl = '';
+      if (item.fileBlob) {
+        fileUrl = URL.createObjectURL(item.fileBlob);
+      } else if (item.fileDataUrl) {
+        fileUrl = item.fileDataUrl;
+      }
+
+      if (!fileUrl) {
+        alert('Không tìm thấy tệp đính kèm.');
+        return;
+      }
+
+      const isPdf = item.fileName && item.fileName.toLowerCase().endsWith('.pdf');
+      if (isPdf) {
+        const newWin = window.open(fileUrl, '_blank');
+        if (!newWin) {
+          const a = document.createElement('a');
+          a.href = fileUrl;
+          a.download = item.fileName;
+          a.target = '_blank';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        }
+      } else {
+        const a = document.createElement('a');
+        a.href = fileUrl;
+        a.download = item.fileName || 'tai-lieu';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }
     }
 
     // Render Assignments to Grid
     function renderAssignments(filter = 'all') {
       currentFilterType = filter;
-      const assignments = getStoredAssignments();
+      const assignments = globalAssignments;
 
       // Update counters in filter bar
       const countAll = assignments.length;
@@ -1524,14 +1677,15 @@
           ? `<span class="inline-flex items-center gap-1 text-[11px] font-mono px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 font-semibold border border-emerald-200/50 dark:border-emerald-800/40"><i class="fa-solid fa-user text-[9px]"></i> Cá nhân</span>`
           : `<span class="inline-flex items-center gap-1 text-[11px] font-mono px-2 py-0.5 rounded-md bg-petro-50 dark:bg-petro-950/60 text-petro-700 dark:text-amber-400 font-semibold border border-petro-200/50 dark:border-amber-800/40"><i class="fa-solid fa-users text-[9px]"></i> Nhóm</span>`;
 
-        const isPdf = item.fileName.toLowerCase().endsWith('.pdf');
-        const viewAction = isPdf
-          ? `<a href="${item.fileDataUrl || '#'}" target="_blank" rel="noopener noreferrer" class="flex-1 py-2 px-3 rounded-lg ${info.btnBg} text-white text-xs font-semibold flex items-center justify-center gap-2 transition-all hover:shadow-sm">
-               <i class="${info.iconClass}"></i> <span>${info.label}</span>
-             </a>`
-          : `<a href="${item.fileDataUrl || '#'}" download="${escapeHtml(item.fileName)}" class="flex-1 py-2 px-3 rounded-lg ${info.btnBg} text-white text-xs font-semibold flex items-center justify-center gap-2 transition-all hover:shadow-sm">
-               <i class="${info.iconClass}"></i> <span>${info.label}</span>
-             </a>`;
+        const viewAction = `
+          <button 
+            type="button" 
+            onclick="openOrDownloadAssignmentFile('${item.id}')" 
+            class="flex-1 py-2 px-3 rounded-lg ${info.btnBg} text-white text-xs font-semibold flex items-center justify-center gap-2 transition-all hover:shadow-sm cursor-pointer"
+          >
+            <i class="${info.iconClass}"></i> <span>${info.label}</span>
+          </button>
+        `;
 
         const card = document.createElement('article');
         card.className = `assignment-card ${item.type} rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 sm:p-6 flex flex-col justify-between hover:border-petro-500/50 dark:hover:border-amber-500/40 hover:shadow-md transition-all duration-200 group`;
@@ -1623,8 +1777,8 @@
       renderAssignments(type);
     }
 
-    // Initial render of dynamic assignments on page load
-    renderAssignments('all');
+    // Initial load of dynamic assignments with IndexedDB unlimited storage
+    initAssignmentsStorage();
 
     // 4. DOCUMENT & CV PREVIEW MODALS
     const docModal = document.getElementById('docModal');
