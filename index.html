@@ -1019,57 +1019,62 @@
           ></textarea>
         </div>
 
-        <!-- 4. Khu vực tải lên tệp (File Upload: Drag & Drop hoặc Chọn file) -->
-        <div class="space-y-1.5">
-          <label class="block text-xs font-semibold text-slate-800 dark:text-slate-200 uppercase tracking-wider font-mono">
-            Khu vực tải lên tệp (File Upload) <span class="text-rose-500">*</span>
-          </label>
+        <!-- 4. Khu vực tải lên nhiều tệp (Multiple File Upload) -->
+        <div class="space-y-2">
+          <div class="flex items-center justify-between">
+            <label class="block text-xs font-semibold text-slate-800 dark:text-slate-200 uppercase tracking-wider font-mono">
+              Khu vực tải lên tệp (File Upload) <span class="text-rose-500">*</span>
+            </label>
+            <span id="selectedFilesSummary" class="text-[11px] font-mono text-petro-600 dark:text-amber-400 font-semibold hidden">
+              Đã chọn: <span id="selectedFilesCount">0</span> tệp
+            </span>
+          </div>
           
           <div 
             id="dropZone" 
             onclick="document.getElementById('asgFile').click()" 
-            class="border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-petro-500 dark:hover:border-amber-400 rounded-xl p-5 text-center cursor-pointer transition-colors bg-slate-50/60 dark:bg-slate-950/40 group"
+            class="border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-petro-500 dark:hover:border-amber-400 rounded-xl p-4 sm:p-5 text-center cursor-pointer transition-colors bg-slate-50/60 dark:bg-slate-950/40 group"
           >
             <input 
               type="file" 
               id="asgFile" 
               onchange="handleFileSelected(event)" 
-              accept=".pdf,.doc,.docx,.ppt,.pptx,.py,.ipynb,.zip,.rar" 
+              accept=".pdf,.doc,.docx,.ppt,.pptx,.py,.ipynb,.zip,.rar,.xlsx,.csv,.txt" 
+              multiple 
               class="hidden" 
             />
             
             <!-- Default Prompt -->
-            <div id="dropZonePrompt" class="space-y-2">
+            <div id="dropZonePrompt" class="space-y-1.5">
               <div class="w-10 h-10 mx-auto rounded-full bg-slate-200/80 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 group-hover:scale-110 transition-transform">
                 <i class="fa-solid fa-cloud-arrow-up text-base"></i>
               </div>
-              <div class="text-xs text-slate-600 dark:text-slate-300 font-medium">
-                Kéo & thả file vào đây hoặc <span class="text-petro-600 dark:text-amber-400 underline font-semibold">chọn file từ máy tính</span>
+              <div class="text-xs text-slate-700 dark:text-slate-300 font-medium">
+                Kéo &amp; thả nhiều file vào đây hoặc <span class="text-petro-600 dark:text-amber-400 underline font-semibold">chọn file từ máy tính</span>
               </div>
               <p class="text-[11px] text-slate-400 font-mono">
-                Định dạng hỗ trợ: PDF, Word (.docx), PowerPoint (.pptx), Python (.py, .ipynb), ZIP (tối đa 25MB)
+                Hỗ trợ chọn nhiều file cùng lúc: PDF, Word (.docx), PowerPoint (.pptx), Python (.py, .ipynb), ZIP (tối đa 25MB/tệp)
               </p>
             </div>
+          </div>
 
-            <!-- File Selected Preview Badge -->
-            <div id="filePreviewBadge" class="hidden items-center justify-between p-2.5 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-left">
-              <div class="flex items-center gap-3 min-w-0">
-                <div id="fileTypeIcon" class="w-9 h-9 rounded-lg bg-rose-50 dark:bg-rose-950/50 text-rose-600 flex items-center justify-center text-lg shrink-0">
-                  <i class="fa-solid fa-file-pdf"></i>
-                </div>
-                <div class="min-w-0">
-                  <div id="fileNameDisplay" class="font-medium text-xs text-slate-900 dark:text-white truncate">baocao.pdf</div>
-                  <div id="fileSizeDisplay" class="text-[10px] text-slate-400 font-mono">2.4 MB</div>
-                </div>
-              </div>
+          <!-- Selected Files List Container -->
+          <div id="selectedFilesContainer" class="hidden space-y-2 pt-1">
+            <div class="flex items-center justify-between text-[11px] font-mono">
+              <span class="font-semibold text-slate-700 dark:text-slate-300">
+                <i class="fa-solid fa-paperclip mr-1 text-petro-600 dark:text-amber-400"></i>
+                Danh sách file đã chọn (<span id="selectedFilesCountDetail">0</span>):
+              </span>
               <button 
                 type="button" 
-                onclick="clearSelectedFile(event)" 
-                class="text-slate-400 hover:text-rose-500 p-1.5 rounded transition-colors" 
-                title="Chọn lại file khác"
+                onclick="clearAllSelectedFiles(event)" 
+                class="text-rose-600 dark:text-rose-400 hover:underline flex items-center gap-1 cursor-pointer font-medium"
               >
-                <i class="fa-solid fa-xmark text-sm"></i>
+                <i class="fa-solid fa-trash-can text-[10px]"></i> Xóa tất cả
               </button>
+            </div>
+            <div id="selectedFilesList" class="space-y-1.5 max-h-44 overflow-y-auto pr-1">
+              <!-- Dynamically populated files -->
             </div>
           </div>
         </div>
@@ -1252,20 +1257,21 @@
     }
 
     // ==========================================
-    // 3. DYNAMIC ASSIGNMENT MANAGEMENT SYSTEM
-    // ==========================================
+    // 3. DYNAMIC ASSIGNMENT MANAGEMENT SYSTEM (MULTIPLE FILES & INDEXEDDB)
+    // ======================================================================
     const assignmentModal = document.getElementById('assignmentModal');
     const dynamicAssignmentsContainer = document.getElementById('dynamicAssignmentsContainer');
     const assignmentsEmptyNotice = document.getElementById('assignmentsEmptyNotice');
     const asgFileInput = document.getElementById('asgFile');
     const dropZone = document.getElementById('dropZone');
     const dropZonePrompt = document.getElementById('dropZonePrompt');
-    const filePreviewBadge = document.getElementById('filePreviewBadge');
-    const fileNameDisplay = document.getElementById('fileNameDisplay');
-    const fileSizeDisplay = document.getElementById('fileSizeDisplay');
-    const fileTypeIcon = document.getElementById('fileTypeIcon');
+    const selectedFilesContainer = document.getElementById('selectedFilesContainer');
+    const selectedFilesList = document.getElementById('selectedFilesList');
+    const selectedFilesSummary = document.getElementById('selectedFilesSummary');
+    const selectedFilesCount = document.getElementById('selectedFilesCount');
+    const selectedFilesCountDetail = document.getElementById('selectedFilesCountDetail');
 
-    let currentSelectedFile = null;
+    let currentSelectedFiles = [];
     let currentFilterType = 'all';
 
     // Open/Close Modal
@@ -1281,8 +1287,9 @@
     function closeNewAssignmentModal() {
       assignmentModal.classList.add('hidden');
       document.body.style.overflow = '';
-      document.getElementById('newAssignmentForm').reset();
-      clearSelectedFile();
+      const form = document.getElementById('newAssignmentForm');
+      if (form) form.reset();
+      clearAllSelectedFiles();
     }
 
     // Close on backdrop click
@@ -1294,7 +1301,7 @@
       });
     }
 
-    // Drag & Drop Handlers for File Upload
+    // Drag & Drop Handlers for Multiple File Upload
     if (dropZone) {
       ['dragenter', 'dragover'].forEach(eventName => {
         dropZone.addEventListener(eventName, (e) => {
@@ -1316,15 +1323,96 @@
         const dt = e.dataTransfer;
         const files = dt.files;
         if (files && files.length > 0) {
-          handleFileObject(files[0]);
+          handleMultipleFiles(files);
         }
       });
     }
 
     function handleFileSelected(e) {
       if (e.target.files && e.target.files.length > 0) {
-        handleFileObject(e.target.files[0]);
+        handleMultipleFiles(e.target.files);
+        // Reset input so user can pick additional files or re-pick same files if needed
+        e.target.value = '';
       }
+    }
+
+    function handleMultipleFiles(fileList) {
+      for (let i = 0; i < fileList.length; i++) {
+        const file = fileList[i];
+        // Prevent exact duplicates
+        const alreadyExists = currentSelectedFiles.some(f => f.name === file.name && f.size === file.size);
+        if (!alreadyExists) {
+          currentSelectedFiles.push(file);
+        }
+      }
+      renderSelectedFilesUI();
+    }
+
+    function renderSelectedFilesUI() {
+      if (!selectedFilesContainer || !selectedFilesList) return;
+
+      if (currentSelectedFiles.length === 0) {
+        selectedFilesContainer.classList.add('hidden');
+        if (selectedFilesSummary) selectedFilesSummary.classList.add('hidden');
+        return;
+      }
+
+      selectedFilesContainer.classList.remove('hidden');
+      if (selectedFilesSummary) {
+        selectedFilesSummary.classList.remove('hidden');
+        if (selectedFilesCount) selectedFilesCount.textContent = currentSelectedFiles.length;
+      }
+      if (selectedFilesCountDetail) selectedFilesCountDetail.textContent = currentSelectedFiles.length;
+
+      selectedFilesList.innerHTML = '';
+      currentSelectedFiles.forEach((file, index) => {
+        const info = getFileInfo(file.name);
+        const itemRow = document.createElement('div');
+        itemRow.className = 'flex items-center justify-between p-2 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-left hover:border-petro-400 dark:hover:border-amber-400/50 transition-colors';
+        itemRow.innerHTML = `
+          <div class="flex items-center gap-2.5 min-w-0 pr-2">
+            <div class="w-8 h-8 rounded-lg flex items-center justify-center text-sm shrink-0 ${info.colorClass}">
+              <i class="${info.iconClass}"></i>
+            </div>
+            <div class="min-w-0">
+              <div class="font-medium text-xs text-slate-900 dark:text-white truncate" title="${escapeHtml(file.name)}">
+                ${escapeHtml(file.name)}
+              </div>
+              <div class="text-[10px] text-slate-400 font-mono">
+                ${formatFileSize(file.size)}
+              </div>
+            </div>
+          </div>
+          <button 
+            type="button" 
+            onclick="removeSelectedFileIndex(${index}, event)" 
+            class="w-7 h-7 rounded-lg text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/40 flex items-center justify-center transition-colors shrink-0 cursor-pointer" 
+            title="Xóa tệp này"
+          >
+            <i class="fa-solid fa-xmark text-sm"></i>
+          </button>
+        `;
+        selectedFilesList.appendChild(itemRow);
+      });
+    }
+
+    function removeSelectedFileIndex(index, e) {
+      if (e) {
+        e.stopPropagation();
+        e.preventDefault();
+      }
+      currentSelectedFiles.splice(index, 1);
+      renderSelectedFilesUI();
+    }
+
+    function clearAllSelectedFiles(e) {
+      if (e) {
+        e.stopPropagation();
+        e.preventDefault();
+      }
+      currentSelectedFiles = [];
+      if (asgFileInput) asgFileInput.value = '';
+      renderSelectedFilesUI();
     }
 
     function formatFileSize(bytes) {
@@ -1337,54 +1425,28 @@
     function getFileInfo(fileName) {
       const ext = (fileName || '').split('.').pop().toLowerCase();
       if (ext === 'pdf') {
-        return { label: 'Đọc báo cáo (PDF)', iconClass: 'fa-solid fa-file-pdf', colorClass: 'bg-rose-50 text-rose-600 dark:bg-rose-950/50', btnBg: 'bg-petro-700 hover:bg-petro-800' };
+        return { label: 'Đọc báo cáo (PDF)', actionLabel: 'Xem PDF', iconClass: 'fa-solid fa-file-pdf', colorClass: 'bg-rose-50 text-rose-600 dark:bg-rose-950/50', btnBg: 'bg-rose-700 hover:bg-rose-800 text-white' };
       } else if (['doc', 'docx'].includes(ext)) {
-        return { label: 'Tài liệu Word', iconClass: 'fa-solid fa-file-word', colorClass: 'bg-blue-50 text-blue-600 dark:bg-blue-950/50', btnBg: 'bg-blue-700 hover:bg-blue-800' };
+        return { label: 'Tài liệu Word', actionLabel: 'Tải Word', iconClass: 'fa-solid fa-file-word', colorClass: 'bg-blue-50 text-blue-600 dark:bg-blue-950/50', btnBg: 'bg-blue-700 hover:bg-blue-800 text-white' };
       } else if (['ppt', 'pptx'].includes(ext)) {
-        return { label: 'Bài thuyết trình (PPT)', iconClass: 'fa-solid fa-file-powerpoint', colorClass: 'bg-amber-50 text-amber-600 dark:bg-amber-950/50', btnBg: 'bg-amber-700 hover:bg-amber-800' };
+        return { label: 'Bài thuyết trình (PPT)', actionLabel: 'Tải PPT', iconClass: 'fa-solid fa-file-powerpoint', colorClass: 'bg-amber-50 text-amber-600 dark:bg-amber-950/50', btnBg: 'bg-amber-700 hover:bg-amber-800 text-white' };
       } else if (['py', 'ipynb', 'js', 'html', 'm'].includes(ext)) {
-        return { label: 'Mã nguồn (Code)', iconClass: 'fa-brands fa-python', colorClass: 'bg-emerald-50 text-emerald-600 dark:bg-emerald-950/50', btnBg: 'bg-emerald-700 hover:bg-emerald-800' };
+        return { label: 'Mã nguồn (Code)', actionLabel: 'Tải Code', iconClass: 'fa-brands fa-python', colorClass: 'bg-emerald-50 text-emerald-600 dark:bg-emerald-950/50', btnBg: 'bg-emerald-700 hover:bg-emerald-800 text-white' };
       } else if (['zip', 'rar', '7z'].includes(ext)) {
-        return { label: 'Tải gói dữ liệu (ZIP)', iconClass: 'fa-solid fa-file-zipper', colorClass: 'bg-teal-50 text-teal-600 dark:bg-teal-950/50', btnBg: 'bg-slate-800 hover:bg-slate-900' };
+        return { label: 'Tải gói dữ liệu (ZIP)', actionLabel: 'Tải ZIP', iconClass: 'fa-solid fa-file-zipper', colorClass: 'bg-teal-50 text-teal-600 dark:bg-teal-950/50', btnBg: 'bg-slate-800 hover:bg-slate-900 text-white' };
+      } else if (['xls', 'xlsx', 'csv'].includes(ext)) {
+        return { label: 'Bảng tính Excel', actionLabel: 'Tải Excel', iconClass: 'fa-solid fa-file-excel', colorClass: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50', btnBg: 'bg-emerald-700 hover:bg-emerald-800 text-white' };
       } else {
-        return { label: 'Tải file đính kèm', iconClass: 'fa-solid fa-file', colorClass: 'bg-slate-100 text-slate-600 dark:bg-slate-800', btnBg: 'bg-slate-700 hover:bg-slate-800' };
-      }
-    }
-
-    function handleFileObject(file) {
-      currentSelectedFile = file;
-      fileNameDisplay.textContent = file.name;
-      fileSizeDisplay.textContent = formatFileSize(file.size);
-      
-      const info = getFileInfo(file.name);
-      fileTypeIcon.className = `w-9 h-9 rounded-lg flex items-center justify-center text-lg shrink-0 ${info.colorClass}`;
-      fileTypeIcon.innerHTML = `<i class="${info.iconClass}"></i>`;
-
-      dropZonePrompt.classList.add('hidden');
-      filePreviewBadge.classList.remove('hidden');
-      filePreviewBadge.classList.add('flex');
-    }
-
-    function clearSelectedFile(e) {
-      if (e) {
-        e.stopPropagation();
-        e.preventDefault();
-      }
-      currentSelectedFile = null;
-      if (asgFileInput) asgFileInput.value = '';
-      if (dropZonePrompt) dropZonePrompt.classList.remove('hidden');
-      if (filePreviewBadge) {
-        filePreviewBadge.classList.add('hidden');
-        filePreviewBadge.classList.remove('flex');
+        return { label: 'Tải file đính kèm', actionLabel: 'Tải tệp', iconClass: 'fa-solid fa-file', colorClass: 'bg-slate-100 text-slate-600 dark:bg-slate-800', btnBg: 'bg-slate-700 hover:bg-slate-800 text-white' };
       }
     }
 
     // ========================================================
-    // IndexedDB & Unlimited Storage Engine for Assignments
-    // (Bỏ hoàn toàn giới hạn 5MB của localStorage, cho phép đăng vô số bài tập lớn)
+    // IndexedDB & Multiple Files Storage Engine
+    // (Bỏ hoàn toàn giới hạn 5MB của localStorage, lưu nhiều file/bài tập)
     // ========================================================
     const IDB_NAME = 'PVU_Portfolio_Assignments_DB';
-    const IDB_VERSION = 1;
+    const IDB_VERSION = 2; // Incremented for multiple files architecture
     const IDB_STORE = 'assignments';
     const STORAGE_KEY_META = 'pvu_user_assignments_meta_v4';
     const LEGACY_STORAGE_KEY = 'pvu_user_assignments_v3';
@@ -1465,11 +1527,42 @@
       });
     }
 
+    // Backward-compatibility normalizer: converts legacy single-file assignments to multiple files format
+    function normalizeAssignment(item) {
+      if (!item) return item;
+      if (!item.files || !Array.isArray(item.files) || item.files.length === 0) {
+        if (item.fileName) {
+          item.files = [
+            {
+              id: 'f_legacy_' + item.id,
+              name: item.fileName,
+              size: item.fileSize || '1.2 MB',
+              blob: item.fileBlob || null,
+              dataUrl: item.fileDataUrl || ''
+            }
+          ];
+          item.totalFilesCount = 1;
+          item.totalSize = item.fileSize || '1.2 MB';
+        } else {
+          item.files = [];
+          item.totalFilesCount = 0;
+          item.totalSize = '0 KB';
+        }
+      } else {
+        item.totalFilesCount = item.files.length;
+        if (!item.totalSize) {
+          const totalBytes = item.files.reduce((acc, f) => acc + (f.sizeBytes || 0), 0);
+          item.totalSize = totalBytes > 0 ? formatFileSize(totalBytes) : '';
+        }
+      }
+      return item;
+    }
+
     async function initAssignmentsStorage() {
-      // 1. Try loading from IndexedDB first (Stores full files without 5MB limit)
+      // 1. Try loading from IndexedDB first
       let items = await idbGetAllAssignments();
 
-      // 2. If IndexedDB had nothing, migrate from legacy localStorage (Bài 1 của bạn)
+      // 2. If IndexedDB had nothing, migrate from legacy localStorage
       if (!items || items.length === 0) {
         try {
           const legacyRaw = localStorage.getItem(LEGACY_STORAGE_KEY);
@@ -1479,7 +1572,7 @@
               items = legacyItems;
               // Migrate items to IndexedDB
               for (const itm of legacyItems) {
-                await idbSaveAssignment(itm);
+                await idbSaveAssignment(normalizeAssignment(itm));
               }
             }
           }
@@ -1498,7 +1591,12 @@
         } catch (e) {}
       }
 
-      globalAssignments = Array.isArray(items) ? items : [];
+      if (Array.isArray(items)) {
+        globalAssignments = items.map(normalizeAssignment);
+      } else {
+        globalAssignments = [];
+      }
+
       renderAssignments(currentFilterType);
     }
 
@@ -1514,7 +1612,7 @@
       return `Đã nộp: ${day}/${month}/${year} - ${hours}:${minutes}`;
     }
 
-    // Handle Create New Assignment Form Submission
+    // Handle Create New Assignment Form Submission with Multiple Files
     async function handleCreateAssignment(e) {
       e.preventDefault();
       
@@ -1529,7 +1627,7 @@
         return;
       }
 
-      if (!currentSelectedFile) {
+      if (!currentSelectedFiles || currentSelectedFiles.length === 0) {
         alert('Vui lòng đính kèm ít nhất 01 tệp báo cáo hoặc mã nguồn.');
         return;
       }
@@ -1537,13 +1635,25 @@
       const originalBtnHtml = submitBtn ? submitBtn.innerHTML : '';
       if (submitBtn) {
         submitBtn.disabled = true;
-        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang lưu bài nộp...';
+        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang lưu ' + currentSelectedFiles.length + ' tệp...';
       }
 
       try {
-        const fileBlob = currentSelectedFile;
         const timestamp = generateRealtimeTimestamp();
-        const sessionUrl = URL.createObjectURL(fileBlob);
+        
+        // Map all selected files into storage objects
+        const filesData = currentSelectedFiles.map((file, idx) => {
+          return {
+            id: 'f_' + Date.now() + '_' + idx,
+            name: file.name,
+            size: formatFileSize(file.size),
+            sizeBytes: file.size,
+            blob: file, // Natively stored in IndexedDB without 5MB limits
+            dataUrl: URL.createObjectURL(file)
+          };
+        });
+
+        const totalBytes = currentSelectedFiles.reduce((acc, f) => acc + (f.size || 0), 0);
 
         const newAssignment = {
           id: 'asg_' + Date.now(),
@@ -1551,10 +1661,9 @@
           course,
           type,
           desc,
-          fileName: currentSelectedFile.name,
-          fileSize: formatFileSize(currentSelectedFile.size),
-          fileBlob, // Stored natively in IndexedDB without 5MB quota limit!
-          fileDataUrl: sessionUrl,
+          files: filesData,
+          totalFilesCount: filesData.length,
+          totalSize: formatFileSize(totalBytes),
           timestamp,
           createdAt: Date.now()
         };
@@ -1567,7 +1676,24 @@
 
         // Save lightweight metadata only in localStorage (safely under 5KB)
         try {
-          const metaList = globalAssignments.map(({ fileBlob, fileDataUrl, ...meta }) => meta);
+          const metaList = globalAssignments.map(asg => {
+            return {
+              id: asg.id,
+              title: asg.title,
+              course: asg.course,
+              type: asg.type,
+              desc: asg.desc,
+              timestamp: asg.timestamp,
+              createdAt: asg.createdAt,
+              totalFilesCount: asg.files ? asg.files.length : 0,
+              totalSize: asg.totalSize,
+              files: (asg.files || []).map(f => ({
+                id: f.id,
+                name: f.name,
+                size: f.size
+              }))
+            };
+          });
           localStorage.setItem(STORAGE_KEY_META, JSON.stringify(metaList));
         } catch (e) {
           console.warn('Quota safe note on meta list save:', e);
@@ -1592,36 +1718,53 @@
       globalAssignments = globalAssignments.filter(a => a.id !== id);
       await idbDeleteAssignment(id);
       try {
-        const metaList = globalAssignments.map(({ fileBlob, fileDataUrl, ...meta }) => meta);
+        const metaList = globalAssignments.map(asg => ({
+          id: asg.id,
+          title: asg.title,
+          course: asg.course,
+          type: asg.type,
+          desc: asg.desc,
+          timestamp: asg.timestamp,
+          createdAt: asg.createdAt,
+          totalFilesCount: asg.files ? asg.files.length : 0,
+          totalSize: asg.totalSize,
+          files: (asg.files || []).map(f => ({ id: f.id, name: f.name, size: f.size }))
+        }));
         localStorage.setItem(STORAGE_KEY_META, JSON.stringify(metaList));
       } catch (e) {}
       renderAssignments(currentFilterType);
     }
 
-    // View or Download File from IndexedDB Blob
-    function openOrDownloadAssignmentFile(id) {
-      const item = globalAssignments.find(a => a.id === id);
+    // Open or Download Single File by Name from Assignment
+    function openOrDownloadSingleFile(assignmentId, fileName) {
+      const item = globalAssignments.find(a => a.id === assignmentId);
       if (!item) return;
 
-      let fileUrl = '';
-      if (item.fileBlob) {
-        fileUrl = URL.createObjectURL(item.fileBlob);
-      } else if (item.fileDataUrl) {
-        fileUrl = item.fileDataUrl;
-      }
-
-      if (!fileUrl) {
+      const file = (item.files || []).find(f => f.name === fileName) || (item.files && item.files[0]);
+      if (!file) {
         alert('Không tìm thấy tệp đính kèm.');
         return;
       }
 
-      const isPdf = item.fileName && item.fileName.toLowerCase().endsWith('.pdf');
+      let fileUrl = '';
+      if (file.blob) {
+        fileUrl = URL.createObjectURL(file.blob);
+      } else if (file.dataUrl) {
+        fileUrl = file.dataUrl;
+      }
+
+      if (!fileUrl) {
+        alert('Không tìm thấy nội dung tệp.');
+        return;
+      }
+
+      const isPdf = file.name && file.name.toLowerCase().endsWith('.pdf');
       if (isPdf) {
         const newWin = window.open(fileUrl, '_blank');
         if (!newWin) {
           const a = document.createElement('a');
           a.href = fileUrl;
-          a.download = item.fileName;
+          a.download = file.name;
           a.target = '_blank';
           document.body.appendChild(a);
           a.click();
@@ -1630,14 +1773,26 @@
       } else {
         const a = document.createElement('a');
         a.href = fileUrl;
-        a.download = item.fileName || 'tai-lieu';
+        a.download = file.name || 'tai-lieu';
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
       }
     }
 
-    // Render Assignments to Grid
+    // Download All Files from an Assignment sequentially
+    function downloadAllAssignmentFiles(assignmentId) {
+      const item = globalAssignments.find(a => a.id === assignmentId);
+      if (!item || !item.files || item.files.length === 0) return;
+
+      item.files.forEach((file, index) => {
+        setTimeout(() => {
+          openOrDownloadSingleFile(assignmentId, file.name);
+        }, index * 350);
+      });
+    }
+
+    // Render Assignments to Grid (Multi-file enabled)
     function renderAssignments(filter = 'all') {
       currentFilterType = filter;
       const assignments = globalAssignments;
@@ -1671,21 +1826,107 @@
       }
 
       filtered.forEach(item => {
-        const info = getFileInfo(item.fileName);
         const isIndividual = item.type === 'individual';
         const typeBadge = isIndividual 
           ? `<span class="inline-flex items-center gap-1 text-[11px] font-mono px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 font-semibold border border-emerald-200/50 dark:border-emerald-800/40"><i class="fa-solid fa-user text-[9px]"></i> Cá nhân</span>`
           : `<span class="inline-flex items-center gap-1 text-[11px] font-mono px-2 py-0.5 rounded-md bg-petro-50 dark:bg-petro-950/60 text-petro-700 dark:text-amber-400 font-semibold border border-petro-200/50 dark:border-amber-800/40"><i class="fa-solid fa-users text-[9px]"></i> Nhóm</span>`;
 
-        const viewAction = `
-          <button 
-            type="button" 
-            onclick="openOrDownloadAssignmentFile('${item.id}')" 
-            class="flex-1 py-2 px-3 rounded-lg ${info.btnBg} text-white text-xs font-semibold flex items-center justify-center gap-2 transition-all hover:shadow-sm cursor-pointer"
-          >
-            <i class="${info.iconClass}"></i> <span>${info.label}</span>
-          </button>
-        `;
+        const files = item.files || [];
+        const hasMultiple = files.length > 1;
+
+        // Render File Listing markup
+        let filesMarkup = '';
+        if (files.length === 0) {
+          filesMarkup = `
+            <div class="text-[11px] font-mono p-2.5 rounded-lg bg-slate-50 dark:bg-slate-950/60 text-slate-400 text-center border border-slate-100 dark:border-slate-800">
+              <i class="fa-regular fa-file mr-1"></i> Chưa có tệp đính kèm
+            </div>
+          `;
+        } else if (files.length === 1) {
+          const file = files[0];
+          const fInfo = getFileInfo(file.name);
+          filesMarkup = `
+            <div class="flex items-center gap-2 text-[11px] font-mono p-2.5 rounded-lg bg-slate-50 dark:bg-slate-950/60 border border-slate-100 dark:border-slate-800 text-slate-600 dark:text-slate-400">
+              <i class="${fInfo.iconClass} ${fInfo.colorClass.split(' ')[1]} text-sm"></i>
+              <span class="truncate flex-1 font-medium text-slate-800 dark:text-slate-200" title="${escapeHtml(file.name)}">${escapeHtml(file.name)}</span>
+              <span class="text-[10px] text-slate-400 shrink-0 font-medium">(${escapeHtml(file.size)})</span>
+            </div>
+          `;
+        } else {
+          // Multiple Files (2 or more)
+          const fileItemsHtml = files.map(file => {
+            const fInfo = getFileInfo(file.name);
+            const isPdf = file.name && file.name.toLowerCase().endsWith('.pdf');
+            return `
+              <div class="flex items-center justify-between gap-2 p-2 rounded-lg bg-slate-50/90 dark:bg-slate-950/60 border border-slate-100 dark:border-slate-800 hover:border-slate-200 dark:hover:border-slate-700 transition-colors">
+                <div class="flex items-center gap-2 min-w-0 flex-1">
+                  <div class="w-6 h-6 rounded flex items-center justify-center text-xs shrink-0 ${fInfo.colorClass}">
+                    <i class="${fInfo.iconClass}"></i>
+                  </div>
+                  <div class="min-w-0 flex-1">
+                    <div class="truncate text-xs font-medium text-slate-800 dark:text-slate-200" title="${escapeHtml(file.name)}">
+                      ${escapeHtml(file.name)}
+                    </div>
+                    <div class="text-[10px] text-slate-400 font-mono">
+                      ${escapeHtml(file.size)}
+                    </div>
+                  </div>
+                </div>
+                <button 
+                  type="button" 
+                  onclick="openOrDownloadSingleFile('${item.id}', '${escapeAttr(file.name)}')" 
+                  class="px-2 py-1 rounded text-[11px] font-semibold flex items-center gap-1 transition-colors cursor-pointer shrink-0 ${isPdf ? 'bg-rose-50 text-rose-700 hover:bg-rose-100 dark:bg-rose-950/60 dark:text-rose-300' : 'bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-200'}"
+                  title="${isPdf ? 'Đọc báo cáo PDF' : 'Tải tệp này'}"
+                >
+                  <i class="${isPdf ? 'fa-solid fa-file-pdf' : 'fa-solid fa-download'} text-[10px]"></i>
+                  <span>${isPdf ? 'Đọc' : 'Tải'}</span>
+                </button>
+              </div>
+            `;
+          }).join('');
+
+          filesMarkup = `
+            <div class="space-y-2">
+              <div class="flex items-center justify-between text-[11px] font-mono">
+                <span class="text-slate-500 dark:text-slate-400 font-semibold flex items-center gap-1.5">
+                  <i class="fa-solid fa-paperclip text-petro-600 dark:text-amber-400"></i>
+                  <span>Tệp đính kèm (${files.length})</span>
+                </span>
+                <span class="text-slate-400 text-[10px] font-medium">${escapeHtml(item.totalSize || '')}</span>
+              </div>
+              <div class="space-y-1.5 max-h-44 overflow-y-auto pr-0.5">
+                ${fileItemsHtml}
+              </div>
+            </div>
+          `;
+        }
+
+        // Bottom Action buttons
+        let bottomActions = '';
+        if (files.length <= 1) {
+          const singleFile = files[0];
+          const info = singleFile ? getFileInfo(singleFile.name) : { label: 'Tải file', iconClass: 'fa-solid fa-download', btnBg: 'bg-petro-700 hover:bg-petro-800' };
+          bottomActions = `
+            <button 
+              type="button" 
+              onclick="openOrDownloadSingleFile('${item.id}', '${singleFile ? escapeAttr(singleFile.name) : ''}')" 
+              class="flex-1 py-2 px-3 rounded-lg ${info.btnBg} text-white text-xs font-semibold flex items-center justify-center gap-2 transition-all hover:shadow-sm cursor-pointer"
+            >
+              <i class="${info.iconClass}"></i> <span>${info.label}</span>
+            </button>
+          `;
+        } else {
+          bottomActions = `
+            <button 
+              type="button" 
+              onclick="downloadAllAssignmentFiles('${item.id}')" 
+              class="flex-1 py-2 px-3 rounded-lg bg-petro-700 hover:bg-petro-800 text-white text-xs font-semibold flex items-center justify-center gap-2 transition-all hover:shadow-sm cursor-pointer"
+              title="Tải lần lượt toàn bộ ${files.length} tệp đính kèm"
+            >
+              <i class="fa-solid fa-cloud-arrow-down"></i> <span>Tải tất cả (${files.length} tệp)</span>
+            </button>
+          `;
+        }
 
         const card = document.createElement('article');
         card.className = `assignment-card ${item.type} rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 sm:p-6 flex flex-col justify-between hover:border-petro-500/50 dark:hover:border-amber-500/40 hover:shadow-md transition-all duration-200 group`;
@@ -1718,22 +1959,18 @@
               </p>
             ` : ''}
 
-            <!-- File Info Pill -->
-            <div class="flex items-center gap-2 text-[11px] font-mono p-2 rounded-lg bg-slate-50 dark:bg-slate-950/60 border border-slate-100 dark:border-slate-800 text-slate-600 dark:text-slate-400">
-              <i class="${info.iconClass} ${info.colorClass.split(' ')[1]}"></i>
-              <span class="truncate flex-1 font-medium text-slate-800 dark:text-slate-200">${escapeHtml(item.fileName)}</span>
-              <span class="text-[10px] text-slate-400 shrink-0">(${escapeHtml(item.fileSize)})</span>
-            </div>
+            <!-- Attached Files Section -->
+            ${filesMarkup}
           </div>
 
           <!-- Bottom Actions -->
           <div class="pt-4 mt-4 border-t border-slate-100 dark:border-slate-800 flex items-center gap-2">
-            ${viewAction}
+            ${bottomActions}
             <button 
               type="button" 
               onclick="deleteAssignment('${item.id}')" 
               title="Xóa bài tập này" 
-              class="w-8 h-8 rounded-lg border border-slate-200 dark:border-slate-800 hover:border-rose-300 dark:hover:border-rose-900 text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 flex items-center justify-center transition-colors shrink-0"
+              class="w-8 h-8 rounded-lg border border-slate-200 dark:border-slate-800 hover:border-rose-300 dark:hover:border-rose-900 text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 flex items-center justify-center transition-colors shrink-0 cursor-pointer"
             >
               <i class="fa-solid fa-trash-can text-xs"></i>
             </button>
@@ -1741,6 +1978,14 @@
         `;
         dynamicAssignmentsContainer.appendChild(card);
       });
+    }
+
+    function escapeAttr(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/\\/g, '\\\\')
+        .replace(/'/g, "\\'")
+        .replace(/"/g, '&quot;');
     }
 
     function escapeHtml(str) {
