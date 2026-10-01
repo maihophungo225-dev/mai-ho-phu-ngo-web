@@ -115,15 +115,26 @@
         <a href="#contact" class="hover:text-petro-600 dark:hover:text-white transition-colors">Liên hệ</a>
       </nav>
 
-      <!-- Right Action Items (Dark/Light + GeoAI trigger + Mobile Menu toggle) -->
-      <div class="flex items-center gap-3">
+      <!-- Right Action Items (Dark/Light + Admin Auth + GeoAI trigger + Mobile Menu toggle) -->
+      <div class="flex items-center gap-2.5 sm:gap-3">
+        <!-- Admin Mode Toggle Button -->
+        <button 
+          id="adminAuthBtn" 
+          onclick="handleAdminAuthClick()" 
+          title="Đăng nhập Quản trị viên" 
+          class="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-semibold rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:border-petro-500 dark:hover:border-amber-400 transition-colors shadow-2xs cursor-pointer"
+        >
+          <i id="adminAuthIcon" class="fa-solid fa-lock text-slate-400"></i>
+          <span id="adminAuthText" class="hidden sm:inline">Quản trị</span>
+        </button>
+
         <!-- Dark Mode Toggle Button -->
-        <button id="themeToggleBtn" aria-label="Chuyển chế độ sáng/tối" class="w-9 h-9 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-amber-400 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center transition-colors">
+        <button id="themeToggleBtn" aria-label="Chuyển chế độ sáng/tối" class="w-9 h-9 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-amber-400 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center transition-colors cursor-pointer">
           <i id="themeIcon" class="fa-solid fa-moon text-sm"></i>
         </button>
 
         <!-- GeoAI Assistant Nav Button -->
-        <button onclick="toggleChatModal(true)" class="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-lg bg-petro-700 hover:bg-petro-800 text-white transition-all shadow-sm">
+        <button onclick="toggleChatModal(true)" class="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-lg bg-petro-700 hover:bg-petro-800 text-white transition-all shadow-sm cursor-pointer">
           <i class="fa-solid fa-robot"></i>
           <span>Trợ lý GeoAI</span>
         </button>
@@ -142,6 +153,9 @@
       <a href="#assignments" onclick="closeMobileMenu()" class="block py-2 text-slate-700 dark:text-slate-200 hover:text-petro-600">Báo cáo bài tập (Assignments)</a>
       <a href="#research" onclick="closeMobileMenu()" class="block py-2 text-slate-700 dark:text-slate-200 hover:text-petro-600">Đồ án & NCKH (Research)</a>
       <a href="#contact" onclick="closeMobileMenu()" class="block py-2 text-slate-700 dark:text-slate-200 hover:text-petro-600">Liên hệ (Contact)</a>
+      <button onclick="closeMobileMenu(); handleAdminAuthClick();" id="mobileAdminAuthBtn" class="w-full text-left py-2 text-slate-700 dark:text-slate-200 hover:text-petro-600 flex items-center justify-between text-sm">
+        <span><i id="mobileAdminAuthIcon" class="fa-solid fa-lock mr-2 text-slate-400"></i><span id="mobileAdminAuthText">Đăng nhập Quản trị</span></span>
+      </button>
       <button onclick="closeMobileMenu(); toggleChatModal(true);" class="w-full mt-2 py-2 px-3 text-center text-xs font-semibold rounded-lg bg-petro-700 text-white flex items-center justify-center gap-2">
         <i class="fa-solid fa-robot"></i> Mở Trợ lý AI Địa chất
       </button>
@@ -502,7 +516,8 @@
             </button>
           </div>
 
-          <button onclick="openNewAssignmentModal()" class="px-3.5 py-2 rounded-lg bg-petro-700 hover:bg-petro-800 text-white text-xs font-semibold flex items-center gap-2 shadow-sm transition-colors cursor-pointer">
+          <!-- Add Assignment Button (Admin only) -->
+          <button onclick="openNewAssignmentModal()" id="btnHeaderAddAssignment" class="admin-only hidden px-3.5 py-2 rounded-lg bg-petro-700 hover:bg-petro-800 text-white text-xs font-semibold items-center gap-2 shadow-sm transition-colors cursor-pointer">
             <i class="fa-solid fa-plus"></i>
             <span>Thêm bài tập</span>
           </button>
@@ -512,8 +527,8 @@
       <!-- Assignments Dynamic Grid -->
       <div id="assignmentsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-        <!-- 01 Ô MẪU / NÚT THÊM BÀI TẬP MỚI (Add New Assignment Card - Always First) -->
-        <div onclick="openNewAssignmentModal()" id="btnAddNewCard" role="button" tabindex="0" class="group relative flex flex-col items-center justify-center text-center p-8 rounded-2xl border-2 border-dashed border-petro-400/80 dark:border-amber-500/60 hover:border-petro-600 dark:hover:border-amber-400 bg-petro-50/40 dark:bg-slate-900/60 hover:bg-petro-50/90 dark:hover:bg-slate-800/80 transition-all duration-200 min-h-[310px] cursor-pointer shadow-sm hover:shadow-md">
+        <!-- 01 Ô MẪU / NÚT THÊM BÀI TẬP MỚI (Admin only - Hidden in Viewer mode) -->
+        <div onclick="openNewAssignmentModal()" id="btnAddNewCard" role="button" tabindex="0" class="admin-only hidden group relative flex flex-col items-center justify-center text-center p-8 rounded-2xl border-2 border-dashed border-petro-400/80 dark:border-amber-500/60 hover:border-petro-600 dark:hover:border-amber-400 bg-petro-50/40 dark:bg-slate-900/60 hover:bg-petro-50/90 dark:hover:bg-slate-800/80 transition-all duration-200 min-h-[310px] cursor-pointer shadow-sm hover:shadow-md">
           <div class="w-16 h-16 rounded-2xl bg-white dark:bg-slate-800 border border-petro-200 dark:border-amber-500/40 text-petro-600 dark:text-amber-400 flex items-center justify-center text-2xl shadow-sm group-hover:scale-110 group-hover:bg-petro-600 group-hover:text-white dark:group-hover:bg-amber-500 dark:group-hover:text-slate-950 transition-all duration-200 mb-4">
             <i class="fa-solid fa-plus"></i>
           </div>
@@ -830,6 +845,11 @@
         </p>
       </div>
       <div class="flex items-center gap-4 text-xs font-mono">
+        <button type="button" onclick="handleAdminAuthClick()" class="hover:text-petro-600 dark:hover:text-white transition-colors cursor-pointer flex items-center gap-1.5">
+          <i class="fa-solid fa-lock text-[10px]"></i>
+          <span>Quản trị</span>
+        </button>
+        <span aria-hidden="true">·</span>
         <span>Thiết kế hỗ trợ bởi AI Studio</span>
         <span aria-hidden="true">·</span>
         <a href="#about" class="hover:text-petro-600 dark:hover:text-white transition-colors">Lên đầu trang <i class="fa-solid fa-arrow-up ml-0.5"></i></a>
@@ -1207,6 +1227,72 @@
     </div>
   </div>
 
+  <!-- ==================== ADMIN AUTH MODAL ==================== -->
+  <div id="adminModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="w-full max-w-sm bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden flex flex-col">
+      <div class="px-5 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-slate-50 dark:bg-slate-950">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-petro-100 dark:bg-amber-950/60 text-petro-700 dark:text-amber-400 flex items-center justify-center text-sm shadow-2xs">
+            <i class="fa-solid fa-user-shield"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-slate-900 dark:text-white text-sm">Xác thực Quản trị viên</h3>
+            <p class="text-[11px] text-slate-500 dark:text-slate-400 font-mono">Dành cho Mai Hồ Phú Ngộ</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeAdminModal()" class="w-8 h-8 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 flex items-center justify-center">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <form id="adminLoginForm" onsubmit="handleAdminLogin(event)" class="p-5 space-y-4">
+        <div class="space-y-1.5">
+          <label for="adminPasswordInput" class="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider font-mono">
+            Mật khẩu quản trị <span class="text-rose-500">*</span>
+          </label>
+          <div class="relative">
+            <input 
+              type="password" 
+              id="adminPasswordInput" 
+              required 
+              placeholder="Nhập mật khẩu quản trị..." 
+              autocomplete="current-password"
+              class="w-full pl-3.5 pr-10 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-petro-500 transition-all placeholder:text-slate-400"
+            />
+            <button 
+              type="button" 
+              onclick="toggleAdminPasswordVisibility()" 
+              class="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-xs p-1"
+              title="Ẩn/Hiện mật khẩu"
+            >
+              <i id="adminPasswordEyeIcon" class="fa-solid fa-eye"></i>
+            </button>
+          </div>
+          <p id="adminLoginError" class="text-xs text-rose-500 font-medium hidden flex items-center gap-1.5 pt-0.5">
+            <i class="fa-solid fa-circle-exclamation"></i> <span>Mật khẩu không đúng. Vui lòng thử lại!</span>
+          </p>
+        </div>
+
+        <div class="flex items-center justify-end gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
+          <button 
+            type="button" 
+            onclick="closeAdminModal()" 
+            class="px-3.5 py-2 rounded-lg border border-slate-300 dark:border-slate-700 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+          >
+            Hủy
+          </button>
+          <button 
+            type="submit" 
+            class="px-4 py-2 rounded-lg bg-petro-700 hover:bg-petro-800 text-white text-xs font-semibold flex items-center gap-1.5 shadow-sm transition-colors cursor-pointer"
+          >
+            <i class="fa-solid fa-key text-[11px]"></i>
+            <span>Đăng nhập</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- ==================== VANILLA JAVASCRIPT ==================== -->
   <script>
     // 1. THEME (DARK / LIGHT MODE) LOGIC
@@ -1271,11 +1357,156 @@
     const selectedFilesCount = document.getElementById('selectedFilesCount');
     const selectedFilesCountDetail = document.getElementById('selectedFilesCountDetail');
 
+    // ==========================================
+    // ADMIN AUTHENTICATION & PERMISSION SYSTEM
+    // ==========================================
+    const ADMIN_STORAGE_KEY = 'pvu_admin_auth_v1';
+    const ADMIN_PASSWORD = 'NgoGeo2026@'; // Mật khẩu quản trị mặc định (có thể đổi tại đây)
+
+    function isAdminLoggedIn() {
+      return localStorage.getItem(ADMIN_STORAGE_KEY) === 'true';
+    }
+
+    function setAdminLoggedIn(status) {
+      if (status) {
+        localStorage.setItem(ADMIN_STORAGE_KEY, 'true');
+      } else {
+        localStorage.removeItem(ADMIN_STORAGE_KEY);
+      }
+      updateAdminUI();
+      renderAssignments(currentFilterType);
+    }
+
+    function updateAdminUI() {
+      const isAdmin = isAdminLoggedIn();
+
+      const adminAuthIcon = document.getElementById('adminAuthIcon');
+      const adminAuthText = document.getElementById('adminAuthText');
+      const adminAuthBtn = document.getElementById('adminAuthBtn');
+      const mobileAdminAuthIcon = document.getElementById('mobileAdminAuthIcon');
+      const mobileAdminAuthText = document.getElementById('mobileAdminAuthText');
+
+      if (isAdmin) {
+        if (adminAuthIcon) adminAuthIcon.className = 'fa-solid fa-lock-open text-emerald-500';
+        if (adminAuthText) adminAuthText.textContent = 'Admin (Đăng xuất)';
+        if (adminAuthBtn) {
+          adminAuthBtn.className = 'inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-semibold rounded-lg border border-emerald-500/50 bg-emerald-50/80 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 transition-colors shadow-2xs cursor-pointer';
+          adminAuthBtn.title = 'Đang ở Chế độ Quản trị viên. Nhấn để đăng xuất';
+        }
+        if (mobileAdminAuthIcon) mobileAdminAuthIcon.className = 'fa-solid fa-lock-open mr-2 text-emerald-500';
+        if (mobileAdminAuthText) mobileAdminAuthText.textContent = 'Admin (Đăng xuất)';
+      } else {
+        if (adminAuthIcon) adminAuthIcon.className = 'fa-solid fa-lock text-slate-400';
+        if (adminAuthText) adminAuthText.textContent = 'Quản trị';
+        if (adminAuthBtn) {
+          adminAuthBtn.className = 'inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-semibold rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:border-petro-500 dark:hover:border-amber-400 transition-colors shadow-2xs cursor-pointer';
+          adminAuthBtn.title = 'Đăng nhập Quản trị viên';
+        }
+        if (mobileAdminAuthIcon) mobileAdminAuthIcon.className = 'fa-solid fa-lock mr-2 text-slate-400';
+        if (mobileAdminAuthText) mobileAdminAuthText.textContent = 'Đăng nhập Quản trị';
+      }
+
+      // Toggle visibility for all admin-only elements
+      const adminElements = document.querySelectorAll('.admin-only');
+      adminElements.forEach(el => {
+        if (isAdmin) {
+          el.classList.remove('hidden');
+          if (el.tagName === 'BUTTON') {
+            el.classList.add('flex');
+          }
+        } else {
+          el.classList.add('hidden');
+          el.classList.remove('flex');
+        }
+      });
+    }
+
+    function handleAdminAuthClick() {
+      if (isAdminLoggedIn()) {
+        if (confirm('Bạn có chắc chắn muốn đăng xuất quyền Quản trị viên?')) {
+          setAdminLoggedIn(false);
+          showToast('Đã đăng xuất khỏi Chế độ Quản trị.');
+        }
+      } else {
+        openAdminModal();
+      }
+    }
+
+    function openAdminModal() {
+      const modal = document.getElementById('adminModal');
+      const input = document.getElementById('adminPasswordInput');
+      const err = document.getElementById('adminLoginError');
+      if (err) err.classList.add('hidden');
+      if (input) input.value = '';
+      if (modal) modal.classList.remove('hidden');
+      setTimeout(() => { if (input) input.focus(); }, 80);
+    }
+
+    function closeAdminModal() {
+      const modal = document.getElementById('adminModal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function toggleAdminPasswordVisibility() {
+      const input = document.getElementById('adminPasswordInput');
+      const icon = document.getElementById('adminPasswordEyeIcon');
+      if (!input || !icon) return;
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.className = 'fa-solid fa-eye-slash';
+      } else {
+        input.type = 'password';
+        icon.className = 'fa-solid fa-eye';
+      }
+    }
+
+    function handleAdminLogin(e) {
+      e.preventDefault();
+      const input = document.getElementById('adminPasswordInput');
+      const err = document.getElementById('adminLoginError');
+      const val = input ? input.value : '';
+
+      if (val === ADMIN_PASSWORD) {
+        setAdminLoggedIn(true);
+        closeAdminModal();
+        showToast('Đăng nhập Quản trị viên thành công!');
+      } else {
+        if (err) err.classList.remove('hidden');
+        if (input) {
+          input.focus();
+          input.select();
+        }
+      }
+    }
+
+    function showToast(message) {
+      let toast = document.getElementById('appToast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'appToast';
+        toast.className = 'fixed bottom-5 left-1/2 -translate-x-1/2 z-50 px-4 py-2.5 rounded-xl bg-slate-900/90 dark:bg-slate-100/90 text-white dark:text-slate-900 text-xs sm:text-sm font-medium shadow-xl backdrop-blur-sm transition-all duration-300 pointer-events-none flex items-center gap-2';
+        document.body.appendChild(toast);
+      }
+      toast.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400 dark:text-emerald-600"></i> <span>${escapeHtml(message)}</span>`;
+      toast.style.opacity = '1';
+      toast.style.transform = 'translate(-50%, 0)';
+      clearTimeout(toast._timeout);
+      toast._timeout = setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translate(-50%, 15px)';
+      }, 3500);
+    }
+
     let currentSelectedFiles = [];
     let currentFilterType = 'all';
 
     // Open/Close Modal
     function openNewAssignmentModal() {
+      if (!isAdminLoggedIn()) {
+        openAdminModal();
+        showToast('Vui lòng đăng nhập quyền Quản trị viên để thêm bài tập.');
+        return;
+      }
       assignmentModal.classList.remove('hidden');
       document.body.style.overflow = 'hidden';
       setTimeout(() => {
@@ -1616,6 +1847,12 @@
     async function handleCreateAssignment(e) {
       e.preventDefault();
       
+      if (!isAdminLoggedIn()) {
+        alert('Chức năng chỉ dành cho Quản trị viên. Vui lòng đăng nhập.');
+        openAdminModal();
+        return;
+      }
+
       const title = document.getElementById('asgTitle').value.trim();
       const course = document.getElementById('asgCourse').value.trim();
       const type = document.querySelector('input[name="asgType"]:checked')?.value || 'individual';
@@ -1714,6 +1951,11 @@
 
     // Delete an Assignment
     async function deleteAssignment(id) {
+      if (!isAdminLoggedIn()) {
+        alert('Chỉ Quản trị viên mới có quyền xóa bài tập!');
+        openAdminModal();
+        return;
+      }
       if (!confirm('Bạn có chắc chắn muốn xóa bài tập này khỏi danh sách?')) return;
       globalAssignments = globalAssignments.filter(a => a.id !== id);
       await idbDeleteAssignment(id);
@@ -1966,14 +2208,16 @@
           <!-- Bottom Actions -->
           <div class="pt-4 mt-4 border-t border-slate-100 dark:border-slate-800 flex items-center gap-2">
             ${bottomActions}
-            <button 
-              type="button" 
-              onclick="deleteAssignment('${item.id}')" 
-              title="Xóa bài tập này" 
-              class="w-8 h-8 rounded-lg border border-slate-200 dark:border-slate-800 hover:border-rose-300 dark:hover:border-rose-900 text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 flex items-center justify-center transition-colors shrink-0 cursor-pointer"
-            >
-              <i class="fa-solid fa-trash-can text-xs"></i>
-            </button>
+            ${isAdminLoggedIn() ? `
+              <button 
+                type="button" 
+                onclick="deleteAssignment('${item.id}')" 
+                title="Xóa bài tập này (Quản trị viên)" 
+                class="w-8 h-8 rounded-lg border border-slate-200 dark:border-slate-800 hover:border-rose-300 dark:hover:border-rose-900 text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 flex items-center justify-center transition-colors shrink-0 cursor-pointer"
+              >
+                <i class="fa-solid fa-trash-can text-xs"></i>
+              </button>
+            ` : ''}
           </div>
         `;
         dynamicAssignmentsContainer.appendChild(card);
@@ -2022,7 +2266,8 @@
       renderAssignments(type);
     }
 
-    // Initial load of dynamic assignments with IndexedDB unlimited storage
+    // Initial load of dynamic assignments and Admin permission state
+    updateAdminUI();
     initAssignmentsStorage();
 
     // 4. DOCUMENT & CV PREVIEW MODALS
