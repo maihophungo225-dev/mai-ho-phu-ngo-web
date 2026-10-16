@@ -645,11 +645,9 @@
       <!-- Section Header -->
       <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div class="space-y-2">
-          <div class="text-xs sm:text-[13px] font-bold uppercase tracking-[0.08em] text-petro-600 dark:text-amber-400">
-            03 / Bài tập môn Địa vật lí ứng dụng
-          </div>
-          <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-            Bài tập môn Địa vật lí ứng dụng
+          <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
+            <span class="text-xs sm:text-[13px] font-bold uppercase tracking-[0.08em] text-petro-600 dark:text-amber-400 font-mono block">03 /</span>
+            <span>Bài tập môn Địa vật lí ứng dụng</span>
           </h2>
           <p class="text-base leading-[1.7] text-slate-600 dark:text-slate-400 max-w-2xl">
             Quản lý và tổng hợp các bài tập lớn, bài tập cá nhân và báo cáo nhóm môn Địa vật lí ứng dụng kèm liên kết xem trực tiếp file PDF, Word, PowerPoint, Code.
@@ -1177,6 +1175,26 @@
                 </div>
               </label>
             </div>
+          </div>
+        </div>
+
+        <!-- Thời gian nộp bài (Tùy chỉnh ngày giờ) -->
+        <div class="space-y-1.5">
+          <div class="flex items-center justify-between">
+            <label for="asgDate" class="block text-xs font-semibold text-slate-800 dark:text-slate-200 uppercase tracking-wider font-mono">
+              Thời gian nộp bài
+            </label>
+            <span class="text-[10px] text-slate-400 font-mono">Mặc định: 14/10/2026 - 10:14</span>
+          </div>
+          <div class="relative">
+            <input 
+              type="text" 
+              id="asgDate" 
+              value="14/10/2026 - 10:14" 
+              placeholder="14/10/2026 - 10:14" 
+              class="w-full pl-9 pr-3.5 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-xs focus:outline-none focus:ring-2 focus:ring-petro-500 font-mono transition-all"
+            />
+            <i class="fa-regular fa-calendar absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
           </div>
         </div>
 
@@ -1978,6 +1996,33 @@
 
       if (Array.isArray(items)) {
         globalAssignments = items.map(normalizeAssignment);
+        
+        // Tự động kiểm tra và chuyển đổi: Đổi ngày 16 thành ngày 14 (ví dụ 16/10/2026 -> 14/10/2026) theo yêu cầu
+        let hasUpdatedTimestamp = false;
+        for (const asg of globalAssignments) {
+          if (asg.timestamp && (asg.timestamp.includes('16/10/2026') || asg.timestamp.includes('16/10'))) {
+            asg.timestamp = asg.timestamp.replace(/16\/10\/2026/g, '14/10/2026').replace(/16\/10/g, '14/10');
+            hasUpdatedTimestamp = true;
+            await idbSaveAssignment(asg);
+          }
+        }
+        if (hasUpdatedTimestamp) {
+          try {
+            const metaList = globalAssignments.map(asg => ({
+              id: asg.id,
+              title: asg.title,
+              course: asg.course,
+              type: asg.type,
+              desc: asg.desc,
+              timestamp: asg.timestamp,
+              createdAt: asg.createdAt,
+              totalFilesCount: asg.files ? asg.files.length : 0,
+              totalSize: asg.totalSize,
+              files: (asg.files || []).map(f => ({ id: f.id, name: f.name, size: f.size }))
+            }));
+            localStorage.setItem(STORAGE_KEY_META, JSON.stringify(metaList));
+          } catch (e) {}
+        }
       } else {
         globalAssignments = [];
       }
@@ -1985,16 +2030,61 @@
       renderAssignments(currentFilterType);
     }
 
+    // Format display timestamp: replace 16 with 14
+    function formatDisplayTimestamp(ts) {
+      if (!ts) return 'Đã nộp: 14/10/2026 - 10:14';
+      let formatted = ts;
+      if (formatted.includes('16/10/2026')) {
+        formatted = formatted.replace(/16\/10\/2026/g, '14/10/2026');
+      }
+      if (formatted.includes('16/10')) {
+        formatted = formatted.replace(/16\/10/g, '14/10');
+      }
+      return formatted;
+    }
+
     // Real-time timestamp generation helper (DD/MM/YYYY - HH:mm)
-    function generateRealtimeTimestamp() {
-      const now = new Date();
-      const pad = (n) => String(n).padStart(2, '0');
-      const day = pad(now.getDate());
-      const month = pad(now.getMonth() + 1);
-      const year = now.getFullYear();
-      const hours = pad(now.getHours());
-      const minutes = pad(now.getMinutes());
-      return `Đã nộp: ${day}/${month}/${year} - ${hours}:${minutes}`;
+    function generateRealtimeTimestamp(customInput) {
+      if (customInput && customInput.trim()) {
+        const val = customInput.trim();
+        return val.startsWith('Đã nộp:') ? val : `Đã nộp: ${val}`;
+      }
+      return 'Đã nộp: 14/10/2026 - 10:14';
+    }
+
+    // Chỉnh sửa trực tiếp ngày nộp bài (Dành cho Quản trị viên)
+    function editAssignmentDate(assignmentId) {
+      if (!isAdminLoggedIn()) {
+        alert('Chỉ Quản trị viên mới có quyền chỉnh sửa ngày nộp!');
+        openAdminModal();
+        return;
+      }
+      const item = globalAssignments.find(a => a.id === assignmentId);
+      if (!item) return;
+      const currentTs = (formatDisplayTimestamp(item.timestamp)).replace('Đã nộp: ', '').trim();
+      const newTs = prompt('Nhập thời gian nộp bài mới cho bài tập này (Ví dụ: 14/10/2026 - 10:14):', currentTs || '14/10/2026 - 10:14');
+      if (newTs !== null && newTs.trim() !== '') {
+        const cleanTs = newTs.trim();
+        item.timestamp = cleanTs.startsWith('Đã nộp:') ? cleanTs : `Đã nộp: ${cleanTs}`;
+        idbSaveAssignment(item);
+        try {
+          const metaList = globalAssignments.map(asg => ({
+            id: asg.id,
+            title: asg.title,
+            course: asg.course,
+            type: asg.type,
+            desc: asg.desc,
+            timestamp: asg.timestamp,
+            createdAt: asg.createdAt,
+            totalFilesCount: asg.files ? asg.files.length : 0,
+            totalSize: asg.totalSize,
+            files: (asg.files || []).map(f => ({ id: f.id, name: f.name, size: f.size }))
+          }));
+          localStorage.setItem(STORAGE_KEY_META, JSON.stringify(metaList));
+        } catch(e) {}
+        renderAssignments(currentFilterType);
+        showToast('Đã cập nhật thời gian nộp bài thành công!');
+      }
     }
 
     // Handle Create New Assignment Form Submission with Multiple Files
@@ -2011,6 +2101,7 @@
       const course = document.getElementById('asgCourse').value.trim();
       const type = document.querySelector('input[name="asgType"]:checked')?.value || 'individual';
       const desc = document.getElementById('asgDesc').value.trim();
+      const customDateInput = document.getElementById('asgDate')?.value.trim();
       const submitBtn = e.target.querySelector('button[type="submit"]');
 
       if (!title || !course) {
@@ -2030,7 +2121,7 @@
       }
 
       try {
-        const timestamp = generateRealtimeTimestamp();
+        const timestamp = generateRealtimeTimestamp(customDateInput);
         
         // Map all selected files into storage objects
         const filesData = currentSelectedFiles.map((file, idx) => {
@@ -2336,10 +2427,22 @@
                 </span>
                 ${typeBadge}
               </div>
-              <!-- Realtime timestamp -->
-              <div class="flex items-center gap-1.5 text-[11px] font-mono text-slate-500 dark:text-slate-400">
-                <i class="fa-regular fa-clock text-[10px] text-slate-400"></i>
-                <span class="font-medium">${escapeHtml(item.timestamp)}</span>
+              <!-- Realtime timestamp with auto date 14 format & Admin Edit option -->
+              <div class="flex items-center justify-between gap-1 text-[11px] font-mono text-slate-500 dark:text-slate-400">
+                <div class="flex items-center gap-1.5 min-w-0">
+                  <i class="fa-regular fa-clock text-[10px] text-slate-400 shrink-0"></i>
+                  <span class="font-medium truncate">${escapeHtml(formatDisplayTimestamp(item.timestamp))}</span>
+                </div>
+                ${isAdminLoggedIn() ? `
+                  <button 
+                    type="button" 
+                    onclick="editAssignmentDate('${item.id}')" 
+                    title="Chỉnh sửa thời gian nộp bài (Chỉ Quản trị viên)" 
+                    class="admin-only inline-flex items-center gap-1 text-[10px] text-petro-600 hover:text-petro-700 dark:text-amber-400 dark:hover:text-amber-300 font-sans hover:underline cursor-pointer shrink-0 pl-1"
+                  >
+                    <i class="fa-solid fa-pen text-[9px]"></i> <span>Sửa ngày</span>
+                  </button>
+                ` : ''}
               </div>
             </div>
 
