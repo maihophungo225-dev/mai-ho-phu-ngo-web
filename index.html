@@ -1961,7 +1961,7 @@
       return item;
     }
 
-    // Default Pre-loaded Coursework Assignments (Always visible to all visitors on Vercel)
+    // Full List of Coursework Assignments (Assignment 1 to 6 - Always visible to everyone)
     const DEFAULT_ASSIGNMENTS = [
       {
         id: 'asg_default_6',
@@ -2037,6 +2037,75 @@
             sizeBytes: 1992294
           }
         ]
+      },
+      {
+        id: 'asg_default_3',
+        title: 'Assignment 3: Xử lý số liệu và phân tích thuộc tính địa chấn phản xạ 2D',
+        course: 'GEO205 - Địa vật lí ứng dụng',
+        type: 'teamwork',
+        desc: 'Thực hành quy trình lọc nhiễu dải tần (Bandpass Filtering), hiệu chỉnh độ khuếch đại (Gain Recovery), phân tích vận tốc và chồng chập tài liệu địa chấn 2D đường tuyến khu vực mỏ Rạng Đông.',
+        timestamp: 'Đã nộp: 18/09/2026 - 14:20',
+        createdAt: 1726644000000,
+        totalFilesCount: 2,
+        totalSize: '3.5 MB',
+        files: [
+          {
+            id: 'f_def_3_1',
+            name: 'Assignment_3_Xu_Ly_Dia_Chan_2D.pdf',
+            size: '3.1 MB',
+            sizeBytes: 3250585
+          },
+          {
+            id: 'f_def_3_2',
+            name: 'Script_Xu_Ly_Tin_Hieu_Seismic.py',
+            size: '380 KB',
+            sizeBytes: 389120
+          }
+        ]
+      },
+      {
+        id: 'asg_default_2',
+        title: 'Assignment 2: Đánh giá độ rỗng và độ bão hòa nước từ tài liệu địa vật lý giếng khoan',
+        course: 'GEO205 - Địa vật lí ứng dụng',
+        type: 'individual',
+        desc: 'Ứng dụng phương trình Archie và kết hợp đường cong Neutron - Density để tính toán độ rỗng hiệu dụng, thể tích sét (Vshale) và hệ số bão hòa nước (Sw) cho tập cát kết chứa dầu.',
+        timestamp: 'Đã nộp: 11/09/2026 - 16:00',
+        createdAt: 1726045200000,
+        totalFilesCount: 2,
+        totalSize: '2.8 MB',
+        files: [
+          {
+            id: 'f_def_2_1',
+            name: 'Assignment_2_Tinh_Do_Rong_Bao_Hoa_Nuoc.pdf',
+            size: '2.2 MB',
+            sizeBytes: 2306867
+          },
+          {
+            id: 'f_def_2_2',
+            name: 'Bang_Tinh_Thong_So_Archie.xlsx',
+            size: '650 KB',
+            sizeBytes: 665600
+          }
+        ]
+      },
+      {
+        id: 'asg_default_1',
+        title: 'Assignment 1: Tổng quan phương pháp thăm dò điện và trường trọng lực trong Địa vật lý ứng dụng',
+        course: 'GEO205 - Địa vật lí ứng dụng',
+        type: 'individual',
+        desc: 'Khảo sát nguyên lý đo sâu điện trở đối xứng (VES), phân tích dị thường trọng lực Bouguer và ứng dụng trong việc nhận diện đứt gãy kiến tạo sâu và ranh giới móng kết tinh.',
+        timestamp: 'Đã nộp: 05/09/2026 - 08:30',
+        createdAt: 1725503400000,
+        totalFilesCount: 1,
+        totalSize: '1.8 MB',
+        files: [
+          {
+            id: 'f_def_1_1',
+            name: 'Assignment_1_Tong_Quan_Dia_Vat_Ly.pdf',
+            size: '1.8 MB',
+            sizeBytes: 1887436
+          }
+        ]
       }
     ];
 
@@ -2072,22 +2141,26 @@
         } catch (e) {}
       }
 
-      // 4. If still empty, seed DEFAULT_ASSIGNMENTS so any visitor on any device sees them immediately!
-      if (!items || !Array.isArray(items) || items.length === 0) {
-        items = DEFAULT_ASSIGNMENTS;
-        for (const itm of DEFAULT_ASSIGNMENTS) {
-          await idbSaveAssignment(itm);
-        }
-      } else {
-        // Ensure Assignment 6 exists if user has older local data without it
-        const hasAsg6 = items.some(a => a.id === 'asg_default_6' || (a.title && a.title.toLowerCase().includes('assignment 6')));
-        if (!hasAsg6) {
-          items.unshift(DEFAULT_ASSIGNMENTS[0]);
-          await idbSaveAssignment(DEFAULT_ASSIGNMENTS[0]);
+      // 4. Merge Logic: Always preserve ALL 6 default assignments PLUS any custom assignments uploaded via Admin
+      let userCustomItems = [];
+      if (items && Array.isArray(items)) {
+        userCustomItems = items.filter(a => !a.id.startsWith('asg_default_'));
+      }
+
+      // Combine user uploads on top, followed by all 6 defaults
+      const combined = [...userCustomItems, ...DEFAULT_ASSIGNMENTS];
+      
+      // Deduplicate by ID
+      const seenIds = new Set();
+      const uniqueAssignments = [];
+      for (const item of combined) {
+        if (!seenIds.has(item.id)) {
+          seenIds.add(item.id);
+          uniqueAssignments.push(item);
         }
       }
 
-      globalAssignments = items.map(normalizeAssignment);
+      globalAssignments = uniqueAssignments.map(normalizeAssignment);
       
       // Tự động kiểm tra và chuyển đổi: Đổi ngày 16 thành ngày 14 (ví dụ 16/10/2026 -> 14/10/2026) theo yêu cầu
       let hasUpdatedTimestamp = false;
