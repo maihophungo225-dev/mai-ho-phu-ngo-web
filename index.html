@@ -108,15 +108,37 @@
 
       <!-- Desktop Nav Menu -->
       <nav class="hidden md:flex items-center gap-7 text-sm font-medium text-slate-600 dark:text-slate-300">
-        <a href="#about" class="hover:text-petro-600 dark:hover:text-white transition-colors">Về tôi</a>
-        <a href="#skills" class="hover:text-petro-600 dark:hover:text-white transition-colors">Kỹ năng</a>
-        <a href="#assignments" class="hover:text-petro-600 dark:hover:text-white transition-colors">Bài tập</a>
-        <a href="#research" class="hover:text-petro-600 dark:hover:text-white transition-colors">Đồ án & NCKH</a>
-        <a href="#contact" class="hover:text-petro-600 dark:hover:text-white transition-colors">Liên hệ</a>
+        <a href="#about" data-i18n="nav_about" class="hover:text-petro-600 dark:hover:text-white transition-colors">Về tôi</a>
+        <a href="#skills" data-i18n="nav_skills" class="hover:text-petro-600 dark:hover:text-white transition-colors">Kỹ năng</a>
+        <a href="#assignments" data-i18n="nav_assignments" class="hover:text-petro-600 dark:hover:text-white transition-colors">Bài tập</a>
+        <a href="#research" data-i18n="nav_research" class="hover:text-petro-600 dark:hover:text-white transition-colors">Đồ án & NCKH</a>
+        <a href="#contact" data-i18n="nav_contact" class="hover:text-petro-600 dark:hover:text-white transition-colors">Liên hệ</a>
       </nav>
 
-      <!-- Right Action Items (Dark/Light + Admin Auth + GeoAI trigger + Mobile Menu toggle) -->
-      <div class="flex items-center gap-2.5 sm:gap-3">
+      <!-- Right Action Items (Language Switcher + Dark/Light + Admin Auth + GeoAI trigger + Mobile Menu toggle) -->
+      <div class="flex items-center gap-2 sm:gap-2.5">
+        <!-- Language Switcher (VI / EN) -->
+        <div class="inline-flex items-center p-0.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-100/90 dark:bg-slate-900 text-xs font-semibold font-mono shadow-2xs" role="group" aria-label="Language selector">
+          <button 
+            type="button" 
+            id="langViBtn" 
+            onclick="switchLanguage('vi')" 
+            class="px-2 py-1 rounded-md transition-all font-bold cursor-pointer bg-white dark:bg-slate-800 text-petro-700 dark:text-amber-400 shadow-2xs" 
+            title="Tiếng Việt"
+          >
+            VI
+          </button>
+          <button 
+            type="button" 
+            id="langEnBtn" 
+            onclick="switchLanguage('en')" 
+            class="px-2 py-1 rounded-md transition-all font-medium cursor-pointer text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200" 
+            title="English"
+          >
+            EN
+          </button>
+        </div>
+
         <!-- Admin Mode Toggle Button -->
         <button 
           id="adminAuthBtn" 
@@ -125,7 +147,7 @@
           class="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-semibold rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:border-petro-500 dark:hover:border-amber-400 transition-colors shadow-2xs cursor-pointer"
         >
           <i id="adminAuthIcon" class="fa-solid fa-lock text-slate-400"></i>
-          <span id="adminAuthText" class="hidden sm:inline">Quản trị</span>
+          <span id="adminAuthText" data-i18n="admin_btn_text" class="hidden sm:inline">Quản trị</span>
         </button>
 
         <!-- Dark Mode Toggle Button -->
@@ -136,7 +158,7 @@
         <!-- GeoAI Assistant Nav Button -->
         <button onclick="toggleChatModal(true)" class="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-lg bg-petro-700 hover:bg-petro-800 text-white transition-all shadow-sm cursor-pointer">
           <i class="fa-solid fa-robot"></i>
-          <span>Trợ lý GeoAI</span>
+          <span data-i18n="geoai_btn_text">Trợ lý GeoAI</span>
         </button>
 
         <!-- Mobile Menu Toggle Button -->
@@ -148,16 +170,31 @@
 
     <!-- Mobile Nav Dropdown -->
     <div id="mobileMenu" class="hidden md:hidden border-b border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-950/95 px-4 pt-3 pb-4 space-y-2 text-sm font-medium">
-      <a href="#about" onclick="closeMobileMenu()" class="block py-2 text-slate-700 dark:text-slate-200 hover:text-petro-600">Về tôi (About)</a>
-      <a href="#skills" onclick="closeMobileMenu()" class="block py-2 text-slate-700 dark:text-slate-200 hover:text-petro-600">Kỹ năng cốt lõi (Skills)</a>
-      <a href="#assignments" onclick="closeMobileMenu()" class="block py-2 text-slate-700 dark:text-slate-200 hover:text-petro-600">Báo cáo bài tập (Assignments)</a>
-      <a href="#research" onclick="closeMobileMenu()" class="block py-2 text-slate-700 dark:text-slate-200 hover:text-petro-600">Đồ án & NCKH (Research)</a>
-      <a href="#contact" onclick="closeMobileMenu()" class="block py-2 text-slate-700 dark:text-slate-200 hover:text-petro-600">Liên hệ (Contact)</a>
+      <!-- Mobile Language Row -->
+      <div class="flex items-center justify-between py-2 border-b border-slate-100 dark:border-slate-800 text-sm">
+        <span class="text-slate-600 dark:text-slate-400 flex items-center gap-2">
+          <i class="fa-solid fa-globe text-petro-600 dark:text-amber-400"></i>
+          <span data-i18n="mobile_lang_label">Ngôn ngữ:</span>
+        </span>
+        <div class="inline-flex items-center p-0.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-100/90 dark:bg-slate-900 text-xs font-semibold font-mono">
+          <button type="button" onclick="switchLanguage('vi'); closeMobileMenu();" id="mobileLangViBtn" class="px-2.5 py-1 rounded-md font-bold bg-white dark:bg-slate-800 text-petro-700 dark:text-amber-400 shadow-2xs">
+            Tiếng Việt
+          </button>
+          <button type="button" onclick="switchLanguage('en'); closeMobileMenu();" id="mobileLangEnBtn" class="px-2.5 py-1 rounded-md text-slate-500 dark:text-slate-400">
+            English
+          </button>
+        </div>
+      </div>
+      <a href="#about" onclick="closeMobileMenu()" data-i18n="nav_about" class="block py-2 text-slate-700 dark:text-slate-200 hover:text-petro-600">Về tôi</a>
+      <a href="#skills" onclick="closeMobileMenu()" data-i18n="nav_skills" class="block py-2 text-slate-700 dark:text-slate-200 hover:text-petro-600">Kỹ năng</a>
+      <a href="#assignments" onclick="closeMobileMenu()" data-i18n="nav_assignments" class="block py-2 text-slate-700 dark:text-slate-200 hover:text-petro-600">Bài tập</a>
+      <a href="#research" onclick="closeMobileMenu()" data-i18n="nav_research" class="block py-2 text-slate-700 dark:text-slate-200 hover:text-petro-600">Đồ án & NCKH</a>
+      <a href="#contact" onclick="closeMobileMenu()" data-i18n="nav_contact" class="block py-2 text-slate-700 dark:text-slate-200 hover:text-petro-600">Liên hệ</a>
       <button onclick="closeMobileMenu(); handleAdminAuthClick();" id="mobileAdminAuthBtn" class="w-full text-left py-2 text-slate-700 dark:text-slate-200 hover:text-petro-600 flex items-center justify-between text-sm">
         <span><i id="mobileAdminAuthIcon" class="fa-solid fa-lock mr-2 text-slate-400"></i><span id="mobileAdminAuthText">Đăng nhập Quản trị</span></span>
       </button>
       <button onclick="closeMobileMenu(); toggleChatModal(true);" class="w-full mt-2 py-2 px-3 text-center text-xs font-semibold rounded-lg bg-petro-700 text-white flex items-center justify-center gap-2">
-        <i class="fa-solid fa-robot"></i> Mở Trợ lý AI Địa chất
+        <i class="fa-solid fa-robot"></i> <span data-i18n="mobile_geoai_btn">Mở Trợ lý AI Địa chất</span>
       </button>
     </div>
   </header>
@@ -176,16 +213,16 @@
           
           <!-- Kicker (Tiêu đề phụ) -->
           <div class="text-xs sm:text-[13px] font-bold uppercase tracking-[0.08em] font-mono flex items-center gap-1.5 mb-3">
-            <span class="text-slate-500 dark:text-slate-400">👋 XIN CHÀO, TÔI LÀ MAI HỒ PHÚ NGỘ</span>
+            <span data-i18n="hero_kicker" class="text-slate-500 dark:text-slate-400">👋 XIN CHÀO, TÔI LÀ MAI HỒ PHÚ NGỘ</span>
           </div>
 
           <!-- Main Headline with accessible amber accent and balanced line-height/spacing -->
-          <h1 class="text-3xl sm:text-5xl lg:text-[52px] font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.18] sm:leading-[1.15] mb-5">
+          <h1 data-i18n-html="hero_title" class="text-3xl sm:text-5xl lg:text-[52px] font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.18] sm:leading-[1.15] mb-5">
             Đam mê <span class="text-amber-700 dark:text-amber-400">Kỹ thuật Địa chất</span> &amp; Ứng dụng AI trong <span class="text-amber-700 dark:text-amber-400">Khoa học Trái Đất</span>
           </h1>
 
           <!-- Short Bio (Standardized 16-17px body text with relaxed line-height) -->
-          <p class="text-base sm:text-[17px] text-slate-600 dark:text-slate-300 max-w-2xl leading-[1.7]">
+          <p data-i18n="hero_bio" class="text-base sm:text-[17px] text-slate-600 dark:text-slate-300 max-w-2xl leading-[1.7]">
             Tập trung nghiên cứu chuyên sâu về phân tích tướng trầm tích, minh giải tài liệu địa chấn và đánh giá vỉa chứa. Tích cực ứng dụng mô hình tính toán và Machine Learning để tối ưu hóa các bài toán trong Khoa học Trái Đất.
           </p>
         </div>
@@ -214,13 +251,13 @@
       
       <!-- Section Header Kicker & Standard 32-40px Bold Title -->
       <div class="space-y-2">
-        <div class="text-xs sm:text-[13px] font-bold uppercase tracking-[0.08em] text-petro-600 dark:text-amber-400">
+        <div data-i18n="sec1_kicker" class="text-xs sm:text-[13px] font-bold uppercase tracking-[0.08em] text-petro-600 dark:text-amber-400">
           01 / Giới thiệu tổng quan
         </div>
-        <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+        <h2 data-i18n="sec1_title" class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
           Hồ sơ cá nhân &amp; Lĩnh vực học thuật
         </h2>
-        <p class="text-base leading-[1.7] text-slate-600 dark:text-slate-400 max-w-3xl">
+        <p data-i18n="sec1_desc" class="text-base leading-[1.7] text-slate-600 dark:text-slate-400 max-w-3xl">
           Sinh viên chuyên ngành Kỹ thuật Địa chất với nền tảng phân tích số liệu địa chấn, địa vật lý giếng khoan và định hướng nghiên cứu ứng dụng trí tuệ nhân tạo trong Khoa học Trái Đất.
         </p>
       </div>
@@ -233,36 +270,36 @@
           <div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 space-y-4 shadow-sm">
             <h3 class="font-semibold text-lg sm:text-xl text-slate-900 dark:text-white flex items-center gap-2">
               <i class="fa-solid fa-address-card text-petro-600 dark:text-petro-200"></i>
-              <span>Thông tin cá nhân</span>
+              <span data-i18n="info_title">Thông tin cá nhân</span>
             </h3>
 
             <dl class="divide-y divide-slate-100 dark:divide-slate-800 text-sm">
               <div class="py-2.5 flex justify-between items-center">
-                <dt class="text-slate-500 dark:text-slate-400 text-xs uppercase tracking-[0.05em] font-semibold">Họ và tên</dt>
+                <dt data-i18n="info_label_name" class="text-slate-500 dark:text-slate-400 text-xs uppercase tracking-[0.05em] font-semibold">Họ và tên</dt>
                 <dd class="text-base font-semibold text-slate-900 dark:text-white">Mai Hồ Phú Ngộ</dd>
               </div>
               <div class="py-2.5 flex justify-between items-center">
-                <dt class="text-slate-500 dark:text-slate-400 text-xs uppercase tracking-[0.05em] font-semibold">Mã sinh viên</dt>
+                <dt data-i18n="info_label_id" class="text-slate-500 dark:text-slate-400 text-xs uppercase tracking-[0.05em] font-semibold">Mã sinh viên</dt>
                 <dd class="font-mono text-base font-medium text-petro-700 dark:text-amber-400">12GEO110004</dd>
               </div>
               <div class="py-2.5 flex justify-between items-center">
-                <dt class="text-slate-500 dark:text-slate-400 text-xs uppercase tracking-[0.05em] font-semibold">Ngành đào tạo</dt>
-                <dd class="text-base font-medium text-slate-900 dark:text-white">Kỹ thuật Địa chất</dd>
+                <dt data-i18n="info_label_major" class="text-slate-500 dark:text-slate-400 text-xs uppercase tracking-[0.05em] font-semibold">Ngành đào tạo</dt>
+                <dd data-i18n="info_val_major" class="text-base font-medium text-slate-900 dark:text-white">Kỹ thuật Địa chất</dd>
               </div>
               <div class="py-2.5 flex justify-between items-center">
-                <dt class="text-slate-500 dark:text-slate-400 text-xs uppercase tracking-[0.05em] font-semibold">Khóa học</dt>
+                <dt data-i18n="info_label_cohort" class="text-slate-500 dark:text-slate-400 text-xs uppercase tracking-[0.05em] font-semibold">Khóa học</dt>
                 <dd class="font-mono text-sm sm:text-base text-slate-700 dark:text-slate-300">2023 – 2027 (Khóa 12)</dd>
               </div>
               <div class="py-2.5 flex justify-between items-center">
-                <dt class="text-slate-500 dark:text-slate-400 text-xs uppercase tracking-[0.05em] font-semibold">Trường Đại học</dt>
-                <dd class="text-base font-medium text-slate-900 dark:text-white text-right">Đại học Dầu khí Việt Nam (PVU)</dd>
+                <dt data-i18n="info_label_univ" class="text-slate-500 dark:text-slate-400 text-xs uppercase tracking-[0.05em] font-semibold">Trường Đại học</dt>
+                <dd data-i18n="info_val_univ" class="text-base font-medium text-slate-900 dark:text-white text-right">Đại học Dầu khí Việt Nam (PVU)</dd>
               </div>
               <div class="py-2.5 flex justify-between items-center">
-                <dt class="text-slate-500 dark:text-slate-400 text-xs uppercase tracking-[0.05em] font-semibold">Quê quán</dt>
-                <dd class="text-base text-slate-700 dark:text-slate-300">Vĩnh Long, Việt Nam</dd>
+                <dt data-i18n="info_label_home" class="text-slate-500 dark:text-slate-400 text-xs uppercase tracking-[0.05em] font-semibold">Quê quán</dt>
+                <dd data-i18n="info_val_home" class="text-base text-slate-700 dark:text-slate-300">Vĩnh Long, Việt Nam</dd>
               </div>
               <div class="py-2.5 flex justify-between items-center">
-                <dt class="text-slate-500 dark:text-slate-400 text-xs uppercase tracking-[0.05em] font-semibold">Email học thuật</dt>
+                <dt data-i18n="info_label_email" class="text-slate-500 dark:text-slate-400 text-xs uppercase tracking-[0.05em] font-semibold">Email học thuật</dt>
                 <dd class="font-mono text-xs sm:text-sm text-petro-600 dark:text-amber-400 font-medium">ngomhp12@pvu.edu.vn</dd>
               </div>
             </dl>
@@ -275,7 +312,7 @@
             <div class="flex items-center justify-between pb-1 border-b border-slate-100 dark:border-slate-800">
               <h3 class="font-semibold text-lg sm:text-xl text-slate-900 dark:text-white flex items-center gap-2">
                 <i class="fa-solid fa-compass-drafting text-petro-600 dark:text-amber-400"></i>
-                <span>Lĩnh vực quan tâm</span>
+                <span data-i18n="interests_title">Lĩnh vực quan tâm</span>
               </h3>
             </div>
 
@@ -286,7 +323,7 @@
                 <div class="w-10 h-10 rounded-lg bg-amber-100 dark:bg-amber-950/70 text-amber-700 dark:text-amber-400 flex items-center justify-center text-lg mb-2.5 group-hover:scale-110 transition-transform">
                   <i class="fa-solid fa-oil-well"></i>
                 </div>
-                <h4 class="font-semibold text-base sm:text-[17px] text-slate-900 dark:text-white text-center">
+                <h4 data-i18n="interest_1" class="font-semibold text-base sm:text-[17px] text-slate-900 dark:text-white text-center">
                   Địa chất dầu khí
                 </h4>
               </div>
@@ -296,7 +333,7 @@
                 <div class="w-10 h-10 rounded-lg bg-emerald-100 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-400 flex items-center justify-center text-lg mb-2.5 group-hover:scale-110 transition-transform">
                   <i class="fa-solid fa-leaf"></i>
                 </div>
-                <h4 class="font-semibold text-base sm:text-[17px] text-slate-900 dark:text-white text-center">
+                <h4 data-i18n="interest_2" class="font-semibold text-base sm:text-[17px] text-slate-900 dark:text-white text-center">
                   Năng lượng tái tạo
                 </h4>
               </div>
@@ -306,7 +343,7 @@
                 <div class="w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-950/70 text-blue-700 dark:text-blue-400 flex items-center justify-center text-lg mb-2.5 group-hover:scale-110 transition-transform">
                   <i class="fa-solid fa-chart-line"></i>
                 </div>
-                <h4 class="font-semibold text-base sm:text-[17px] text-slate-900 dark:text-white text-center">
+                <h4 data-i18n="interest_3" class="font-semibold text-base sm:text-[17px] text-slate-900 dark:text-white text-center">
                   Địa vật lý giếng khoan
                 </h4>
               </div>
@@ -316,7 +353,7 @@
                 <div class="w-10 h-10 rounded-lg bg-petro-100 dark:bg-petro-950/70 text-petro-700 dark:text-amber-400 flex items-center justify-center text-lg mb-2.5 group-hover:scale-110 transition-transform">
                   <i class="fa-solid fa-wave-square"></i>
                 </div>
-                <h4 class="font-semibold text-base sm:text-[17px] text-slate-900 dark:text-white text-center leading-snug">
+                <h4 data-i18n="interest_4" class="font-semibold text-base sm:text-[17px] text-slate-900 dark:text-white text-center leading-snug">
                   Xử lý và minh giải tài liệu địa chấn nông phân giải cao
                 </h4>
               </div>
@@ -337,7 +374,7 @@
                 <div class="w-8 h-8 rounded-lg bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center text-sm shadow-2xs">
                   <i class="fa-solid fa-trophy"></i>
                 </div>
-                <span>Thành tích &amp; Giải thưởng</span>
+                <span data-i18n="awards_title">Thành tích &amp; Giải thưởng</span>
               </h3>
               <span class="text-[11px] font-mono font-medium text-slate-400 uppercase tracking-wider">Honors &amp; Awards</span>
             </div>
@@ -351,7 +388,7 @@
                 </div>
                 <div class="flex-1 min-w-0">
                   <div class="flex items-center justify-between gap-2">
-                    <h4 class="font-bold text-sm text-slate-900 dark:text-white leading-snug">
+                    <h4 data-i18n="award_1_title" class="font-bold text-sm text-slate-900 dark:text-white leading-snug">
                       Giải Ba PetroCup khu vực Nam Á
                     </h4>
                     <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 shrink-0">
@@ -368,7 +405,7 @@
                 </div>
                 <div class="flex-1 min-w-0">
                   <div class="flex items-center justify-between gap-2">
-                    <h4 class="font-bold text-sm text-slate-900 dark:text-white leading-snug">
+                    <h4 data-i18n="award_2_title" class="font-bold text-sm text-slate-900 dark:text-white leading-snug">
                       Giải Nhất cuộc thi Robot dò line
                     </h4>
                     <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-teal-100 dark:bg-teal-950 text-teal-800 dark:text-teal-300 shrink-0">
@@ -385,10 +422,10 @@
                 </div>
                 <div class="flex-1 min-w-0">
                   <div class="flex items-center justify-between gap-2">
-                    <h4 class="font-bold text-sm text-slate-900 dark:text-white leading-snug">
+                    <h4 data-i18n="award_3_title" class="font-bold text-sm text-slate-900 dark:text-white leading-snug">
                       3 năm liên tiếp Vô địch Bơi lội PVU
                     </h4>
-                    <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-cyan-100 dark:bg-cyan-950 text-cyan-800 dark:text-cyan-300 shrink-0">
+                    <span data-i18n="award_3_badge" class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-cyan-100 dark:bg-cyan-950 text-cyan-800 dark:text-cyan-300 shrink-0">
                       3 Năm liền
                     </span>
                   </div>
@@ -402,10 +439,10 @@
                 </div>
                 <div class="flex-1 min-w-0">
                   <div class="flex items-center justify-between gap-2">
-                    <h4 class="font-bold text-sm text-slate-900 dark:text-white leading-snug">
+                    <h4 data-i18n="award_4_title" class="font-bold text-sm text-slate-900 dark:text-white leading-snug">
                       3 năm liên tiếp Vô địch Bóng chuyền PVU
                     </h4>
-                    <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-orange-100 dark:bg-orange-950 text-orange-800 dark:text-orange-300 shrink-0">
+                    <span data-i18n="award_4_badge" class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-orange-100 dark:bg-orange-950 text-orange-800 dark:text-orange-300 shrink-0">
                       3 Năm liền
                     </span>
                   </div>
@@ -421,7 +458,7 @@
                 <div class="w-8 h-8 rounded-lg bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 flex items-center justify-center text-sm shadow-2xs">
                   <i class="fa-solid fa-bolt"></i>
                 </div>
-                <span>Sở thích cá nhân</span>
+                <span data-i18n="hobbies_title">Sở thích cá nhân</span>
               </h3>
               <span class="text-[11px] font-mono font-medium text-slate-400 uppercase tracking-wider">Personal Interests</span>
             </div>
@@ -434,10 +471,10 @@
                 <div class="w-11 h-11 rounded-full bg-cyan-100 dark:bg-cyan-950/80 text-cyan-700 dark:text-cyan-400 flex items-center justify-center text-xl mb-2 group-hover:scale-110 transition-transform">
                   🏊
                 </div>
-                <div class="font-bold text-sm text-slate-900 dark:text-white">
+                <div data-i18n="hobby_1_title" class="font-bold text-sm text-slate-900 dark:text-white">
                   Bơi lội
                 </div>
-                <span class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
+                <span data-i18n="hobby_1_desc" class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
                   Sức bền &amp; tập trung
                 </span>
               </div>
@@ -447,10 +484,10 @@
                 <div class="w-11 h-11 rounded-full bg-emerald-100 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-400 flex items-center justify-center text-xl mb-2 group-hover:scale-110 transition-transform">
                   ⚽
                 </div>
-                <div class="font-bold text-sm text-slate-900 dark:text-white">
+                <div data-i18n="hobby_2_title" class="font-bold text-sm text-slate-900 dark:text-white">
                   Đá bóng
                 </div>
-                <span class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
+                <span data-i18n="hobby_2_desc" class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
                   Đồng đội &amp; phản xạ
                 </span>
               </div>
@@ -460,10 +497,10 @@
                 <div class="w-11 h-11 rounded-full bg-rose-100 dark:bg-rose-950/80 text-rose-700 dark:text-rose-400 flex items-center justify-center text-xl mb-2 group-hover:scale-110 transition-transform">
                   🥋
                 </div>
-                <div class="font-bold text-sm text-slate-900 dark:text-white">
+                <div data-i18n="hobby_3_title" class="font-bold text-sm text-slate-900 dark:text-white">
                   Võ thuật
                 </div>
-                <span class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
+                <span data-i18n="hobby_3_desc" class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
                   Kỷ luật &amp; tự vệ
                 </span>
               </div>
@@ -473,7 +510,7 @@
             <!-- Discipline & Balance Quote -->
             <div class="p-3 rounded-xl bg-petro-50/60 dark:bg-petro-950/40 border border-petro-100 dark:border-petro-900/50 flex items-center gap-3">
               <i class="fa-solid fa-quote-left text-petro-600 dark:text-amber-400 text-sm shrink-0"></i>
-              <p class="text-xs italic text-petro-900 dark:text-petro-200">
+              <p data-i18n="quote_text" class="text-xs italic text-petro-900 dark:text-petro-200">
                 &ldquo;Một trí tuệ sắc bén đi cùng thể lực dẻo dai — nền tảng vững chắc cho người kỹ sư tương lai.&rdquo;
               </p>
             </div>
@@ -483,10 +520,10 @@
       </div>
       <div id="skills" class="pt-8 sm:pt-12 border-t border-slate-200/70 dark:border-slate-800/70 space-y-6">
         <div class="space-y-2">
-          <div class="text-xs sm:text-[13px] font-bold uppercase tracking-[0.08em] text-petro-600 dark:text-amber-400">
+          <div data-i18n="sec2_kicker" class="text-xs sm:text-[13px] font-bold uppercase tracking-[0.08em] text-petro-600 dark:text-amber-400">
             02 / Kỹ năng và phần mềm
           </div>
-          <h3 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+          <h3 data-i18n="sec2_title" class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
             Năng lực Chuyên môn &amp; Công cụ Kỹ thuật
           </h3>
         </div>
@@ -503,7 +540,7 @@
                     <i class="fa-solid fa-brain"></i>
                   </div>
                   <div>
-                    <h3 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+                    <h3 data-i18n="sec2_col_skills" class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
                       Kỹ năng
                     </h3>
                   </div>
@@ -518,7 +555,7 @@
                     <i class="fa-solid fa-microchip"></i>
                   </div>
                   <div class="min-w-0">
-                    <div class="font-semibold text-sm sm:text-[15px] text-slate-900 dark:text-white group-hover:text-petro-600 dark:group-hover:text-amber-300 transition-colors leading-snug">
+                    <div data-i18n="skill_1" class="font-semibold text-sm sm:text-[15px] text-slate-900 dark:text-white group-hover:text-petro-600 dark:group-hover:text-amber-300 transition-colors leading-snug">
                       Ứng dụng công nghệ AI
                     </div>
                   </div>
@@ -530,7 +567,7 @@
                     <i class="fa-solid fa-layer-group"></i>
                   </div>
                   <div class="min-w-0">
-                    <div class="font-semibold text-sm sm:text-[15px] text-slate-900 dark:text-white group-hover:text-petro-600 dark:group-hover:text-amber-300 transition-colors leading-snug">
+                    <div data-i18n="skill_2" class="font-semibold text-sm sm:text-[15px] text-slate-900 dark:text-white group-hover:text-petro-600 dark:group-hover:text-amber-300 transition-colors leading-snug">
                       Minh giải tài liệu địa chấn 2D/3D
                     </div>
                   </div>
@@ -542,7 +579,7 @@
                     <i class="fa-solid fa-wave-square"></i>
                   </div>
                   <div class="min-w-0">
-                    <div class="font-semibold text-sm sm:text-[15px] text-slate-900 dark:text-white group-hover:text-petro-600 dark:group-hover:text-amber-300 transition-colors leading-snug">
+                    <div data-i18n="skill_3" class="font-semibold text-sm sm:text-[15px] text-slate-900 dark:text-white group-hover:text-petro-600 dark:group-hover:text-amber-300 transition-colors leading-snug">
                       Xử lý và Minh giải Địa chấn Nông phân giải cao
                     </div>
                   </div>
@@ -554,7 +591,7 @@
                     <i class="fa-solid fa-file-signature"></i>
                   </div>
                   <div class="min-w-0">
-                    <div class="font-semibold text-sm sm:text-[15px] text-slate-900 dark:text-white group-hover:text-petro-600 dark:group-hover:text-amber-300 transition-colors leading-snug">
+                    <div data-i18n="skill_4" class="font-semibold text-sm sm:text-[15px] text-slate-900 dark:text-white group-hover:text-petro-600 dark:group-hover:text-amber-300 transition-colors leading-snug">
                       Nghiên cứu Khoa học & Báo cáo
                     </div>
                   </div>
@@ -572,7 +609,7 @@
                     <i class="fa-solid fa-laptop-code"></i>
                   </div>
                   <div>
-                    <h3 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+                    <h3 data-i18n="sec2_col_software" class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
                       Phần mềm
                     </h3>
                   </div>
@@ -647,9 +684,9 @@
         <div class="space-y-2">
           <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
             <span class="text-xs sm:text-[13px] font-bold uppercase tracking-[0.08em] text-petro-600 dark:text-amber-400 font-mono block">03 /</span>
-            <span>Bài tập môn Địa vật lí ứng dụng</span>
+            <span data-i18n="sec3_title">Bài tập môn Địa vật lí ứng dụng</span>
           </h2>
-          <p class="text-base leading-[1.7] text-slate-600 dark:text-slate-400 max-w-2xl">
+          <p data-i18n="sec3_desc" class="text-base leading-[1.7] text-slate-600 dark:text-slate-400 max-w-2xl">
             Quản lý và tổng hợp các bài tập lớn, bài tập cá nhân và báo cáo nhóm môn Địa vật lí ứng dụng kèm liên kết xem trực tiếp file PDF, Word, PowerPoint, Code.
           </p>
         </div>
@@ -658,20 +695,20 @@
         <div class="flex flex-wrap items-center gap-3 self-start md:self-auto">
           <div class="inline-flex p-1 rounded-lg bg-slate-200/80 dark:bg-slate-900 border border-slate-300 dark:border-slate-800">
             <button onclick="filterAssignments('all')" id="filter-all" class="px-3.5 py-1.5 text-xs font-semibold rounded-md transition-all bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm">
-              Tất cả (<span id="count-all">0</span>)
+              <span data-i18n="filter_all">Tất cả</span> (<span id="count-all">0</span>)
             </button>
             <button onclick="filterAssignments('individual')" id="filter-individual" class="px-3.5 py-1.5 text-xs font-medium rounded-md transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
-              Cá nhân (<span id="count-individual">0</span>)
+              <span data-i18n="filter_ind">Cá nhân</span> (<span id="count-individual">0</span>)
             </button>
             <button onclick="filterAssignments('teamwork')" id="filter-teamwork" class="px-3.5 py-1.5 text-xs font-medium rounded-md transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
-              Nhóm (<span id="count-teamwork">0</span>)
+              <span data-i18n="filter_team">Nhóm</span> (<span id="count-teamwork">0</span>)
             </button>
           </div>
 
           <!-- Add Assignment Button (Admin only) -->
           <button onclick="openNewAssignmentModal()" id="btnHeaderAddAssignment" class="admin-only hidden px-3.5 py-2 rounded-lg bg-petro-700 hover:bg-petro-800 text-white text-xs font-semibold items-center gap-2 shadow-sm transition-colors cursor-pointer">
             <i class="fa-solid fa-plus"></i>
-            <span>Thêm bài tập</span>
+            <span data-i18n="btn_add_asg">Thêm bài tập</span>
           </button>
         </div>
       </div>
@@ -684,14 +721,14 @@
           <div class="w-16 h-16 rounded-2xl bg-white dark:bg-slate-800 border border-petro-200 dark:border-amber-500/40 text-petro-600 dark:text-amber-400 flex items-center justify-center text-2xl shadow-sm group-hover:scale-110 group-hover:bg-petro-600 group-hover:text-white dark:group-hover:bg-amber-500 dark:group-hover:text-slate-950 transition-all duration-200 mb-4">
             <i class="fa-solid fa-plus"></i>
           </div>
-          <h3 class="font-bold text-base text-slate-900 dark:text-white group-hover:text-petro-600 dark:group-hover:text-amber-400 transition-colors">
+          <h3 data-i18n="card_add_title" class="font-bold text-base text-slate-900 dark:text-white group-hover:text-petro-600 dark:group-hover:text-amber-400 transition-colors">
             Thêm bài tập mới
           </h3>
-          <p class="text-xs text-slate-500 dark:text-slate-400 mt-2 max-w-[230px] leading-relaxed">
+          <p data-i18n="card_add_desc" class="text-xs text-slate-500 dark:text-slate-400 mt-2 max-w-[230px] leading-relaxed">
             Nhấn để nộp hoặc tải lên bài tập, báo cáo chuyên đề và đồ án thực hành
           </p>
           <div class="mt-5 inline-flex items-center gap-1.5 text-xs font-mono font-medium text-petro-700 dark:text-amber-400 bg-white dark:bg-slate-800 px-3 py-1.5 rounded-full border border-petro-200 dark:border-slate-700 shadow-2xs">
-            <i class="fa-solid fa-cloud-arrow-up text-[11px]"></i> Tải lên PDF, Word, PPT, Code...
+            <i class="fa-solid fa-cloud-arrow-up text-[11px]"></i> <span data-i18n="card_add_types">Tải lên PDF, Word, PPT, Code...</span>
           </div>
         </div>
 
@@ -703,7 +740,7 @@
       <!-- Empty State Notice (shown only when no assignments added yet) -->
       <div id="assignmentsEmptyNotice" class="hidden text-center py-6 px-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/40 max-w-lg mx-auto">
         <i class="fa-solid fa-folder-open text-2xl text-slate-400 mb-2"></i>
-        <p class="text-xs text-slate-600 dark:text-slate-400">
+        <p data-i18n-html="asg_empty" class="text-xs text-slate-600 dark:text-slate-400">
           Chưa có bài tập nào được lưu. Hãy nhấp vào <strong>"Thêm bài tập mới"</strong> để đăng bài đầu tiên!
         </p>
       </div>
@@ -717,13 +754,13 @@
       
       <!-- Section Header -->
       <div class="space-y-2">
-        <div class="text-xs sm:text-[13px] font-bold uppercase tracking-[0.08em] text-petro-600 dark:text-amber-400">
+        <div data-i18n="sec4_kicker" class="text-xs sm:text-[13px] font-bold uppercase tracking-[0.08em] text-petro-600 dark:text-amber-400">
           04 / Đồ án và nghiên cứu khoa học
         </div>
-        <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+        <h2 data-i18n="sec4_title" class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
           Đồ án Chuyên ngành &amp; Công trình NCKH
         </h2>
-        <p class="text-base leading-[1.7] text-slate-600 dark:text-slate-400 max-w-3xl">
+        <p data-i18n="sec4_desc" class="text-base leading-[1.7] text-slate-600 dark:text-slate-400 max-w-3xl">
           Các công trình nghiên cứu khoa học sinh viên được thực hiện dưới sự hướng dẫn của các giảng viên Khoa Dầu khí, Trường Đại học Dầu khí Việt Nam.
         </p>
       </div>
@@ -736,7 +773,7 @@
           <!-- Group Title A -->
           <div class="flex items-center gap-2.5 pb-2.5 border-b border-slate-200/80 dark:border-slate-800">
             <span class="text-xl">📌</span>
-            <h3 class="text-xl sm:text-2xl font-bold uppercase tracking-wider text-slate-900 dark:text-white">
+            <h3 data-i18n="group_a_title" class="text-xl sm:text-2xl font-bold uppercase tracking-wider text-slate-900 dark:text-white">
               ĐỒ ÁN
             </h3>
           </div>
@@ -749,17 +786,17 @@
               <div class="space-y-3.5">
                 <div class="flex items-center justify-between gap-2">
                   <span class="inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.05em] font-semibold text-petro-700 dark:text-amber-400 bg-petro-50/90 dark:bg-petro-950/60 px-2.5 py-1 rounded-md border border-petro-200/60 dark:border-amber-800/40">
-                    <i class="fa-solid fa-graduation-cap text-[11px]"></i> Đồ án chuyên ngành
+                    <i class="fa-solid fa-graduation-cap text-[11px]"></i> <span data-i18n="badge_project">Đồ án chuyên ngành</span>
                   </span>
                   <span class="text-xs uppercase tracking-wider font-semibold text-slate-400">PVU Geology</span>
                 </div>
-                <h4 class="text-lg sm:text-[19px] font-semibold text-slate-900 dark:text-white leading-[1.65] group-hover:text-petro-600 dark:group-hover:text-amber-300 transition-colors">
+                <h4 data-i18n="proj_1_title" class="text-lg sm:text-[19px] font-semibold text-slate-900 dark:text-white leading-[1.65] group-hover:text-petro-600 dark:group-hover:text-amber-300 transition-colors">
                   Đồ án 1: Đánh giá thông số chứa của tầng Mioxen giữa mỏ X, bể Nam Côn Sơn theo tài liệu địa vật lý giếng khoan
                 </h4>
               </div>
               <div class="pt-4 mt-5 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-end text-xs font-mono">
                 <button onclick="openResearchDetailModal(1)" class="font-medium text-petro-600 dark:text-amber-400 hover:underline flex items-center gap-1 cursor-pointer">
-                  <span>Xem chi tiết</span>
+                  <span data-i18n="btn_view_detail">Xem chi tiết</span>
                   <i class="fa-solid fa-arrow-right text-[10px]"></i>
                 </button>
               </div>
@@ -770,17 +807,17 @@
               <div class="space-y-3.5">
                 <div class="flex items-center justify-between gap-2">
                   <span class="inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.05em] font-semibold text-petro-700 dark:text-amber-400 bg-petro-50/90 dark:bg-petro-950/60 px-2.5 py-1 rounded-md border border-petro-200/60 dark:border-amber-800/40">
-                    <i class="fa-solid fa-graduation-cap text-[11px]"></i> Đồ án chuyên ngành
+                    <i class="fa-solid fa-graduation-cap text-[11px]"></i> <span data-i18n="badge_project">Đồ án chuyên ngành</span>
                   </span>
                   <span class="text-xs uppercase tracking-wider font-semibold text-slate-400">PVU Geology</span>
                 </div>
-                <h4 class="text-lg sm:text-[19px] font-semibold text-slate-900 dark:text-white leading-[1.65] group-hover:text-petro-600 dark:group-hover:text-amber-300 transition-colors">
+                <h4 data-i18n="proj_2_title" class="text-lg sm:text-[19px] font-semibold text-slate-900 dark:text-white leading-[1.65] group-hover:text-petro-600 dark:group-hover:text-amber-300 transition-colors">
                   Đồ án 2: Xử lý và minh giải tài liệu địa chấn nông phục vụ hệ thống giàn khoan
                 </h4>
               </div>
               <div class="pt-4 mt-5 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-end text-xs font-mono">
                 <button onclick="openResearchDetailModal(2)" class="font-medium text-petro-600 dark:text-amber-400 hover:underline flex items-center gap-1 cursor-pointer">
-                  <span>Xem chi tiết</span>
+                  <span data-i18n="btn_view_detail">Xem chi tiết</span>
                   <i class="fa-solid fa-arrow-right text-[10px]"></i>
                 </button>
               </div>
@@ -794,7 +831,7 @@
           <!-- Group Title B -->
           <div class="flex items-center gap-2.5 pb-2.5 border-b border-slate-200/80 dark:border-slate-800">
             <span class="text-xl">🔬</span>
-            <h3 class="text-xl sm:text-2xl font-bold uppercase tracking-wider text-slate-900 dark:text-white">
+            <h3 data-i18n="group_b_title" class="text-xl sm:text-2xl font-bold uppercase tracking-wider text-slate-900 dark:text-white">
               NGHIÊN CỨU KHOA HỌC
             </h3>
           </div>
@@ -807,17 +844,17 @@
               <div class="space-y-3.5">
                 <div class="flex items-center justify-between gap-2">
                   <span class="inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.05em] font-semibold text-teal-700 dark:text-teal-300 bg-teal-50/90 dark:bg-teal-950/60 px-2.5 py-1 rounded-md border border-teal-200/60 dark:border-teal-800/40">
-                    <i class="fa-solid fa-flask text-[11px]"></i> Cấp trường
+                    <i class="fa-solid fa-flask text-[11px]"></i> <span data-i18n="badge_campus">Cấp trường</span>
                   </span>
                   <span class="text-xs uppercase tracking-wider font-semibold text-slate-400">NCKH Sinh viên</span>
                 </div>
-                <h4 class="text-lg sm:text-[19px] font-semibold text-slate-900 dark:text-white leading-[1.65] group-hover:text-teal-600 dark:group-hover:text-teal-300 transition-colors">
+                <h4 data-i18n="proj_3_title" class="text-lg sm:text-[19px] font-semibold text-slate-900 dark:text-white leading-[1.65] group-hover:text-teal-600 dark:group-hover:text-teal-300 transition-colors">
                   NCKH cấp trường: Đánh giá nguy cơ trượt đất nhằm đề xuất giải pháp giảm thiểu thiệt hại do trượt đất tại khu vực cầu Cạn Sa Pa, Lào Cai
                 </h4>
               </div>
               <div class="pt-4 mt-5 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-end text-xs font-mono">
                 <button onclick="openResearchDetailModal(3)" class="font-medium text-teal-600 dark:text-teal-300 hover:underline flex items-center gap-1 cursor-pointer">
-                  <span>Xem chi tiết</span>
+                  <span data-i18n="btn_view_detail">Xem chi tiết</span>
                   <i class="fa-solid fa-arrow-right text-[10px]"></i>
                 </button>
               </div>
@@ -828,17 +865,17 @@
               <div class="space-y-3.5">
                 <div class="flex items-center justify-between gap-2">
                   <span class="inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.05em] font-semibold text-teal-700 dark:text-teal-300 bg-teal-50/90 dark:bg-teal-950/60 px-2.5 py-1 rounded-md border border-teal-200/60 dark:border-teal-800/40">
-                    <i class="fa-solid fa-handshake text-[11px]"></i> Doanh nghiệp
+                    <i class="fa-solid fa-handshake text-[11px]"></i> <span data-i18n="badge_partner">Doanh nghiệp</span>
                   </span>
                   <span class="text-xs uppercase tracking-wider font-semibold text-slate-400">Vietsovpetro Partner</span>
                 </div>
-                <h4 class="text-lg sm:text-[19px] font-semibold text-slate-900 dark:text-white leading-[1.65] group-hover:text-teal-600 dark:group-hover:text-teal-300 transition-colors">
+                <h4 data-i18n="proj_4_title" class="text-lg sm:text-[19px] font-semibold text-slate-900 dark:text-white leading-[1.65] group-hover:text-teal-600 dark:group-hover:text-teal-300 transition-colors">
                   NCKH hợp tác với Vietsovpetro: Tiềm năng địa chất và định hướng phát triển bền vững năng lượng địa nhiệt ở Việt Nam trong bối cảnh biến đổi khí hậu
                 </h4>
               </div>
               <div class="pt-4 mt-5 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-end text-xs font-mono">
                 <button onclick="openResearchDetailModal(4)" class="font-medium text-teal-600 dark:text-teal-300 hover:underline flex items-center gap-1 cursor-pointer">
-                  <span>Xem chi tiết</span>
+                  <span data-i18n="btn_view_detail">Xem chi tiết</span>
                   <i class="fa-solid fa-arrow-right text-[10px]"></i>
                 </button>
               </div>
@@ -858,13 +895,13 @@
       
       <!-- Section Header -->
       <div class="space-y-2">
-        <div class="text-xs sm:text-[13px] font-bold uppercase tracking-[0.08em] text-petro-600 dark:text-amber-400">
+        <div data-i18n="sec5_kicker" class="text-xs sm:text-[13px] font-bold uppercase tracking-[0.08em] text-petro-600 dark:text-amber-400">
           05 / Kết nối &amp; Trao đổi
         </div>
-        <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+        <h2 data-i18n="sec5_title" class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
           Thông tin Liên hệ &amp; Hợp tác Học thuật
         </h2>
-        <p class="text-base leading-[1.7] text-slate-600 dark:text-slate-400 max-w-2xl">
+        <p data-i18n="sec5_desc" class="text-base leading-[1.7] text-slate-600 dark:text-slate-400 max-w-2xl">
           Quý thầy cô, các chuyên gia doanh nghiệp dầu khí và các bạn sinh viên có thể gửi tin nhắn trao đổi về học tập, nghiên cứu hoặc cơ hội thực tập.
         </p>
       </div>
@@ -874,7 +911,7 @@
         <!-- Left: Contact Details & Academic Profiles -->
         <div class="lg:col-span-5 space-y-6">
           <div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 space-y-5">
-            <h3 class="font-semibold text-lg sm:text-xl text-slate-900 dark:text-white">Địa chỉ liên lạc trực tiếp</h3>
+            <h3 data-i18n="contact_box_title" class="font-semibold text-lg sm:text-xl text-slate-900 dark:text-white">Địa chỉ liên lạc trực tiếp</h3>
 
             <div class="space-y-4">
               <div class="flex items-start gap-3">
@@ -882,7 +919,7 @@
                   <i class="fa-solid fa-envelope"></i>
                 </div>
                 <div>
-                  <div class="text-[12px] uppercase font-semibold tracking-[0.06em] text-slate-500 dark:text-slate-400 mb-0.5">Email học thuật / Cá nhân</div>
+                  <div data-i18n="contact_lbl_email" class="text-[12px] uppercase font-semibold tracking-[0.06em] text-slate-500 dark:text-slate-400 mb-0.5">Email học thuật / Cá nhân</div>
                   <a href="mailto:ngomhp12@pvu.edu.vn" class="text-base font-medium text-slate-900 dark:text-slate-100 hover:text-petro-600 dark:hover:text-amber-400 transition-colors">
                     ngomhp12@pvu.edu.vn
                   </a>
@@ -894,11 +931,11 @@
                   <i class="fa-solid fa-building-columns"></i>
                 </div>
                 <div>
-                  <div class="text-[12px] uppercase font-semibold tracking-[0.06em] text-slate-500 dark:text-slate-400 mb-0.5">Cơ sở đào tạo</div>
-                  <div class="text-base font-medium text-slate-900 dark:text-slate-100">
+                  <div data-i18n="contact_lbl_campus" class="text-[12px] uppercase font-semibold tracking-[0.06em] text-slate-500 dark:text-slate-400 mb-0.5">Cơ sở đào tạo</div>
+                  <div data-i18n="info_val_univ" class="text-base font-medium text-slate-900 dark:text-slate-100">
                     Trường Đại học Dầu khí Việt Nam (PVU)
                   </div>
-                  <div class="text-sm font-normal text-slate-600 dark:text-slate-400 mt-0.5">
+                  <div data-i18n="contact_val_address" class="text-sm font-normal text-slate-600 dark:text-slate-400 mt-0.5">
                     762, Cách Mạng Tháng 8, P. Bà Rịa, TP. Hồ Chí Minh
                   </div>
                 </div>
@@ -909,8 +946,8 @@
                   <i class="fa-solid fa-map-pin"></i>
                 </div>
                 <div>
-                  <div class="text-[12px] uppercase font-semibold tracking-[0.06em] text-slate-500 dark:text-slate-400 mb-0.5">Quê quán</div>
-                  <div class="text-base font-medium text-slate-900 dark:text-slate-100">
+                  <div data-i18n="contact_lbl_hometown" class="text-[12px] uppercase font-semibold tracking-[0.06em] text-slate-500 dark:text-slate-400 mb-0.5">Quê quán</div>
+                  <div data-i18n="info_val_home" class="text-base font-medium text-slate-900 dark:text-slate-100">
                     Tỉnh Vĩnh Long, Việt Nam
                   </div>
                 </div>
@@ -918,7 +955,7 @@
             </div>
 
             <div class="pt-4 border-t border-slate-100 dark:border-slate-800">
-              <div class="text-[12px] uppercase font-semibold tracking-[0.06em] text-slate-500 dark:text-slate-400 mb-3">Mạng xã hội &amp; Hồ sơ học thuật:</div>
+              <div data-i18n="contact_lbl_social" class="text-[12px] uppercase font-semibold tracking-[0.06em] text-slate-500 dark:text-slate-400 mb-3">Mạng xã hội &amp; Hồ sơ học thuật:</div>
               <div class="flex items-center gap-3">
                 <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-lg border border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-petro-600 hover:border-petro-600 transition-colors">
                   <i class="fa-brands fa-linkedin"></i>
@@ -940,7 +977,7 @@
         <!-- Right: Fast Contact Form -->
         <div class="lg:col-span-7">
           <div class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 sm:p-7 space-y-5">
-            <h3 class="font-semibold text-lg sm:text-xl text-slate-900 dark:text-white">Gửi tin nhắn trực tiếp</h3>
+            <h3 data-i18n="contact_form_title" class="font-semibold text-lg sm:text-xl text-slate-900 dark:text-white">Gửi tin nhắn trực tiếp</h3>
             
             <form id="contactForm" action="https://formspree.io/f/maenkkzb" method="POST" onsubmit="handleContactSubmit(event)" class="space-y-4">
               <!-- Honeypot anti-spam field for Formspree -->
@@ -948,32 +985,32 @@
 
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div class="space-y-1.5">
-                  <label for="senderName" class="text-[12px] uppercase font-semibold tracking-[0.05em] text-slate-500 dark:text-slate-400 block">Họ và tên *</label>
-                  <input type="text" id="senderName" name="name" required placeholder="Ví dụ: Nguyễn Văn A" class="w-full px-4 py-3 sm:py-3.5 text-base rounded-xl border border-slate-300 dark:border-slate-700 bg-white/70 dark:bg-slate-950/70 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-petro-500/20 focus:border-petro-600 transition-all" />
+                  <label for="senderName" data-i18n="contact_lbl_name" class="text-[12px] uppercase font-semibold tracking-[0.05em] text-slate-500 dark:text-slate-400 block">Họ và tên *</label>
+                  <input type="text" id="senderName" name="name" required placeholder="Ví dụ: Nguyễn Văn A" data-i18n-placeholder="contact_ph_name" class="w-full px-4 py-3 sm:py-3.5 text-base rounded-xl border border-slate-300 dark:border-slate-700 bg-white/70 dark:bg-slate-950/70 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-petro-500/20 focus:border-petro-600 transition-all" />
                 </div>
                 <div class="space-y-1.5">
-                  <label for="senderEmail" class="text-[12px] uppercase font-semibold tracking-[0.05em] text-slate-500 dark:text-slate-400 block">Địa chỉ Email *</label>
+                  <label for="senderEmail" data-i18n="contact_lbl_email_input" class="text-[12px] uppercase font-semibold tracking-[0.05em] text-slate-500 dark:text-slate-400 block">Địa chỉ Email *</label>
                   <input type="email" id="senderEmail" name="email" required placeholder="name@domain.com" class="w-full px-4 py-3 sm:py-3.5 text-base rounded-xl border border-slate-300 dark:border-slate-700 bg-white/70 dark:bg-slate-950/70 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-petro-500/20 focus:border-petro-600 transition-all" />
                 </div>
               </div>
 
               <div class="space-y-1.5">
-                <label for="senderSubject" class="text-[12px] uppercase font-semibold tracking-[0.05em] text-slate-500 dark:text-slate-400 block">Tiêu đề liên hệ *</label>
-                <input type="text" id="senderSubject" name="subject" required placeholder="Trao đổi bài tập / Nghiên cứu khoa học..." class="w-full px-4 py-3 sm:py-3.5 text-base rounded-xl border border-slate-300 dark:border-slate-700 bg-white/70 dark:bg-slate-950/70 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-petro-500/20 focus:border-petro-600 transition-all" />
+                <label for="senderSubject" data-i18n="contact_lbl_subject" class="text-[12px] uppercase font-semibold tracking-[0.05em] text-slate-500 dark:text-slate-400 block">Tiêu đề liên hệ *</label>
+                <input type="text" id="senderSubject" name="subject" required placeholder="Trao đổi bài tập / Nghiên cứu khoa học..." data-i18n-placeholder="contact_ph_subject" class="w-full px-4 py-3 sm:py-3.5 text-base rounded-xl border border-slate-300 dark:border-slate-700 bg-white/70 dark:bg-slate-950/70 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-petro-500/20 focus:border-petro-600 transition-all" />
               </div>
 
               <div class="space-y-1.5">
-                <label for="senderMessage" class="text-[12px] uppercase font-semibold tracking-[0.05em] text-slate-500 dark:text-slate-400 block">Nội dung tin nhắn *</label>
-                <textarea id="senderMessage" name="message" rows="4" required placeholder="Nhập nội dung bạn muốn gửi tới Phú Ngộ..." class="w-full px-4 py-3 sm:py-3.5 text-base rounded-xl border border-slate-300 dark:border-slate-700 bg-white/70 dark:bg-slate-950/70 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-petro-500/20 focus:border-petro-600 transition-all resize-none"></textarea>
+                <label for="senderMessage" data-i18n="contact_lbl_message" class="text-[12px] uppercase font-semibold tracking-[0.05em] text-slate-500 dark:text-slate-400 block">Nội dung tin nhắn *</label>
+                <textarea id="senderMessage" name="message" rows="4" required placeholder="Nhập nội dung bạn muốn gửi tới Phú Ngộ..." data-i18n-placeholder="contact_ph_message" class="w-full px-4 py-3 sm:py-3.5 text-base rounded-xl border border-slate-300 dark:border-slate-700 bg-white/70 dark:bg-slate-950/70 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-petro-500/20 focus:border-petro-600 transition-all resize-none"></textarea>
               </div>
 
               <div class="pt-2 flex items-center justify-between">
                 <span id="formFeedback" class="text-xs text-emerald-600 dark:text-emerald-400 font-medium hidden">
-                  <i class="fa-solid fa-circle-check"></i> Đã gửi tin nhắn thành công!
+                  <i class="fa-solid fa-circle-check"></i> <span data-i18n="contact_success">Đã gửi tin nhắn thành công!</span>
                 </span>
                 <button type="submit" id="submitBtn" class="ml-auto px-6 py-3 rounded-xl bg-petro-700 hover:bg-petro-800 text-white font-semibold text-sm sm:text-base flex items-center gap-2.5 transition-all shadow-sm hover:shadow-md cursor-pointer">
                   <i class="fa-solid fa-paper-plane"></i>
-                  <span>Gửi tin nhắn</span>
+                  <span data-i18n="contact_btn_send">Gửi tin nhắn</span>
                 </button>
               </div>
             </form>
@@ -989,22 +1026,22 @@
   <footer class="bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 py-8 text-xs text-slate-500 dark:text-slate-400">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
       <div class="space-y-1 text-center sm:text-left">
-        <p class="font-medium text-slate-700 dark:text-slate-300">
+        <p data-i18n="footer_rights" class="font-medium text-slate-700 dark:text-slate-300">
           Bản quyền © 2026 - Mai Hồ Phú Ngộ (MSSV: 12GEO110004)
         </p>
-        <p class="text-slate-400 dark:text-slate-500">
+        <p data-i18n="footer_school" class="text-slate-400 dark:text-slate-500">
           Khoa Dầu khí · Trường Đại học Dầu khí Việt Nam (PetroVietnam University - PVU)
         </p>
       </div>
       <div class="flex items-center gap-4 text-xs font-mono">
         <button type="button" onclick="handleAdminAuthClick()" class="hover:text-petro-600 dark:hover:text-white transition-colors cursor-pointer flex items-center gap-1.5">
           <i class="fa-solid fa-lock text-[10px]"></i>
-          <span>Quản trị</span>
+          <span data-i18n="admin_btn_text">Quản trị</span>
         </button>
         <span aria-hidden="true">·</span>
-        <span>Thiết kế hỗ trợ bởi AI Studio</span>
+        <span data-i18n="footer_built_by">Thiết kế hỗ trợ bởi AI Studio</span>
         <span aria-hidden="true">·</span>
-        <a href="#about" class="hover:text-petro-600 dark:hover:text-white transition-colors">Lên đầu trang <i class="fa-solid fa-arrow-up ml-0.5"></i></a>
+        <a href="#about" class="hover:text-petro-600 dark:hover:text-white transition-colors"><span data-i18n="footer_top">Lên đầu trang</span> <i class="fa-solid fa-arrow-up ml-0.5"></i></a>
       </div>
     </div>
   </footer>
@@ -1467,6 +1504,281 @@
 
   <!-- ==================== VANILLA JAVASCRIPT ==================== -->
   <script>
+    // ==================== BILINGUAL INTERNATIONALIZATION (VI / EN) ====================
+    let currentLanguage = localStorage.getItem('preferred_language') || 'vi';
+
+    const I18N_DICT = {
+      vi: {
+        nav_about: 'Về tôi',
+        nav_skills: 'Kỹ năng',
+        nav_assignments: 'Bài tập',
+        nav_research: 'Đồ án & NCKH',
+        nav_contact: 'Liên hệ',
+        admin_btn_text: 'Quản trị',
+        geoai_btn_text: 'Trợ lý GeoAI',
+        mobile_lang_label: 'Ngôn ngữ:',
+        mobile_geoai_btn: 'Mở Trợ lý AI Địa chất',
+        hero_kicker: '👋 XIN CHÀO, TÔI LÀ MAI HỒ PHÚ NGỘ',
+        hero_title: 'Đam mê <span class="text-amber-700 dark:text-amber-400">Kỹ thuật Địa chất</span> &amp; Ứng dụng AI trong <span class="text-amber-700 dark:text-amber-400">Khoa học Trái Đất</span>',
+        hero_bio: 'Tập trung nghiên cứu chuyên sâu về phân tích tướng trầm tích, minh giải tài liệu địa chấn và đánh giá vỉa chứa. Tích cực ứng dụng mô hình tính toán và Machine Learning để tối ưu hóa các bài toán trong Khoa học Trái Đất.',
+        sec1_kicker: '01 / Giới thiệu tổng quan',
+        sec1_title: 'Hồ sơ cá nhân & Lĩnh vực học thuật',
+        sec1_desc: 'Sinh viên chuyên ngành Kỹ thuật Địa chất với nền tảng phân tích số liệu địa chấn, địa vật lý giếng khoan và định hướng nghiên cứu ứng dụng trí tuệ nhân tạo trong Khoa học Trái Đất.',
+        info_title: 'Thông tin cá nhân',
+        info_label_name: 'Họ và tên',
+        info_label_id: 'Mã sinh viên',
+        info_label_major: 'Ngành đào tạo',
+        info_val_major: 'Kỹ thuật Địa chất',
+        info_label_cohort: 'Khóa học',
+        info_label_univ: 'Trường Đại học',
+        info_val_univ: 'Đại học Dầu khí Việt Nam (PVU)',
+        info_label_home: 'Quê quán',
+        info_val_home: 'Vĩnh Long, Việt Nam',
+        info_label_email: 'Email học thuật',
+        interests_title: 'Lĩnh vực quan tâm',
+        interest_1: 'Địa chất dầu khí',
+        interest_2: 'Năng lượng tái tạo',
+        interest_3: 'Địa vật lý giếng khoan',
+        interest_4: 'Xử lý và minh giải tài liệu địa chấn nông phân giải cao',
+        awards_title: 'Thành tích & Giải thưởng',
+        award_1_title: 'Giải Ba PetroCup khu vực Nam Á',
+        award_2_title: 'Giải Nhất cuộc thi Robot dò line',
+        award_3_title: '3 năm liên tiếp Vô địch Bơi lội PVU',
+        award_3_badge: '3 Năm liền',
+        award_4_title: '3 năm liên tiếp Vô địch Bóng chuyền PVU',
+        award_4_badge: '3 Năm liền',
+        hobbies_title: 'Sở thích cá nhân',
+        hobby_1_title: 'Bơi lội',
+        hobby_1_desc: 'Sức bền & tập trung',
+        hobby_2_title: 'Đá bóng',
+        hobby_2_desc: 'Đồng đội & phản xạ',
+        hobby_3_title: 'Võ thuật',
+        hobby_3_desc: 'Kỷ luật & tự vệ',
+        quote_text: '“Một trí tuệ sắc bén đi cùng thể lực dẻo dai — nền tảng vững chắc cho người kỹ sư tương lai.”',
+        sec2_kicker: '02 / Kỹ năng và phần mềm',
+        sec2_title: 'Năng lực Chuyên môn & Công cụ Kỹ thuật',
+        sec2_col_skills: 'Kỹ năng',
+        skill_1: 'Ứng dụng công nghệ AI',
+        skill_2: 'Minh giải tài liệu địa chấn 2D/3D',
+        skill_3: 'Xử lý và Minh giải Địa chấn Nông phân giải cao',
+        skill_4: 'Nghiên cứu Khoa học & Báo cáo',
+        sec2_col_software: 'Phần mềm',
+        sec3_title: 'Bài tập môn Địa vật lí ứng dụng',
+        sec3_desc: 'Quản lý và tổng hợp các bài tập lớn, bài tập cá nhân và báo cáo nhóm môn Địa vật lí ứng dụng kèm liên kết xem trực tiếp file PDF, Word, PowerPoint, Code.',
+        filter_all: 'Tất cả',
+        filter_ind: 'Cá nhân',
+        filter_team: 'Nhóm',
+        btn_add_asg: 'Thêm bài tập',
+        card_add_title: 'Thêm bài tập mới',
+        card_add_desc: 'Nhấn để nộp hoặc tải lên bài tập, báo cáo chuyên đề và đồ án thực hành',
+        card_add_types: 'Tải lên PDF, Word, PPT, Code...',
+        asg_empty: 'Chưa có bài tập nào được lưu. Hãy nhấp vào <strong>"Thêm bài tập mới"</strong> để đăng bài đầu tiên!',
+        sec4_kicker: '04 / Đồ án và nghiên cứu khoa học',
+        sec4_title: 'Đồ án Chuyên ngành & Công trình NCKH',
+        sec4_desc: 'Các công trình nghiên cứu khoa học sinh viên được thực hiện dưới sự hướng dẫn của các giảng viên Khoa Dầu khí, Trường Đại học Dầu khí Việt Nam.',
+        group_a_title: 'ĐỒ ÁN',
+        group_b_title: 'NGHIÊN CỨU KHOA HỌC',
+        badge_project: 'Đồ án chuyên ngành',
+        badge_campus: 'Cấp trường',
+        badge_partner: 'Doanh nghiệp',
+        proj_1_title: 'Đồ án 1: Đánh giá thông số chứa của tầng Mioxen giữa mỏ X, bể Nam Côn Sơn theo tài liệu địa vật lý giếng khoan',
+        proj_2_title: 'Đồ án 2: Xử lý và minh giải tài liệu địa chấn nông phục vụ hệ thống giàn khoan',
+        proj_3_title: 'NCKH cấp trường: Đánh giá nguy cơ trượt đất nhằm đề xuất giải pháp giảm thiểu thiệt hại do trượt đất tại khu vực cầu Cạn Sa Pa, Lào Cai',
+        proj_4_title: 'NCKH hợp tác với Vietsovpetro: Tiềm năng địa chất và định hướng phát triển bền vững năng lượng địa nhiệt ở Việt Nam trong bối cảnh biến đổi khí hậu',
+        btn_view_detail: 'Xem chi tiết',
+        sec5_kicker: '05 / Kết nối & Trao đổi',
+        sec5_title: 'Thông tin Liên hệ & Hợp tác Học thuật',
+        sec5_desc: 'Quý thầy cô, các chuyên gia doanh nghiệp dầu khí và các bạn sinh viên có thể gửi tin nhắn trao đổi về học tập, nghiên cứu hoặc cơ hội thực tập.',
+        contact_box_title: 'Địa chỉ liên lạc trực tiếp',
+        contact_lbl_email: 'Email học thuật / Cá nhân',
+        contact_lbl_campus: 'Cơ sở đào tạo',
+        contact_val_address: '762, Cách Mạng Tháng 8, P. Bà Rịa, TP. Hồ Chí Minh',
+        contact_lbl_hometown: 'Quê quán',
+        contact_lbl_social: 'Mạng xã hội & Hồ sơ học thuật:',
+        contact_form_title: 'Gửi tin nhắn trực tiếp',
+        contact_lbl_name: 'Họ và tên *',
+        contact_ph_name: 'Ví dụ: Nguyễn Văn A',
+        contact_lbl_email_input: 'Địa chỉ Email *',
+        contact_lbl_subject: 'Tiêu đề liên hệ *',
+        contact_ph_subject: 'Trao đổi bài tập / Nghiên cứu khoa học...',
+        contact_lbl_message: 'Nội dung tin nhắn *',
+        contact_ph_message: 'Nhập nội dung bạn muốn gửi tới Phú Ngộ...',
+        contact_success: 'Đã gửi tin nhắn thành công!',
+        contact_btn_send: 'Gửi tin nhắn',
+        footer_rights: 'Bản quyền © 2026 - Mai Hồ Phú Ngộ (MSSV: 12GEO110004)',
+        footer_school: 'Khoa Dầu khí · Trường Đại học Dầu khí Việt Nam (PetroVietnam University - PVU)',
+        footer_built_by: 'Thiết kế hỗ trợ bởi AI Studio',
+        footer_top: 'Lên đầu trang'
+      },
+      en: {
+        nav_about: 'About Me',
+        nav_skills: 'Skills',
+        nav_assignments: 'Coursework',
+        nav_research: 'Projects & Research',
+        nav_contact: 'Contact',
+        admin_btn_text: 'Admin',
+        geoai_btn_text: 'GeoAI Assistant',
+        mobile_lang_label: 'Language:',
+        mobile_geoai_btn: 'Open Geological AI Assistant',
+        hero_kicker: '👋 HELLO, I AM MAI HO PHU NGO',
+        hero_title: 'Passionate about <span class="text-amber-700 dark:text-amber-400">Geological Engineering</span> &amp; AI in <span class="text-amber-700 dark:text-amber-400">Earth Sciences</span>',
+        hero_bio: 'Dedicated to in-depth research in sedimentary facies analysis, seismic interpretation, and reservoir characterization. Actively leveraging computational models and Machine Learning to optimize solutions across Earth Sciences.',
+        sec1_kicker: '01 / Overview',
+        sec1_title: 'Personal Profile & Academic Scope',
+        sec1_desc: 'Geological Engineering student with a strong foundation in seismic data analysis, borehole geophysics, and research orientation towards AI applications in Earth Sciences.',
+        info_title: 'Personal Information',
+        info_label_name: 'Full Name',
+        info_label_id: 'Student ID',
+        info_label_major: 'Major',
+        info_val_major: 'Geological Engineering',
+        info_label_cohort: 'Cohort',
+        info_label_univ: 'University',
+        info_val_univ: 'PetroVietnam University (PVU)',
+        info_label_home: 'Hometown',
+        info_val_home: 'Vinh Long, Vietnam',
+        info_label_email: 'Academic Email',
+        interests_title: 'Fields of Interest',
+        interest_1: 'Petroleum Geology',
+        interest_2: 'Renewable Energy',
+        interest_3: 'Well Logging Geophysics',
+        interest_4: 'Processing & High-Resolution Shallow Seismic Interpretation',
+        awards_title: 'Honors & Awards',
+        award_1_title: '3rd Prize PetroCup South Asia Regional',
+        award_2_title: '1st Prize Line-Following Robot Contest',
+        award_3_title: '3 Consecutive Years PVU Swimming Champion',
+        award_3_badge: '3 Years',
+        award_4_title: '3 Consecutive Years PVU Volleyball Champion',
+        award_4_badge: '3 Years',
+        hobbies_title: 'Personal Interests',
+        hobby_1_title: 'Swimming',
+        hobby_1_desc: 'Endurance & Focus',
+        hobby_2_title: 'Football',
+        hobby_2_desc: 'Teamwork & Agility',
+        hobby_3_title: 'Martial Arts',
+        hobby_3_desc: 'Discipline & Defense',
+        quote_text: '“A sharp intellect paired with physical resilience — the solid foundation for a future engineer.”',
+        sec2_kicker: '02 / Skills & Software',
+        sec2_title: 'Core Competencies & Technical Tools',
+        sec2_col_skills: 'Competencies',
+        skill_1: 'Applied Artificial Intelligence',
+        skill_2: '2D/3D Seismic Interpretation',
+        skill_3: 'High-Resolution Shallow Seismic Interpretation',
+        skill_4: 'Scientific Research & Technical Writing',
+        sec2_col_software: 'Software',
+        sec3_title: 'Applied Geophysics Coursework',
+        sec3_desc: 'Comprehensive archive of major assignments, individual tasks, and teamwork reports in Applied Geophysics with live preview links for PDF, Word, PowerPoint, and Code.',
+        filter_all: 'All',
+        filter_ind: 'Individual',
+        filter_team: 'Teamwork',
+        btn_add_asg: 'Add Assignment',
+        card_add_title: 'Add New Assignment',
+        card_add_desc: 'Click to submit or upload assignments, reports, and practical lab work',
+        card_add_types: 'Upload PDF, Word, PPT, Code...',
+        asg_empty: 'No coursework submitted yet. Click <strong>"Add New Assignment"</strong> to post your first report!',
+        sec4_kicker: '04 / Capstone Projects & Research',
+        sec4_title: 'Capstone Projects & Research Work',
+        sec4_desc: 'Student scientific research projects conducted under the supervision of faculty from the Faculty of Petroleum, PetroVietnam University.',
+        group_a_title: 'CAPSTONE PROJECTS',
+        group_b_title: 'SCIENTIFIC RESEARCH',
+        badge_project: 'Capstone Project',
+        badge_campus: 'University Level',
+        badge_partner: 'Industry Partner',
+        proj_1_title: 'Project 1: Evaluation of Middle Miocene Reservoir Parameters in Field X, Nam Con Son Basin via Well Logging Geophysics',
+        proj_2_title: 'Project 2: Processing and High-Resolution Shallow Seismic Interpretation for Offshore Platform Installation',
+        proj_3_title: 'University Research: Landslide Risk Assessment and Damage Mitigation Solutions in Can Bridge Area, Sa Pa, Lao Cai',
+        proj_4_title: 'Vietsovpetro Collaboration: Geological Potential and Sustainable Development Pathways for Geothermal Energy in Vietnam under Climate Change',
+        btn_view_detail: 'View details',
+        sec5_kicker: '05 / Connect & Inquire',
+        sec5_title: 'Contact Information & Academic Collaboration',
+        sec5_desc: 'Professors, petroleum industry experts, and fellow students are warmly welcome to connect regarding academic discussions, research, or internship opportunities.',
+        contact_box_title: 'Direct Contact Details',
+        contact_lbl_email: 'Academic / Personal Email',
+        contact_lbl_campus: 'Training Institution',
+        contact_val_address: '762 Cach Mang Thang 8, Ba Ria City, Ho Chi Minh City Area',
+        contact_lbl_hometown: 'Hometown',
+        contact_lbl_social: 'Social Networks & Profiles:',
+        contact_form_title: 'Send a Direct Message',
+        contact_lbl_name: 'Full Name *',
+        contact_ph_name: 'e.g. John Doe',
+        contact_lbl_email_input: 'Email Address *',
+        contact_lbl_subject: 'Message Subject *',
+        contact_ph_subject: 'Coursework exchange / Scientific inquiry...',
+        contact_lbl_message: 'Message Content *',
+        contact_ph_message: 'Type the message you would like to send to Phu Ngo...',
+        contact_success: 'Message sent successfully!',
+        contact_btn_send: 'Send Message',
+        footer_rights: 'Copyright © 2026 - Mai Ho Phu Ngo (Student ID: 12GEO110004)',
+        footer_school: 'Faculty of Petroleum · PetroVietnam University (PVU)',
+        footer_built_by: 'Designed with AI Studio Build',
+        footer_top: 'Back to Top'
+      }
+    };
+
+    function switchLanguage(lang) {
+      if (!lang || !I18N_DICT[lang]) lang = 'vi';
+      currentLanguage = lang;
+      localStorage.setItem('preferred_language', lang);
+      document.documentElement.lang = lang;
+
+      // Update Desktop switcher buttons
+      const btnVi = document.getElementById('langViBtn');
+      const btnEn = document.getElementById('langEnBtn');
+      const activeClass = 'bg-white dark:bg-slate-800 text-petro-700 dark:text-amber-400 font-bold shadow-2xs';
+      const inactiveClass = 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 font-medium';
+      
+      if (btnVi && btnEn) {
+        if (lang === 'vi') {
+          btnVi.className = `px-2 py-1 rounded-md transition-all cursor-pointer ${activeClass}`;
+          btnEn.className = `px-2 py-1 rounded-md transition-all cursor-pointer ${inactiveClass}`;
+        } else {
+          btnVi.className = `px-2 py-1 rounded-md transition-all cursor-pointer ${inactiveClass}`;
+          btnEn.className = `px-2 py-1 rounded-md transition-all cursor-pointer ${activeClass}`;
+        }
+      }
+
+      // Update Mobile switcher buttons
+      const mBtnVi = document.getElementById('mobileLangViBtn');
+      const mBtnEn = document.getElementById('mobileLangEnBtn');
+      if (mBtnVi && mBtnEn) {
+        if (lang === 'vi') {
+          mBtnVi.className = 'px-2.5 py-1 rounded-md font-bold bg-white dark:bg-slate-800 text-petro-700 dark:text-amber-400 shadow-2xs';
+          mBtnEn.className = 'px-2.5 py-1 rounded-md text-slate-500 dark:text-slate-400';
+        } else {
+          mBtnVi.className = 'px-2.5 py-1 rounded-md text-slate-500 dark:text-slate-400';
+          mBtnEn.className = 'px-2.5 py-1 rounded-md font-bold bg-white dark:bg-slate-800 text-petro-700 dark:text-amber-400 shadow-2xs';
+        }
+      }
+
+      // Translate all data-i18n text nodes
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (I18N_DICT[lang] && I18N_DICT[lang][key] !== undefined) {
+          el.textContent = I18N_DICT[lang][key];
+        }
+      });
+
+      // Translate all data-i18n-html nodes
+      document.querySelectorAll('[data-i18n-html]').forEach(el => {
+        const key = el.getAttribute('data-i18n-html');
+        if (I18N_DICT[lang] && I18N_DICT[lang][key] !== undefined) {
+          el.innerHTML = I18N_DICT[lang][key];
+        }
+      });
+
+      // Translate all data-i18n-placeholder attributes
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (I18N_DICT[lang] && I18N_DICT[lang][key] !== undefined) {
+          el.placeholder = I18N_DICT[lang][key];
+        }
+      });
+
+      // Re-render coursework cards if already initialized
+      if (typeof renderAssignments === 'function' && typeof currentFilterType !== 'undefined') {
+        renderAssignments(currentFilterType);
+      }
+    }
+
     // 1. THEME (DARK / LIGHT MODE) LOGIC
     const htmlElem = document.documentElement;
     const themeToggleBtn = document.getElementById('themeToggleBtn');
@@ -2488,9 +2800,12 @@
 
       filtered.forEach(item => {
         const isIndividual = item.type === 'individual';
+        const isEn = currentLanguage === 'en';
+        const indLabel = isEn ? 'Individual' : 'Cá nhân';
+        const teamLabel = isEn ? 'Teamwork' : 'Nhóm';
         const typeBadge = isIndividual 
-          ? `<span class="inline-flex items-center gap-1 text-[11px] font-mono px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 font-semibold border border-emerald-200/50 dark:border-emerald-800/40"><i class="fa-solid fa-user text-[9px]"></i> Cá nhân</span>`
-          : `<span class="inline-flex items-center gap-1 text-[11px] font-mono px-2 py-0.5 rounded-md bg-petro-50 dark:bg-petro-950/60 text-petro-700 dark:text-amber-400 font-semibold border border-petro-200/50 dark:border-amber-800/40"><i class="fa-solid fa-users text-[9px]"></i> Nhóm</span>`;
+          ? `<span class="inline-flex items-center gap-1 text-[11px] font-mono px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 font-semibold border border-emerald-200/50 dark:border-emerald-800/40"><i class="fa-solid fa-user text-[9px]"></i> ${indLabel}</span>`
+          : `<span class="inline-flex items-center gap-1 text-[11px] font-mono px-2 py-0.5 rounded-md bg-petro-50 dark:bg-petro-950/60 text-petro-700 dark:text-amber-400 font-semibold border border-petro-200/50 dark:border-amber-800/40"><i class="fa-solid fa-users text-[9px]"></i> ${teamLabel}</span>`;
 
         const files = item.files || [];
         const hasMultiple = files.length > 1;
@@ -2500,7 +2815,7 @@
         if (files.length === 0) {
           filesMarkup = `
             <div class="text-[11px] font-mono p-2.5 rounded-lg bg-slate-50 dark:bg-slate-950/60 text-slate-400 text-center border border-slate-100 dark:border-slate-800">
-              <i class="fa-regular fa-file mr-1"></i> Chưa có tệp đính kèm
+              <i class="fa-regular fa-file mr-1"></i> ${isEn ? 'No files attached' : 'Chưa có tệp đính kèm'}
             </div>
           `;
         } else if (files.length === 1) {
@@ -2518,6 +2833,8 @@
           const fileItemsHtml = files.map(file => {
             const fInfo = getFileInfo(file.name);
             const isPdf = file.name && file.name.toLowerCase().endsWith('.pdf');
+            const readBtnLabel = isEn ? 'Read' : 'Đọc';
+            const dlBtnLabel = isEn ? 'Download' : 'Tải';
             return `
               <div class="flex items-center justify-between gap-2 p-2 rounded-lg bg-slate-50/90 dark:bg-slate-950/60 border border-slate-100 dark:border-slate-800 hover:border-slate-200 dark:hover:border-slate-700 transition-colors">
                 <div class="flex items-center gap-2 min-w-0 flex-1">
@@ -2537,10 +2854,10 @@
                   type="button" 
                   onclick="openOrDownloadSingleFile('${item.id}', '${escapeAttr(file.name)}')" 
                   class="px-2 py-1 rounded text-[11px] font-semibold flex items-center gap-1 transition-colors cursor-pointer shrink-0 ${isPdf ? 'bg-rose-50 text-rose-700 hover:bg-rose-100 dark:bg-rose-950/60 dark:text-rose-300' : 'bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-200'}"
-                  title="${isPdf ? 'Đọc báo cáo PDF' : 'Tải tệp này'}"
+                  title="${isPdf ? (isEn ? 'Read PDF report' : 'Đọc báo cáo PDF') : (isEn ? 'Download file' : 'Tải tệp này')}"
                 >
                   <i class="${isPdf ? 'fa-solid fa-file-pdf' : 'fa-solid fa-download'} text-[10px]"></i>
-                  <span>${isPdf ? 'Đọc' : 'Tải'}</span>
+                  <span>${isPdf ? readBtnLabel : dlBtnLabel}</span>
                 </button>
               </div>
             `;
@@ -2551,7 +2868,7 @@
               <div class="flex items-center justify-between text-[11px] font-mono">
                 <span class="text-slate-500 dark:text-slate-400 font-semibold flex items-center gap-1.5">
                   <i class="fa-solid fa-paperclip text-petro-600 dark:text-amber-400"></i>
-                  <span>Tệp đính kèm (${files.length})</span>
+                  <span>${isEn ? 'Attachments' : 'Tệp đính kèm'} (${files.length})</span>
                 </span>
                 <span class="text-slate-400 text-[10px] font-medium">${escapeHtml(item.totalSize || '')}</span>
               </div>
@@ -2566,27 +2883,38 @@
         let bottomActions = '';
         if (files.length <= 1) {
           const singleFile = files[0];
-          const info = singleFile ? getFileInfo(singleFile.name) : { label: 'Tải file', iconClass: 'fa-solid fa-download', btnBg: 'bg-petro-700 hover:bg-petro-800' };
+          const info = singleFile ? getFileInfo(singleFile.name) : { label: (isEn ? 'Download file' : 'Tải file'), iconClass: 'fa-solid fa-download', btnBg: 'bg-petro-700 hover:bg-petro-800' };
+          let btnLabel = info.label;
+          if (isEn) {
+            if (btnLabel.includes('Đọc báo cáo')) btnLabel = 'Read Report (PDF)';
+            else if (btnLabel.includes('Tải')) btnLabel = 'Download File';
+          }
           bottomActions = `
             <button 
               type="button" 
               onclick="openOrDownloadSingleFile('${item.id}', '${singleFile ? escapeAttr(singleFile.name) : ''}')" 
               class="flex-1 py-2 px-3 rounded-lg ${info.btnBg} text-white text-xs font-semibold flex items-center justify-center gap-2 transition-all hover:shadow-sm cursor-pointer"
             >
-              <i class="${info.iconClass}"></i> <span>${info.label}</span>
+              <i class="${info.iconClass}"></i> <span>${btnLabel}</span>
             </button>
           `;
         } else {
+          const dlAllLabel = isEn ? `Download all (${files.length} files)` : `Tải tất cả (${files.length} tệp)`;
           bottomActions = `
             <button 
               type="button" 
               onclick="downloadAllAssignmentFiles('${item.id}')" 
               class="flex-1 py-2 px-3 rounded-lg bg-petro-700 hover:bg-petro-800 text-white text-xs font-semibold flex items-center justify-center gap-2 transition-all hover:shadow-sm cursor-pointer"
-              title="Tải lần lượt toàn bộ ${files.length} tệp đính kèm"
+              title="${isEn ? 'Download all attached files sequentially' : 'Tải lần lượt toàn bộ ' + files.length + ' tệp đính kèm'}"
             >
-              <i class="fa-solid fa-cloud-arrow-down"></i> <span>Tải tất cả (${files.length} tệp)</span>
+              <i class="fa-solid fa-cloud-arrow-down"></i> <span>${dlAllLabel}</span>
             </button>
           `;
+        }
+
+        let formattedTs = formatDisplayTimestamp(item.timestamp);
+        if (isEn) {
+          formattedTs = formattedTs.replace('Đã nộp:', 'Submitted:');
         }
 
         const card = document.createElement('article');
@@ -2605,16 +2933,16 @@
               <div class="flex items-center justify-between gap-1 text-[11px] font-mono text-slate-500 dark:text-slate-400">
                 <div class="flex items-center gap-1.5 min-w-0">
                   <i class="fa-regular fa-clock text-[10px] text-slate-400 shrink-0"></i>
-                  <span class="font-medium truncate">${escapeHtml(formatDisplayTimestamp(item.timestamp))}</span>
+                  <span class="font-medium truncate">${escapeHtml(formattedTs)}</span>
                 </div>
                 ${isAdminLoggedIn() ? `
                   <button 
                     type="button" 
                     onclick="editAssignmentDate('${item.id}')" 
-                    title="Chỉnh sửa thời gian nộp bài (Chỉ Quản trị viên)" 
+                    title="${isEn ? 'Edit submission date (Admin only)' : 'Chỉnh sửa thời gian nộp bài (Chỉ Quản trị viên)'}" 
                     class="admin-only inline-flex items-center gap-1 text-[10px] text-petro-600 hover:text-petro-700 dark:text-amber-400 dark:hover:text-amber-300 font-sans hover:underline cursor-pointer shrink-0 pl-1"
                   >
-                    <i class="fa-solid fa-pen text-[9px]"></i> <span>Sửa ngày</span>
+                    <i class="fa-solid fa-pen text-[9px]"></i> <span>${isEn ? 'Edit date' : 'Sửa ngày'}</span>
                   </button>
                 ` : ''}
               </div>
@@ -2697,8 +3025,9 @@
       renderAssignments(type);
     }
 
-    // Initial load of dynamic assignments and Admin permission state
+    // Initial load of dynamic assignments, Admin permission state, and language preference
     updateAdminUI();
+    switchLanguage(currentLanguage);
     initAssignmentsStorage();
 
     // 4. DOCUMENT & CV PREVIEW MODALS
